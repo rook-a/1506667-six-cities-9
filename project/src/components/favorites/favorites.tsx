@@ -1,11 +1,25 @@
-import Header from '../header/header';
+import Logo from '../logo/logo';
+import Nav from '../nav/nav';
 import Footer from '../footer/footer';
 
 function Favorites(): JSX.Element {
   return (
     <div className="page">
 
-      <Header />
+      <header className="header">
+        <div className="container">
+          <div className="header__wrapper">
+            <div className="header__left">
+
+              <Logo />
+
+            </div>
+
+            <Nav />
+
+          </div>
+        </div>
+      </header>
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
