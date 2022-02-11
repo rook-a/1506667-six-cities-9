@@ -9,6 +9,9 @@ type numberOfPlacesProp = {
 }
 
 function MainPage({numberOfPlaces}: numberOfPlacesProp): JSX.Element {
+
+  const arrayPlaces: number[] = [...Array(numberOfPlaces)].map((item, index) => index + 1);
+
   return (
     <div className="page page--gray page--main">
 
@@ -56,11 +59,7 @@ function MainPage({numberOfPlaces}: numberOfPlacesProp): JSX.Element {
               </form>
               <div className="cities__places-list places__list tabs__content">
 
-                <CardPlace />
-                <CardPlace />
-                <CardPlace />
-                <CardPlace />
-                <CardPlace />
+                {arrayPlaces.map((count) => <CardPlace key={count} />)}
 
               </div>
             </section>
