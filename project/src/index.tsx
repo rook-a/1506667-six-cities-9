@@ -8,8 +8,7 @@ const DataMainPage = {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App
-      numberOfPlaces={DataMainPage.NUMBER_OF_PLACES}
-    />
+    <App numberOfPlaces={DataMainPage.NUMBER_OF_PLACES} />
   </React.StrictMode>,
-  document.querySelector('#root'));
+  document.querySelector('#root')
+);

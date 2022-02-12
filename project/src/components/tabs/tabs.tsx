@@ -1,7 +1,8 @@
 import { cities } from '../../const';
 
 function Tabs(): JSX.Element {
-  const isChecked = (cityName: string): string => cityName === 'Amsterdam' ? 'tabs__item--active' : '';
+  const isChecked = (cityName: string): string =>
+    cityName === 'Amsterdam' ? 'tabs__item--active' : '';
 
   return (
     <div className="tabs">
@@ -9,8 +10,12 @@ function Tabs(): JSX.Element {
         <ul className="locations__list tabs__list">
           {cities.map((cityName) => (
             <li className="locations__item" key={cityName.toLowerCase()}>
-              <a className={`locations__item-link tabs__item ${isChecked(cityName)}`} href="/">
-                <span>{ cityName }</span>
+              <a
+                className={`locations__item-link tabs__item ${isChecked(
+                  cityName
+                )}`}
+                href="/">
+                <span>{cityName}</span>
               </a>
             </li>
           ))}

@@ -6,7 +6,7 @@ interface HeaderProps {
   isLogged?: boolean;
 }
 
-function Header({isAuth, isLogged}: HeaderProps): JSX.Element {
+function Header({ isAuth, isLogged }: HeaderProps): JSX.Element {
   return (
     <header className="header">
       <div className="container">
