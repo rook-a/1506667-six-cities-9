@@ -1,13 +1,14 @@
-import MainPage from '../main page/main-page';
+import MainPage from '../../pages/main-page/main-page';
 
-type DataMainPageProp = {
+type AppProps = {
   numberOfPlaces: number;
 }
 
-function App({numberOfPlaces}: DataMainPageProp): JSX.Element {
+function App({numberOfPlaces}: AppProps): JSX.Element {
   return (
     <MainPage
-      numberOfPlaces = {numberOfPlaces}
+      numberOfPlaces={numberOfPlaces}
+      isEmpty={false}
     />
   );
 }

@@ -1,23 +1,16 @@
-import Logo from '../logo/logo';
-import NavSignIn from '../nav/nav-sign-in';
+import Header from '../../components/header/header';
+import ReviewsForm from '../../components/reviews-form/reviews-form';
+import Map from '../../components/map/map';
+import { propertyItems } from '../../const';
 
-function PropertyNotLogged(): JSX.Element {
+interface PropertyProps {
+  isAuth: boolean;
+}
+
+function Property({isAuth}: PropertyProps): JSX.Element {
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-
-              <Logo />
-
-            </div>
-
-            <NavSignIn />
-
-          </div>
-        </div>
-      </header>
+      <Header isAuth={isAuth} />
 
       <main className="page__main page__main--property">
         <section className="property">
@@ -84,36 +77,11 @@ function PropertyNotLogged(): JSX.Element {
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  <li className="property__inside-item">
-                    Wi-Fi
-                  </li>
-                  <li className="property__inside-item">
-                    Washing machine
-                  </li>
-                  <li className="property__inside-item">
-                    Towels
-                  </li>
-                  <li className="property__inside-item">
-                    Heating
-                  </li>
-                  <li className="property__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="property__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="property__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="property__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="property__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="property__inside-item">
-                    Fridge
-                  </li>
+                  {propertyItems.map((itemName) => (
+                    <li className="property__inside-item" key={itemName}>
+                      {itemName}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="property__host">
@@ -164,11 +132,14 @@ function PropertyNotLogged(): JSX.Element {
                     </div>
                   </li>
                 </ul>
+                {isAuth && <ReviewsForm />}
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+
+          <Map className="property__map" />
         </section>
+
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
@@ -279,4 +250,4 @@ function PropertyNotLogged(): JSX.Element {
   );
 }
 
-export default PropertyNotLogged;
+export default Property;
