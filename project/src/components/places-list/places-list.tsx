@@ -1,8 +1,8 @@
 import CardPlace from '../card-place/card-place';
 
-type PlaceListProps = {
+interface PlaceListProps {
   numberOfPlaces: number;
-};
+}
 
 function PlacesList({ numberOfPlaces }: PlaceListProps): JSX.Element {
   const arrayPlaces = [...Array(numberOfPlaces)].map(
