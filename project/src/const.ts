@@ -56,3 +56,10 @@ export const RATING = [
     title: RatingLabels.TERRIBLY,
   },
 ];
+
+export enum AppRoute {
+  Main = '/',
+  Favorites = '/favorites',
+  Property = '/offer',
+  Login = '/login',
+}
