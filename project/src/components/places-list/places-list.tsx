@@ -11,7 +11,7 @@ function PlacesList({ numberOfPlaces, className }: PlaceListProps): JSX.Element 
   return (
     <div className={`places__list ${className}`}>
       {arrayPlaces.map((count) => (
-        <CardPlace key={count} />
+        <CardPlace placeId={count} key={count} />
       ))}
     </div>
   );

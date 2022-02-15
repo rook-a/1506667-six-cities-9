@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom';
 
-function CardPlace(): JSX.Element {
+interface CardPlaceProp {
+  placeId: number;
+}
+
+function CardPlace({ placeId }: CardPlaceProp): JSX.Element {
   return (
     <article className="cities__place-card place-card">
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to="/offer" title="Show offer">
+        <Link to={`/offer/${placeId}`} title="Show offer">
           <img
             className="place-card__image"
             src="img/room.jpg"
@@ -34,7 +38,7 @@ function CardPlace(): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to="/offer" title="Show offer">
+          <Link to={`/offer/${placeId}`} title="Show offer">
             Wood and stone place
           </Link>
         </h2>
