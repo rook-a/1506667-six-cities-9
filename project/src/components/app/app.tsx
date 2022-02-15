@@ -6,7 +6,7 @@ import Propepty from '../../pages/property/property';
 import Login from '../../pages/login/login';
 import PrivateRoute from '../private-route/private-route';
 
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 
 interface AppProps {
   numberOfPlaces: number;
@@ -20,7 +20,7 @@ function App({ numberOfPlaces }: AppProps): JSX.Element {
         <Route
           path={AppRoute.FAVORITES}
           element={
-            <PrivateRoute>
+            <PrivateRoute authorizationStatus={AuthorizationStatus.NO_AUTH}>
               <Favorites isEmpty={false} />
             </PrivateRoute>
           }
