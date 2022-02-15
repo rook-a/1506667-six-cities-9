@@ -3,7 +3,7 @@ interface MapProps {
 }
 
 function Map({ className }: MapProps): JSX.Element {
-  return <section className={`${className} map`}></section>;
+  return <section className={`${className} map`} />;
 }
 
 export default Map;

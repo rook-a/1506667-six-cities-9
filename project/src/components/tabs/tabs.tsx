@@ -1,19 +1,15 @@
-import { cities } from '../../const';
+import { CITIES } from '../../const';
+import cn from 'classnames';
 
 function Tabs(): JSX.Element {
-  const isChecked = (cityName: string): string =>
-    cityName === 'Amsterdam' ? 'tabs__item--active' : '';
-
   return (
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
-          {cities.map((cityName) => (
+          {CITIES.map((cityName) => (
             <li className="locations__item" key={cityName.toLowerCase()}>
               <a
-                className={`locations__item-link tabs__item ${isChecked(
-                  cityName
-                )}`}
+                className={cn('locations__item-link', 'tabs__item', { 'tabs__item--active': cityName === CITIES[0] })}
                 href="/">
                 <span>{cityName}</span>
               </a>
