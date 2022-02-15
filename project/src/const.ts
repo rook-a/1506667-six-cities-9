@@ -58,8 +58,10 @@ export const RATING = [
 ];
 
 export enum AppRoute {
-  Main = '/',
-  Favorites = '/favorites',
-  Property = '/offer',
-  Login = '/login',
+  MAIN = '/',
+  FAVORITES = '/favorites',
+  PROPERTY = '/offer',
+  PROPERTY_ID = ':id',
+  LOGIN = '/login',
+  NOT_FOUND = '*',
 }

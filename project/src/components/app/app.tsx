@@ -4,6 +4,7 @@ import MainPage from '../../pages/main-page/main-page';
 import Favorites from '../../pages/favorites/favorites';
 import Propepty from '../../pages/property/property';
 import Login from '../../pages/login/login';
+import PrivateRoute from '../private-route/private-route';
 
 import { AppRoute } from '../../const';
 
@@ -16,9 +17,27 @@ function App({ numberOfPlaces }: AppProps): JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route index element={<MainPage numberOfPlaces={numberOfPlaces} isEmpty={false} />} />
-        <Route path={AppRoute.Favorites} element={<Favorites isEmpty={false} />} />
-        <Route path={AppRoute.Property} element={<Propepty isAuth={false} />} />
-        <Route path={AppRoute.Login} element={<Login />} />
+        <Route
+          path={AppRoute.FAVORITES}
+          element={
+            <PrivateRoute>
+              <Favorites isEmpty={false} />
+            </PrivateRoute>
+          }
+        />
+        <Route path={AppRoute.PROPERTY}>
+          <Route index element={<Propepty isAuth={false} />} />
+          <Route path={AppRoute.PROPERTY_ID} element={<Propepty isAuth={false} />} />
+        </Route>
+        <Route path={AppRoute.LOGIN} element={<Login />} />
+        <Route
+          path={AppRoute.NOT_FOUND}
+          element={
+            <>
+              <h1>404</h1>
+            </>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
