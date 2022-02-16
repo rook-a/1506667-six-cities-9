@@ -1,15 +1,12 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 
-interface PrivateRouteProp {
+interface PrivateOutletProp {
   authorizationStatus: AuthorizationStatus;
-  children: JSX.Element;
 }
 
-function PrivateRoute(prop: PrivateRouteProp): JSX.Element {
-  const { authorizationStatus, children } = prop;
-
-  return authorizationStatus === AuthorizationStatus.AUTH ? children : <Navigate to={AppRoute.LOGIN} />;
+function PrivateOutlet({ authorizationStatus }: PrivateOutletProp): JSX.Element {
+  return authorizationStatus === AuthorizationStatus.AUTH ? <Outlet /> : <Navigate to={AppRoute.LOGIN} />;
 }
 
-export default PrivateRoute;
+export default PrivateOutlet;
