@@ -1,0 +1,31 @@
+.page__error {
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  text-align: center;
+  height: 80vh;
+}
+
+.error__img {
+  margin-bottom: 80px;
+  width: 200px;
+  height: 200px;
+}
+
+.error__title {
+  font-size: 72px;
+  margin-top: 0;
+  margin-bottom: 40px;
+}
+
+.error__text {
+  font-size: 46px;
+  margin-top: 0;
+  margin-bottom: 80px;
+}
+
+.error__buttons {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+}

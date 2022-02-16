@@ -4,8 +4,9 @@ import MainPage from '../../pages/main-page/main-page';
 import Favorites from '../../pages/favorites/favorites';
 import Propepty from '../../pages/property/property';
 import Login from '../../pages/login/login';
-import PrivateRoute from '../private-route/private-route';
+import NotFound from '../../pages/not-found/not-found';
 
+import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const';
 
 interface AppProps {
@@ -30,14 +31,7 @@ function App({ numberOfPlaces }: AppProps): JSX.Element {
           <Route path={AppRoute.PROPERTY_ID} element={<Propepty isAuth={false} />} />
         </Route>
         <Route path={AppRoute.LOGIN} element={<Login />} />
-        <Route
-          path={AppRoute.NOT_FOUND}
-          element={
-            <>
-              <h1>404</h1>
-            </>
-          }
-        />
+        <Route path={AppRoute.NOT_FOUND} element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
