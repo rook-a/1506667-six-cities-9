@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/header';
 
 import styles from './not-found.module.css';
-import OopsImg from '../not-found/img/oops.svg';
+import errorImg from '../not-found/img/oops.svg';
 
 function NotFound(): JSX.Element {
   const navigate = useNavigate();
@@ -12,9 +12,9 @@ function NotFound(): JSX.Element {
     <div className="page page--gray">
       <Header isLogged={false} />
 
-      <main>
-        <section className={`${styles['page__error']} error`}>
-          <img className={styles['error__img']} src={OopsImg} alt="Sad emoji" width={200} height={200} />
+      <main className={`${styles['page__error']} error`}>
+        <section>
+          <img className={styles['error__img']} src={errorImg} alt="Sad emoji" width={200} height={200} />
           <h1 className={styles['error__title']}>Oops...</h1>
           <p className={styles['error__text']}>That page can&#39;t be found</p>
 

@@ -1,12 +1,14 @@
 .page__error {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 80vh;
 }
 
 .error__img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 80px;
   width: 200px;
   height: 200px;
@@ -14,6 +16,7 @@
 
 .error__title {
   font-size: 72px;
+  text-align: center;
   margin-top: 0;
   margin-bottom: 40px;
 }
@@ -26,6 +29,7 @@
 
 .error__buttons {
   display: flex;
+  justify-content: center;
 }
 
 .error__buttons button:first-child {
