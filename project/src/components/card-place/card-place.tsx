@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
 import Bookmark from '../boormark/boormark';
 
 interface CardPlaceProp {
@@ -6,10 +6,12 @@ interface CardPlaceProp {
 }
 
 function CardPlace({ placeId }: CardPlaceProp): JSX.Element {
+  const link = generatePath('/offer/:id', { id: placeId.toString() });
+
   return (
     <article className="cities__place-card place-card">
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/${placeId}`} title="Show offer">
+        <Link to={link} title="Show offer">
           <img
             className="place-card__image"
             src="img/room.jpg"
@@ -34,7 +36,7 @@ function CardPlace({ placeId }: CardPlaceProp): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${placeId}`} title="Show offer">
+          <Link to={link} title="Show offer">
             Wood and stone place
           </Link>
         </h2>
