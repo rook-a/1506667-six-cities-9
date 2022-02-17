@@ -1,8 +1,17 @@
-function CardPlace(): JSX.Element {
+import { Link, generatePath } from 'react-router-dom';
+import Bookmark from '../boormark/boormark';
+
+interface CardPlaceProp {
+  placeId: number;
+}
+
+function CardPlace({ placeId }: CardPlaceProp): JSX.Element {
+  const link = generatePath('/offer/:id', { id: placeId.toString() });
+
   return (
     <article className="cities__place-card place-card">
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="/">
+        <Link to={link} title="Show offer">
           <img
             className="place-card__image"
             src="img/room.jpg"
@@ -10,7 +19,7 @@ function CardPlace(): JSX.Element {
             height="200"
             alt="Shows an incredible room."
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -18,14 +27,7 @@ function CardPlace(): JSX.Element {
             <b className="place-card__price-value">&euro;80</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button
-            className="place-card__bookmark-button place-card__bookmark-button--active button"
-            type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">In bookmarks</span>
-          </button>
+          <Bookmark isSmall isActive />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -34,7 +36,9 @@ function CardPlace(): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="/">Wood and stone place</a>
+          <Link to={link} title="Show offer">
+            Wood and stone place
+          </Link>
         </h2>
         <p className="place-card__type">Private room</p>
       </div>

@@ -1,3 +1,5 @@
+import cn from 'classnames';
+
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 
@@ -6,24 +8,23 @@ interface FavoritesProps {
 }
 
 function Favorites({ isEmpty }: FavoritesProps): JSX.Element {
+  const containerCls = cn('page__main', 'page__main--favorites', { 'page__main--favorites-empty': isEmpty });
+  const favoritesCls = cn('favorites', { 'favorites--empty': isEmpty });
+
   return (
     <div className="page">
       <Header isAuth />
 
-      <main
-        className={`page__main page__main--favorites ${
-          isEmpty ? 'page__main--favorites-empty' : ''
-        }`}>
+      <main className={containerCls}>
         <div className="page__favorites-container container">
-          <section className={`favorites ${isEmpty ? 'favorites--empty' : ''}`}>
+          <section className={favoritesCls}>
             {isEmpty ? (
               <>
                 <h1 className="visually-hidden">Favorites (empty)</h1>
                 <div className="favorites__status-wrapper">
                   <b className="favorites__status">Nothing yet saved.</b>
                   <p className="favorites__status-description">
-                    Save properties to narrow down search or plan your future
-                    trips.
+                    Save properties to narrow down search or plan your future trips.
                   </p>
                 </div>
               </>
@@ -58,25 +59,16 @@ function Favorites({ isEmpty }: FavoritesProps): JSX.Element {
                         <div className="favorites__card-info place-card__info">
                           <div className="place-card__price-wrapper">
                             <div className="place-card__price">
-                              <b className="place-card__price-value">
-                                &euro;180
-                              </b>
-                              <span className="place-card__price-text">
-                                &#47;&nbsp;night
-                              </span>
+                              <b className="place-card__price-value">&euro;180</b>
+                              <span className="place-card__price-text">&#47;&nbsp;night</span>
                             </div>
                             <button
                               className="place-card__bookmark-button place-card__bookmark-button--active button"
                               type="button">
-                              <svg
-                                className="place-card__bookmark-icon"
-                                width="18"
-                                height="19">
+                              <svg className="place-card__bookmark-icon" width="18" height="19">
                                 <use xlinkHref="#icon-bookmark"></use>
                               </svg>
-                              <span className="visually-hidden">
-                                In bookmarks
-                              </span>
+                              <span className="visually-hidden">In bookmarks</span>
                             </button>
                           </div>
                           <div className="place-card__rating rating">
@@ -107,25 +99,16 @@ function Favorites({ isEmpty }: FavoritesProps): JSX.Element {
                         <div className="favorites__card-info place-card__info">
                           <div className="place-card__price-wrapper">
                             <div className="place-card__price">
-                              <b className="place-card__price-value">
-                                &euro;80
-                              </b>
-                              <span className="place-card__price-text">
-                                &#47;&nbsp;night
-                              </span>
+                              <b className="place-card__price-value">&euro;80</b>
+                              <span className="place-card__price-text">&#47;&nbsp;night</span>
                             </div>
                             <button
                               className="place-card__bookmark-button place-card__bookmark-button--active button"
                               type="button">
-                              <svg
-                                className="place-card__bookmark-icon"
-                                width="18"
-                                height="19">
+                              <svg className="place-card__bookmark-icon" width="18" height="19">
                                 <use xlinkHref="#icon-bookmark"></use>
                               </svg>
-                              <span className="visually-hidden">
-                                In bookmarks
-                              </span>
+                              <span className="visually-hidden">In bookmarks</span>
                             </button>
                           </div>
                           <div className="place-card__rating rating">
@@ -167,25 +150,16 @@ function Favorites({ isEmpty }: FavoritesProps): JSX.Element {
                         <div className="favorites__card-info place-card__info">
                           <div className="place-card__price-wrapper">
                             <div className="place-card__price">
-                              <b className="place-card__price-value">
-                                &euro;180
-                              </b>
-                              <span className="place-card__price-text">
-                                &#47;&nbsp;night
-                              </span>
+                              <b className="place-card__price-value">&euro;180</b>
+                              <span className="place-card__price-text">&#47;&nbsp;night</span>
                             </div>
                             <button
                               className="place-card__bookmark-button place-card__bookmark-button--active button"
                               type="button">
-                              <svg
-                                className="place-card__bookmark-icon"
-                                width="18"
-                                height="19">
+                              <svg className="place-card__bookmark-icon" width="18" height="19">
                                 <use xlinkHref="#icon-bookmark"></use>
                               </svg>
-                              <span className="visually-hidden">
-                                In bookmarks
-                              </span>
+                              <span className="visually-hidden">In bookmarks</span>
                             </button>
                           </div>
                           <div className="place-card__rating rating">

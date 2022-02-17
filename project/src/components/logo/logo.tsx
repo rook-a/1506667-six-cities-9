@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 interface LogoProps {
   isFooter: boolean;
 }
@@ -11,15 +13,9 @@ function Logo({ isFooter }: LogoProps): JSX.Element {
   };
 
   return (
-    <a className={logo.nameLink} href="/">
-      <img
-        className={logo.nameImage}
-        src="img/logo.svg"
-        alt="6 cities logo"
-        width={logo.width}
-        height={logo.height}
-      />
-    </a>
+    <Link className={logo.nameLink} to="/" title="Six cities">
+      <img className={logo.nameImage} src="img/logo.svg" alt="6 cities logo" width={logo.width} height={logo.height} />
+    </Link>
   );
 }
 
