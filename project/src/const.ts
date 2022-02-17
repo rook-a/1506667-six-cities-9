@@ -61,7 +61,6 @@ export enum AppRoute {
   MAIN = '/',
   FAVORITES = '/favorites',
   PROPERTY = '/offer',
-  PROPERTY_ID = ':id',
   LOGIN = '/login',
   NOT_FOUND = '*',
 }

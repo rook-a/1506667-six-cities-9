@@ -1,25 +1,17 @@
 import { Link } from 'react-router-dom';
-import cn from 'classnames';
 
 interface NavProps {
   isAuth?: boolean;
 }
 
 function Nav({ isAuth }: NavProps): JSX.Element {
-  const link = cn({
-    '/favorites': isAuth,
-    '/login': !isAuth,
-  });
-  const titleLink = cn({
-    Favorites: isAuth,
-    'Sigh in': !isAuth,
-  });
+  const titleLink = isAuth ? 'Favorites' : 'Sigh in';
 
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
         <li className="header__nav-item user">
-          <Link className="header__nav-link header__nav-link--profile" to={link} title={titleLink}>
+          <Link className="header__nav-link header__nav-link--profile" to="/favorites" title={titleLink}>
             <div className="header__avatar-wrapper user__avatar-wrapper" />
             {isAuth ? (
               <span className="header__user-name user__name">Oliver.conner@gmail.com</span>

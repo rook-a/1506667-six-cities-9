@@ -1,8 +1,9 @@
 import Header from '../../components/header/header';
 import ReviewsForm from '../../components/review-form/review-form';
 import Map from '../../components/map/map';
-import { FEATURES } from '../../const';
 import PlacesList from '../../components/places-list/places-list';
+import Bookmark from '../../components/boormark/boormark';
+import { FEATURES } from '../../const';
 
 interface PropertyProps {
   isAuth: boolean;
@@ -44,12 +45,7 @@ function Property({ isAuth }: PropertyProps): JSX.Element {
               </div>
               <div className="property__name-wrapper">
                 <h1 className="property__name">Beautiful &amp; luxurious studio at great location</h1>
-                <button className="property__bookmark-button button" type="button">
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <Bookmark isSmall={false} isActive />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

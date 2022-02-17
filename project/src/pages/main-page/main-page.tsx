@@ -8,21 +8,24 @@ import Sorting from '../../components/sorting/sorting';
 
 interface MainPageProps {
   numberOfPlaces: number;
-  isEmpty: boolean;
 }
 
-function MainPage({ numberOfPlaces, isEmpty }: MainPageProps): JSX.Element {
+function MainPage({ numberOfPlaces }: MainPageProps): JSX.Element {
+  const isEmpty = numberOfPlaces === 0;
   const containerCls = cn('cities__places-container', 'container', { 'cities__places-container--empty': isEmpty });
   const containerPlacesCls = cn({
     'cities__no-places': isEmpty,
     'cities__places places': !isEmpty,
+  });
+  const containerMainEmptyCls = cn({
+    'page__main--index-empty': isEmpty,
   });
 
   return (
     <div className="page page--gray page--main">
       <Header isAuth={false} />
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index ${containerMainEmptyCls}`}>
         <h1 className="visually-hidden">Cities</h1>
         <Tabs />
 
