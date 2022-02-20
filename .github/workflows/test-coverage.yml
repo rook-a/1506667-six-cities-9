@@ -29,3 +29,4 @@ jobs:
         with:
           coverageCommand: npm test
           workingDirectory: ./project
+          debug: true

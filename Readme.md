@@ -1,6 +1,6 @@
 # Проект «Шесть городов»
 
-![example workflow](https://github.com/rook-a/1506667-six-cities-9/actions/workflows/check.yml/badge.svg)
+![example workflow](https://github.com/rook-a/1506667-six-cities-9/actions/workflows/check.yml/badge.svg?event=push)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/5e90f9f936a579e7f120/maintainability)](https://codeclimate.com/github/rook-a/1506667-six-cities-9/maintainability)
 
