@@ -28,4 +28,4 @@ jobs:
           CC_TEST_REPORTER_ID: 4b9416eb09635a6492610fbfe559d434f17b0662aae7c95561969bfcf1f5bb84
         with:
           coverageCommand: npm test
-          workingDirectory: cd project
+          workingDirectory: ./project
