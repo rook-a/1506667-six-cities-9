@@ -1,0 +1,26 @@
+name: test-coverage
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: npm install
+
+      - run: npm run lint
+
+      - name: Test & code coverage
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
+          CC_TEST_REPORTER_ID: 4b9416eb09635a6492610fbfe559d434f17b0662aae7c95561969bfcf1f5bb84
+        with:
+          coverageCommand: npm test
