@@ -14,7 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: npm run lint
+      - name: Lint checks
+        run: |
+          if [ -d 'project' ]; then cd project && npm run lint; else echo 'Skip. The project directory does not exist'; fi
 
       - name: Test & code coverage
         uses: paambaati/codeclimate-action@v3.0.0
