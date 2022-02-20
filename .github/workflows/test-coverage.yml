@@ -1,4 +1,4 @@
-name: test-coverage
+name: Tests-coverage
 
 on:
   push:
@@ -13,8 +13,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - run: npm install
 
       - run: npm run lint
 
