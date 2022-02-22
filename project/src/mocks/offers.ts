@@ -1,0 +1,143 @@
+import { Offer } from '../types/offer';
+
+const AVATAR_URL = 'https://i.pravatar.cc/';
+const IMAGE_URL = 'https://picsum.photos/300';
+
+export const offers: Offer[] = [
+  {
+    bedrooms: 3,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Amsterdam',
+    },
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+    goods: ['Heating'],
+    host: {
+      avatarUrl: `${AVATAR_URL}`,
+      id: 1,
+      isPro: true,
+      name: 'Angelina',
+    },
+    id: 1,
+    images: [`${IMAGE_URL}`],
+    isFavorite: true,
+    isPremium: false,
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8,
+    },
+    maxAdults: 4,
+    previewImage: `${IMAGE_URL}`,
+    price: 120,
+    rating: 4.8,
+    title: 'Beautiful & luxurious studio at great location',
+    type: 'apartment',
+  },
+  {
+    bedrooms: 2,
+    city: {
+      location: {
+        latitude: 52.52437,
+        longitude: 13.41053,
+        zoom: 10,
+      },
+      name: 'Berlin',
+    },
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Berlin.',
+    goods: ['Heating', 'Wi-Fi', 'Kitchen', 'Cabel TV'],
+    host: {
+      avatarUrl: `${AVATAR_URL}`,
+      id: 2,
+      isPro: false,
+      name: 'Viki',
+    },
+    id: 2,
+    images: [`${IMAGE_URL}`],
+    isFavorite: false,
+    isPremium: false,
+    location: {
+      latitude: 52.52437,
+      longitude: 13.41053,
+      zoom: 8,
+    },
+    maxAdults: 2,
+    previewImage: `${IMAGE_URL}`,
+    price: 210,
+    rating: 5,
+    title: 'Beautiful & luxurious house at great location',
+    type: 'house',
+  },
+  {
+    bedrooms: 5,
+    city: {
+      location: {
+        latitude: 40.4165,
+        longitude: -3.70256,
+        zoom: 10,
+      },
+      name: 'Madrid',
+    },
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Madrid.',
+    goods: ['Fridge', 'Dishwasher'],
+    host: {
+      avatarUrl: `${AVATAR_URL}`,
+      id: 3,
+      isPro: false,
+      name: 'Paola',
+    },
+    id: 3,
+    images: [`${IMAGE_URL}`],
+    isFavorite: false,
+    isPremium: false,
+    location: {
+      latitude: 40.4165,
+      longitude: -3.70256,
+      zoom: 8,
+    },
+    maxAdults: 4,
+    previewImage: `${IMAGE_URL}`,
+    price: 80,
+    rating: 3,
+    title: 'Beautiful & luxurious studio at great location',
+    type: 'apartment',
+  },
+  {
+    bedrooms: 2,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Tokio',
+    },
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Tokio.',
+    goods: ['Wi-Fi', 'Heating', 'Kitchen', 'Fridge', 'Washing machine', 'Towels', 'Baby seat'],
+    host: {
+      avatarUrl: `${AVATAR_URL}`,
+      id: 4,
+      isPro: true,
+      name: 'Kim',
+    },
+    id: 4,
+    images: [`${IMAGE_URL}`],
+    isFavorite: true,
+    isPremium: true,
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8,
+    },
+    maxAdults: 4,
+    previewImage: `${IMAGE_URL}`,
+    price: 300,
+    rating: 5,
+    title: 'Beautiful & luxurious private room at great location',
+    type: 'Private room',
+  },
+];
