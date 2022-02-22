@@ -3,13 +3,18 @@ import ReviewsForm from '../../components/review-form/review-form';
 import Map from '../../components/map/map';
 import PlacesList from '../../components/places-list/places-list';
 import Bookmark from '../../components/boormark/boormark';
+
 import { FEATURES } from '../../const';
+import { Offer } from '../../types/offer';
 
 interface PropertyProps {
   isAuth: boolean;
+  offers: Offer[];
 }
 
-function Property({ isAuth }: PropertyProps): JSX.Element {
+function Property({ isAuth, offers }: PropertyProps): JSX.Element {
+  const offersNearby = offers.slice(0, 3);
+
   return (
     <div className="page">
       <Header isAuth={isAuth} />
@@ -45,7 +50,7 @@ function Property({ isAuth }: PropertyProps): JSX.Element {
               </div>
               <div className="property__name-wrapper">
                 <h1 className="property__name">Beautiful &amp; luxurious studio at great location</h1>
-                <Bookmark isSmall={false} isActive />
+                <Bookmark isSmall={false} isFavorite />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
@@ -146,7 +151,7 @@ function Property({ isAuth }: PropertyProps): JSX.Element {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
 
-            <PlacesList numberOfPlaces={3} className={'near-places__list'} />
+            <PlacesList offers={offersNearby} className={'near-places__list'} />
           </section>
         </div>
       </main>

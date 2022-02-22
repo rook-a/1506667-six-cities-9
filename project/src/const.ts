@@ -70,3 +70,7 @@ export enum AuthorizationStatus {
   NO_AUTH = 'NO_AUTH',
   UNKNOWN = 'UNKNOWN',
 }
+
+const MAX_RATING = 5;
+
+export const ratingPercent = (rating: number) => (rating / MAX_RATING) * 100;
