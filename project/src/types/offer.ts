@@ -1,30 +1,32 @@
+interface Location {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+}
+
+interface City {
+  location: Location;
+  name: string;
+}
+
+interface Host {
+  avatarUrl: string;
+  id: number;
+  isPro: boolean;
+  name: string;
+}
+
 export interface Offer {
   bedrooms: number;
-  city: {
-    location: {
-      latitude: number;
-      longitude: number;
-      zoom: number;
-    };
-    name: string;
-  };
+  city: City;
   description: string;
   goods: string[];
-  host: {
-    avatarUrl: string;
-    id: number;
-    isPro: boolean;
-    name: string;
-  };
+  host: Host;
   id: number;
   images: string[];
   isFavorite: boolean;
   isPremium: boolean;
-  location: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
+  location: Location;
   maxAdults: number;
   previewImage: string;
   price: number;

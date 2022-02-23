@@ -23,7 +23,7 @@ export const offers: Offer[] = [
       name: 'Angelina',
     },
     id: 1,
-    images: [`${IMAGE_URL}`],
+    images: [`${IMAGE_URL}`, `${IMAGE_URL}`, `${IMAGE_URL}`, `${IMAGE_URL}`],
     isFavorite: true,
     isPremium: false,
     location: {
@@ -36,7 +36,7 @@ export const offers: Offer[] = [
     price: 120,
     rating: 3.8,
     title: 'Beautiful & luxurious studio at great location',
-    type: 'apartment',
+    type: 'Apartment',
   },
   {
     bedrooms: 2,
@@ -46,9 +46,9 @@ export const offers: Offer[] = [
         longitude: 13.41053,
         zoom: 10,
       },
-      name: 'Berlin',
+      name: 'Paris',
     },
-    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Berlin.',
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Paris.',
     goods: ['Heating', 'Wi-Fi', 'Kitchen', 'Cabel TV'],
     host: {
       avatarUrl: `${AVATAR_URL}`,
@@ -57,7 +57,7 @@ export const offers: Offer[] = [
       name: 'Viki',
     },
     id: 2,
-    images: [`${IMAGE_URL}`],
+    images: [`${IMAGE_URL}`, `${IMAGE_URL}`, `${IMAGE_URL}`],
     isFavorite: false,
     isPremium: false,
     location: {
@@ -70,7 +70,7 @@ export const offers: Offer[] = [
     price: 210,
     rating: 4.5,
     title: 'Beautiful & luxurious house at great location',
-    type: 'house',
+    type: 'House',
   },
   {
     bedrooms: 5,
@@ -80,9 +80,9 @@ export const offers: Offer[] = [
         longitude: -3.70256,
         zoom: 10,
       },
-      name: 'Madrid',
+      name: 'Brussels',
     },
-    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Madrid.',
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Brussels.',
     goods: ['Fridge', 'Dishwasher'],
     host: {
       avatarUrl: `${AVATAR_URL}`,
@@ -91,7 +91,7 @@ export const offers: Offer[] = [
       name: 'Paola',
     },
     id: 3,
-    images: [`${IMAGE_URL}`],
+    images: [`${IMAGE_URL}`, `${IMAGE_URL}`, `${IMAGE_URL}`, `${IMAGE_URL}`, `${IMAGE_URL}`],
     isFavorite: false,
     isPremium: false,
     location: {
@@ -104,7 +104,7 @@ export const offers: Offer[] = [
     price: 80,
     rating: 3,
     title: 'Beautiful & luxurious studio at great location',
-    type: 'apartment',
+    type: 'Apartment',
   },
   {
     bedrooms: 2,
@@ -114,9 +114,9 @@ export const offers: Offer[] = [
         longitude: 4.895168,
         zoom: 10,
       },
-      name: 'Tokio',
+      name: 'Hamburg',
     },
-    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Tokio.',
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Hamburg.',
     goods: ['Wi-Fi', 'Heating', 'Kitchen', 'Fridge', 'Washing machine', 'Towels', 'Baby seat'],
     host: {
       avatarUrl: `${AVATAR_URL}`,
@@ -125,7 +125,7 @@ export const offers: Offer[] = [
       name: 'Kim',
     },
     id: 4,
-    images: [`${IMAGE_URL}`],
+    images: [`${IMAGE_URL}`, `${IMAGE_URL}`, `${IMAGE_URL}`, `${IMAGE_URL}`, `${IMAGE_URL}`, `${IMAGE_URL}`],
     isFavorite: true,
     isPremium: true,
     location: {

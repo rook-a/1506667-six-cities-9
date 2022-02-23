@@ -22,13 +22,13 @@ function App({ numberOfPlaces, offers, reviews }: AppProps): JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route index element={<MainPage numberOfPlaces={numberOfPlaces} offers={offers} />} />
-        <Route element={<PrivateOutlet authorizationStatus={AuthorizationStatus.NO_AUTH} />}>
-          <Route path={AppRoute.FAVORITES} element={<Favorites isEmpty={false} />} />
+        <Route element={<PrivateOutlet authorizationStatus={AuthorizationStatus.AUTH} />}>
+          <Route path={AppRoute.FAVORITES} element={<Favorites isEmpty={false} offers={offers} />} />
         </Route>
-        <Route path={AppRoute.PROPERTY}>
-          <Route index element={<Property isAuth={false} offers={offers} />} />
-          <Route path={`${AppRoute.PROPERTY}/:id`} element={<Property isAuth={false} offers={offers} />} />
-        </Route>
+        <Route
+          path={`${AppRoute.PROPERTY}/:id`}
+          element={<Property isAuth={true} offers={offers} reviews={reviews} />}
+        />
         <Route path={AppRoute.LOGIN} element={<Login />} />
         <Route path={AppRoute.NOT_FOUND} element={<NotFound />} />
       </Routes>
