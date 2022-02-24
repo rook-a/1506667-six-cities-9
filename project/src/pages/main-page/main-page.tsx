@@ -26,7 +26,7 @@ function MainPage({ numberOfPlaces, offers }: MainPageProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
-      <Header isAuth={false} />
+      <Header isAuth={true} />
 
       <main className={`page__main page__main--index ${containerMainEmptyCls}`}>
         <h1 className="visually-hidden">Cities</h1>

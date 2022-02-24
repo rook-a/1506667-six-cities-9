@@ -17,9 +17,11 @@ interface PropertyProps {
 }
 
 const MAX_COUNT_OF_OFFERS = 3;
+const MAX_COUNT_OF_REVIEWS = 10;
 
 function Property({ isAuth, offers, reviews }: PropertyProps): JSX.Element {
   const offersNearby = offers.slice(0, MAX_COUNT_OF_OFFERS);
+  const maxReviews = reviews.slice(0, MAX_COUNT_OF_REVIEWS);
 
   const { id } = useParams();
   const currentOffer = offers.filter((offer) => offer.id === Number(id));
@@ -104,7 +106,7 @@ function Property({ isAuth, offers, reviews }: PropertyProps): JSX.Element {
                   Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
                 </h2>
                 <ul className="reviews__list">
-                  {reviews.map((review) => {
+                  {maxReviews.map((review) => {
                     const { comment, date, rating, user, id } = review;
                     const { avatarUrl, isPro, name } = user;
 
