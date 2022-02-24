@@ -6,12 +6,13 @@ const MAX_SIGN_COUNT = 300;
 
 function ReviewsForm(): JSX.Element {
   const [prevCommentValue, setCommentValue] = useState<string>('');
-  const [prevRavingValue, setRatingValue] = useState<number>(0);
+  const [prevRavingValue, setRatingValue] = useState<number | null>(null);
 
-  const checkedCommentLength = prevCommentValue.length <= MIN_SIGN_COUNT || prevCommentValue.length >= MAX_SIGN_COUNT;
-  const checkedRatingValue = prevRavingValue === 0;
-
-  const isDisabled = checkedCommentLength && checkedRatingValue;
+  const isDisabled =
+    prevCommentValue.length <= MIN_SIGN_COUNT ||
+    prevRavingValue === null ||
+    prevCommentValue.length >= MAX_SIGN_COUNT ||
+    prevRavingValue === null;
 
   const getRatingValue = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value } = evt.target;
