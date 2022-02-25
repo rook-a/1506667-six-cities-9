@@ -2,10 +2,11 @@ import { ChangeEvent, Fragment } from 'react';
 import { RATING } from '../../const';
 
 interface RatingProps {
-  getRatingValue: (evt: ChangeEvent<HTMLInputElement>) => void;
+  onRatingChange: (evt: ChangeEvent<HTMLInputElement>) => void;
+  currentRating: number;
 }
 
-function Rating({ getRatingValue }: RatingProps): JSX.Element {
+function Rating({ onRatingChange, currentRating }: RatingProps): JSX.Element {
   return (
     <div className="reviews__rating-form form__rating">
       {RATING.map(({ id, title }) => (
@@ -16,7 +17,8 @@ function Rating({ getRatingValue }: RatingProps): JSX.Element {
             name="rating"
             value={id}
             type="radio"
-            onChange={getRatingValue}
+            onChange={onRatingChange}
+            checked={id === currentRating}
           />
           <label className="reviews__rating-label form__rating-label" htmlFor={`${id}-stars`} title={title}>
             <svg className="form__star-image" width="37" height="33">

@@ -3,19 +3,32 @@ import cn from 'classnames';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 
-import { CITIES, getRatingPercent } from '../../const';
+import { getRatingPercent } from '../../const';
 import { Offer } from '../../types/offer';
 import Bookmark from '../../components/boormark/boormark';
 import { generatePath } from 'react-router-dom';
+import { Fragment } from 'react';
 
 interface FavoritesProps {
-  isEmpty: boolean;
   offers: Offer[];
 }
 
-function Favorites({ isEmpty, offers }: FavoritesProps): JSX.Element {
+const mapOffersToCity = (arr: Offer[]) =>
+  arr.reduce<{ [key: string]: Offer[] }>((acc, offer) => {
+    if (!acc[offer.city.name]) {
+      acc[offer.city.name] = [offer];
+    } else {
+      acc[offer.city.name].push(offer);
+    }
+    return acc;
+  }, {});
+
+function Favorites({ offers }: FavoritesProps): JSX.Element {
+  const isEmpty = offers.length === 0;
   const containerCls = cn('page__main', 'page__main--favorites', { 'page__main--favorites-empty': isEmpty });
   const favoritesCls = cn('favorites', { 'favorites--empty': isEmpty });
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite === true);
+  const favoriteOffersMap = mapOffersToCity(favoriteOffers);
 
   return (
     <div className="page">
@@ -38,25 +51,24 @@ function Favorites({ isEmpty, offers }: FavoritesProps): JSX.Element {
               <>
                 <h1 className="favorites__title">Saved listing</h1>
                 <ul className="favorites__list">
-                  {offers.map((offer) => {
-                    const currentCitys = CITIES.filter((city) => city === offer.city.name && offer.isFavorite === true);
-                    return currentCitys.map((currentCity, index) => (
-                      <li className="favorites__locations-items" key={index}>
+                  {Object.keys(favoriteOffersMap).map((cityName) => (
+                    <Fragment key={cityName}>
+                      <li className="favorites__locations-items">
                         <div className="favorites__locations locations locations--current">
                           <div className="locations__item">
                             <a className="locations__item-link" href="/">
-                              <span>{currentCity}</span>
+                              <span>{cityName}</span>
                             </a>
                           </div>
                         </div>
                         <div className="favorites__places">
-                          {offers.map((offer) => {
-                            const { city, id, price, isPremium, isFavorite, title, type, rating, previewImage } = offer;
+                          {favoriteOffersMap[cityName].map((offer) => {
+                            const { id, price, isPremium, isFavorite, title, type, rating, previewImage } = offer;
                             const link = generatePath('/offer/:id', { id: id.toString() });
 
                             return (
-                              city.name === currentCity && (
-                                <article className="favorites__card place-card" key={id}>
+                              <Fragment key={title}>
+                                <article className="favorites__card place-card">
                                   {isPremium && (
                                     <div className="place-card__mark">
                                       <span>Premium</span>
@@ -94,16 +106,18 @@ function Favorites({ isEmpty, offers }: FavoritesProps): JSX.Element {
                                     <h2 className="place-card__name">
                                       <a href={link}>{title}</a>
                                     </h2>
-                                    <p className="place-card__type">{type}</p>
+                                    <p className="place-card__type" style={{ textTransform: 'capitalize' }}>
+                                      {type}
+                                    </p>
                                   </div>
                                 </article>
-                              )
+                              </Fragment>
                             );
                           })}
                         </div>
                       </li>
-                    ));
-                  })}
+                    </Fragment>
+                  ))}
                 </ul>
               </>
             )}

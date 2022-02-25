@@ -23,7 +23,7 @@ function App({ numberOfPlaces, offers, reviews }: AppProps): JSX.Element {
       <Routes>
         <Route index element={<MainPage numberOfPlaces={numberOfPlaces} offers={offers} />} />
         <Route element={<PrivateOutlet authorizationStatus={AuthorizationStatus.AUTH} />}>
-          <Route path={AppRoute.FAVORITES} element={<Favorites isEmpty={false} offers={offers} />} />
+          <Route path={AppRoute.FAVORITES} element={<Favorites offers={offers} />} />
         </Route>
         <Route
           path={`${AppRoute.PROPERTY}/:id`}

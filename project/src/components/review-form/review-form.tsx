@@ -1,47 +1,43 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import Rating from '../rating/rating';
 
-const MIN_SIGN_COUNT = 50;
-const MAX_SIGN_COUNT = 300;
+const MIN_COMMENT_LENGTH = 50;
+const MAX_COMMENT_LENGTH = 300;
 
 function ReviewsForm(): JSX.Element {
-  const [prevCommentValue, setCommentValue] = useState<string>('');
-  const [prevRavingValue, setRatingValue] = useState<number | null>(null);
+  const [comment, setComment] = useState('');
+  const [rating, setRating] = useState('0');
 
-  const isDisabled =
-    prevCommentValue.length <= MIN_SIGN_COUNT ||
-    prevRavingValue === null ||
-    prevCommentValue.length >= MAX_SIGN_COUNT ||
-    prevRavingValue === null;
+  const isDisabled = rating === '0' || comment.length <= MIN_COMMENT_LENGTH || comment.length >= MAX_COMMENT_LENGTH;
 
-  const getRatingValue = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value } = evt.target;
-    setRatingValue(Number(value));
+    setRating(value);
   };
 
-  const getCommentChange = (evt: { target: { value: string } }) => {
+  const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = evt.target;
-    setCommentValue(value);
+    setComment(value);
   };
 
-  const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={submitHandler}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
 
-      <Rating getRatingValue={getRatingValue} />
+      <Rating onRatingChange={handleRatingChange} currentRating={Number(rating)} />
 
       <textarea
-        onChange={getCommentChange}
+        onChange={handleCommentChange}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
-        value={prevCommentValue}
+        value={comment}
         placeholder="Tell how was your stay, what you like and what can be improved"
       />
 

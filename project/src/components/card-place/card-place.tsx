@@ -6,16 +6,19 @@ import { getRatingPercent } from '../../const';
 
 interface CardPlaceProp {
   offer: Offer;
-  getOfferId: (id: number) => void;
+  onCardHover: (id: number | null) => void;
 }
 
-function CardPlace({ offer, getOfferId }: CardPlaceProp): JSX.Element {
+function CardPlace({ offer, onCardHover }: CardPlaceProp): JSX.Element {
   const link = generatePath('/offer/:id', { id: offer.id.toString() });
 
   const { description, type, price, isFavorite, previewImage, title, rating, id } = offer;
 
   return (
-    <article onMouseOver={() => getOfferId(id)} className="cities__place-card place-card">
+    <article
+      onMouseOver={() => onCardHover(id)}
+      onMouseLeave={() => onCardHover(null)}
+      className="cities__place-card place-card">
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={link} title="Show offer">
           <img className="place-card__image" src={previewImage} width="260" height="200" alt={description} />
