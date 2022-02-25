@@ -1,13 +1,14 @@
+import { Fragment } from 'react';
+import { generatePath } from 'react-router-dom';
 import cn from 'classnames';
+import styles from './favorites.module.css';
 
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
+import Bookmark from '../../components/boormark/boormark';
 
 import { getRatingPercent } from '../../const';
 import { Offer } from '../../types/offer';
-import Bookmark from '../../components/boormark/boormark';
-import { generatePath } from 'react-router-dom';
-import { Fragment } from 'react';
 
 interface FavoritesProps {
   offers: Offer[];
@@ -16,10 +17,10 @@ interface FavoritesProps {
 const mapOffersToCity = (arr: Offer[]) =>
   arr.reduce<{ [key: string]: Offer[] }>((acc, offer) => {
     if (!acc[offer.city.name]) {
-      acc[offer.city.name] = [offer];
-    } else {
-      acc[offer.city.name].push(offer);
+      acc[offer.city.name] = [];
     }
+
+    acc[offer.city.name].push(offer);
     return acc;
   }, {});
 
@@ -106,9 +107,7 @@ function Favorites({ offers }: FavoritesProps): JSX.Element {
                                     <h2 className="place-card__name">
                                       <a href={link}>{title}</a>
                                     </h2>
-                                    <p className="place-card__type" style={{ textTransform: 'capitalize' }}>
-                                      {type}
-                                    </p>
+                                    <p className={`place-card__type ${styles['place-card__type--text']}`}>{type}</p>
                                   </div>
                                 </article>
                               </Fragment>
