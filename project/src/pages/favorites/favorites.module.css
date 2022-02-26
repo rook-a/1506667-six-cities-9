@@ -1,0 +1,3 @@
+.place-card__type--text::first-letter {
+  text-transform: uppercase;
+}

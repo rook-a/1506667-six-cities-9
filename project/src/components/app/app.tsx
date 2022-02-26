@@ -5,26 +5,30 @@ import Favorites from '../../pages/favorites/favorites';
 import Property from '../../pages/property/property';
 import Login from '../../pages/login/login';
 import NotFound from '../../pages/not-found/not-found';
-
 import PrivateOutlet from '../private-outlet/private-outlet';
+
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { Offer } from '../../types/offer';
+import { Review } from '../../types/review';
 
 interface AppProps {
   numberOfPlaces: number;
+  offers: Offer[];
+  reviews: Review[];
 }
 
-function App({ numberOfPlaces }: AppProps): JSX.Element {
+function App({ numberOfPlaces, offers, reviews }: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<MainPage numberOfPlaces={numberOfPlaces} />} />
-        <Route element={<PrivateOutlet authorizationStatus={AuthorizationStatus.NO_AUTH} />}>
-          <Route path={AppRoute.FAVORITES} element={<Favorites isEmpty={false} />} />
+        <Route index element={<MainPage numberOfPlaces={numberOfPlaces} offers={offers} />} />
+        <Route element={<PrivateOutlet authorizationStatus={AuthorizationStatus.AUTH} />}>
+          <Route path={AppRoute.FAVORITES} element={<Favorites offers={offers} />} />
         </Route>
-        <Route path={AppRoute.PROPERTY}>
-          <Route index element={<Property isAuth={false} />} />
-          <Route path={`${AppRoute.PROPERTY}/:id`} element={<Property isAuth={false} />} />
-        </Route>
+        <Route
+          path={`${AppRoute.PROPERTY}/:id`}
+          element={<Property isAuth={true} offers={offers} reviews={reviews} />}
+        />
         <Route path={AppRoute.LOGIN} element={<Login />} />
         <Route path={AppRoute.NOT_FOUND} element={<NotFound />} />
       </Routes>

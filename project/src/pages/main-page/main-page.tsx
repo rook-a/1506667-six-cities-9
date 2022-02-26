@@ -6,11 +6,14 @@ import Header from '../../components/header/header';
 import PlacesList from '../../components/places-list/places-list';
 import Sorting from '../../components/sorting/sorting';
 
+import { Offer } from '../../types/offer';
+
 interface MainPageProps {
   numberOfPlaces: number;
+  offers: Offer[];
 }
 
-function MainPage({ numberOfPlaces }: MainPageProps): JSX.Element {
+function MainPage({ numberOfPlaces, offers }: MainPageProps): JSX.Element {
   const isEmpty = numberOfPlaces === 0;
   const containerCls = cn('cities__places-container', 'container', { 'cities__places-container--empty': isEmpty });
   const containerPlacesCls = cn({
@@ -23,7 +26,7 @@ function MainPage({ numberOfPlaces }: MainPageProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
-      <Header isAuth={false} />
+      <Header isAuth={true} />
 
       <main className={`page__main page__main--index ${containerMainEmptyCls}`}>
         <h1 className="visually-hidden">Cities</h1>
@@ -44,7 +47,7 @@ function MainPage({ numberOfPlaces }: MainPageProps): JSX.Element {
                   <h2 className="visually-hidden">Places</h2>
                   <b className="places__found">{numberOfPlaces} places to stay in Amsterdam</b>
                   <Sorting />
-                  <PlacesList numberOfPlaces={numberOfPlaces} className={'tabs__content cities__places-list'} />
+                  <PlacesList offers={offers} className={'tabs__content cities__places-list'} />
                 </>
               )}
             </section>
