@@ -4,7 +4,7 @@ interface Location {
   zoom: number;
 }
 
-interface City {
+export interface City {
   location: Location;
   name: string;
 }
