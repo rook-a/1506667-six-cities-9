@@ -1,17 +1,14 @@
-import { useState } from 'react';
-
 import CardPlace from '../card-place/card-place';
 import { Offer } from '../../types/offer';
 
 interface PlaceListProps {
   offers: Offer[];
   className: string;
+  onPlaceCardHover: (offerId: number | null) => void;
 }
 
-function PlacesList({ offers, className }: PlaceListProps): JSX.Element {
-  const [, setOfferId] = useState<number | null>(null);
-
-  const handleCardActive = (valueId: number | null) => setOfferId(valueId);
+function PlacesList({ offers, className, onPlaceCardHover }: PlaceListProps): JSX.Element {
+  const handleCardActive = (valueId: number | null) => onPlaceCardHover(valueId);
 
   return (
     <div className={`places__list ${className}`}>

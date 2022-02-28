@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Header from '../../components/header/header';
@@ -22,6 +23,10 @@ const MAX_COUNT_OF_REVIEWS = 10;
 function Property({ isAuth, offers, reviews }: PropertyProps): JSX.Element {
   const offersNearby = offers.slice(0, MAX_COUNT_OF_OFFERS);
   const maxReviews = reviews.slice(0, MAX_COUNT_OF_REVIEWS);
+
+  const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
+
+  const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
 
   const { id } = useParams();
   const currentOffer = offers.filter((offer) => offer.id === Number(id));
@@ -146,14 +151,19 @@ function Property({ isAuth, offers, reviews }: PropertyProps): JSX.Element {
             </div>
           </div>
 
-          <Map className="property__map" />
+          <Map
+            className="property__map"
+            city={offersNearby[0].city}
+            offers={offersNearby}
+            selectedOffer={selectedOffer}
+          />
         </section>
 
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
 
-            <PlacesList offers={offersNearby} className={'near-places__list'} />
+            <PlacesList offers={offersNearby} className={'near-places__list'} onPlaceCardHover={handlePlaceCardHover} />
           </section>
         </div>
       </main>

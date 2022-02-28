@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import cn from 'classnames';
 
 import Tabs from '../../components/tabs/tabs';
@@ -24,6 +25,10 @@ function MainPage({ numberOfPlaces, offers }: MainPageProps): JSX.Element {
     'page__main--index-empty': isEmpty,
   });
 
+  const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
+
+  const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
+
   return (
     <div className="page page--gray page--main">
       <Header isAuth={true} />
@@ -47,12 +52,20 @@ function MainPage({ numberOfPlaces, offers }: MainPageProps): JSX.Element {
                   <h2 className="visually-hidden">Places</h2>
                   <b className="places__found">{numberOfPlaces} places to stay in Amsterdam</b>
                   <Sorting />
-                  <PlacesList offers={offers} className={'tabs__content cities__places-list'} />
+                  <PlacesList
+                    offers={offers}
+                    className={'tabs__content cities__places-list'}
+                    onPlaceCardHover={handlePlaceCardHover}
+                  />
                 </>
               )}
             </section>
 
-            <div className="cities__right-section">{!isEmpty ? <Map className="cities__map" /> : ''}</div>
+            <div className="cities__right-section">
+              {!isEmpty && (
+                <Map className="cities__map" city={offers[0].city} offers={offers} selectedOffer={selectedOffer} />
+              )}
+            </div>
           </div>
         </div>
       </main>
