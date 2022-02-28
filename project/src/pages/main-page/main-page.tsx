@@ -27,7 +27,7 @@ function MainPage({ numberOfPlaces, offers }: MainPageProps): JSX.Element {
 
   const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
 
-  const handlePlacesListHover = (offerId: number | null) => setSelectedOffer(offerId);
+  const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
 
   return (
     <div className="page page--gray page--main">
@@ -55,17 +55,15 @@ function MainPage({ numberOfPlaces, offers }: MainPageProps): JSX.Element {
                   <PlacesList
                     offers={offers}
                     className={'tabs__content cities__places-list'}
-                    onPlacesListHover={handlePlacesListHover}
+                    onPlaceCardHover={handlePlaceCardHover}
                   />
                 </>
               )}
             </section>
 
             <div className="cities__right-section">
-              {!isEmpty ? (
+              {!isEmpty && (
                 <Map className="cities__map" city={offers[0].city} offers={offers} selectedOffer={selectedOffer} />
-              ) : (
-                ''
               )}
             </div>
           </div>

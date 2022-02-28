@@ -26,7 +26,7 @@ function Property({ isAuth, offers, reviews }: PropertyProps): JSX.Element {
 
   const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
 
-  const handlePlacesListHover = (offerId: number | null) => setSelectedOffer(offerId);
+  const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
 
   const { id } = useParams();
   const currentOffer = offers.filter((offer) => offer.id === Number(id));
@@ -163,11 +163,7 @@ function Property({ isAuth, offers, reviews }: PropertyProps): JSX.Element {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
 
-            <PlacesList
-              offers={offersNearby}
-              className={'near-places__list'}
-              onPlacesListHover={handlePlacesListHover}
-            />
+            <PlacesList offers={offersNearby} className={'near-places__list'} onPlaceCardHover={handlePlaceCardHover} />
           </section>
         </div>
       </main>

@@ -1,13 +1,12 @@
 import { useEffect, useRef } from 'react';
-import useMap from '../../hooks/useMap';
+import useMap from '../../hooks/use-map';
 
 import { Icon, Marker } from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import { City, Offer } from '../../types/offer';
 
 import defaultPin from './img/pin.svg';
 import activePin from './img/pin-active.svg';
-
+import 'leaflet/dist/leaflet.css';
 interface MapProps {
   className: string;
   city: City;
@@ -17,14 +16,14 @@ interface MapProps {
 
 const defaultIconPin = new Icon({
   iconUrl: defaultPin,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [28, 40],
+  iconAnchor: [14, 20],
 });
 
 const activeIconPin = new Icon({
   iconUrl: activePin,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [28, 40],
+  iconAnchor: [14, 20],
 });
 
 function Map({ className, city, offers, selectedOffer }: MapProps): JSX.Element {
@@ -39,9 +38,7 @@ function Map({ className, city, offers, selectedOffer }: MapProps): JSX.Element 
           lng: offer.city.location.longitude,
         });
 
-        marker
-          .setIcon(selectedOffer !== null && offer.id === selectedOffer ? activeIconPin : defaultIconPin)
-          .addTo(map);
+        marker.setIcon(selectedOffer && offer.id === selectedOffer ? activeIconPin : defaultIconPin).addTo(map);
       });
     }
   }, [map, offers, selectedOffer]);

@@ -4,11 +4,11 @@ import { Offer } from '../../types/offer';
 interface PlaceListProps {
   offers: Offer[];
   className: string;
-  onPlacesListHover: (offerId: number | null) => void;
+  onPlaceCardHover: (offerId: number | null) => void;
 }
 
-function PlacesList({ offers, className, onPlacesListHover }: PlaceListProps): JSX.Element {
-  const handleCardActive = (valueId: number | null) => onPlacesListHover(valueId);
+function PlacesList({ offers, className, onPlaceCardHover }: PlaceListProps): JSX.Element {
+  const handleCardActive = (valueId: number | null) => onPlaceCardHover(valueId);
 
   return (
     <div className={`places__list ${className}`}>
