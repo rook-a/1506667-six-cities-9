@@ -1,30 +1,53 @@
 import { Link, generatePath } from 'react-router-dom';
+import cn from 'classnames';
 
 import Bookmark from '../boormark/boormark';
+
 import { Offer } from '../../types/offer';
 import { getRatingPercent } from '../../const';
 
+import styles from './card-place.module.css';
+
 interface CardPlaceProp {
   offer: Offer;
-  onCardHover: (id: number | null) => void;
+  isFavorites?: boolean;
+  onCardHover?: (id: number | null) => void;
 }
 
-function CardPlace({ offer, onCardHover }: CardPlaceProp): JSX.Element {
-  const link = generatePath('/offer/:id', { id: offer.id.toString() });
+function CardPlace({ offer, isFavorites, onCardHover }: CardPlaceProp): JSX.Element {
+  const link = generatePath('/offer/:id', { id: `${offer.id}` });
 
-  const { description, type, price, isFavorite, previewImage, title, rating, id } = offer;
+  const favorites = {
+    imgWidth: isFavorites ? 150 : 260,
+    imgHeight: isFavorites ? 110 : 200,
+    containerCls: isFavorites ? 'favorites__card' : 'cities__place-card',
+    wrapperCls: isFavorites ? 'favorites__image-wrapper' : 'cities__image-wrapper',
+  };
+
+  const { description, type, price, isFavorite, previewImage, title, rating, id, isPremium } = offer;
 
   return (
     <article
-      onMouseOver={() => onCardHover(id)}
-      onMouseLeave={() => onCardHover(null)}
-      className="cities__place-card place-card">
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      onMouseOver={() => (onCardHover !== undefined ? onCardHover(id) : null)}
+      onMouseLeave={() => (onCardHover !== undefined ? onCardHover(null) : null)}
+      className={`place-card ${favorites.containerCls}`}>
+      {isPremium && (
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      )}
+      <div className={`place-card__image-wrapper ${favorites.wrapperCls}`}>
         <Link to={link} title="Show offer">
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt={description} />
+          <img
+            className="place-card__image"
+            src={previewImage}
+            width={`${favorites.imgWidth}`}
+            height={`${favorites.imgHeight}`}
+            alt={description}
+          />
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className={cn('place-card__info', { 'favorites__card-info': isFavorite })}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
@@ -43,7 +66,7 @@ function CardPlace({ offer, onCardHover }: CardPlaceProp): JSX.Element {
             {title}
           </Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className={`place-card__type ${styles['place-card__type--text']}`}>{type}</p>
       </div>
     </article>
   );
