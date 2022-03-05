@@ -1,18 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+
+import { store } from './store';
 
 import App from './components/app/app';
 
-import { offers } from './mocks/offers';
-import { reviews } from './mocks/reviews';
-
-const DataMainPage = {
-  NUMBER_OF_PLACES: 5,
-};
-
 ReactDOM.render(
   <React.StrictMode>
-    <App numberOfPlaces={DataMainPage.NUMBER_OF_PLACES} offers={offers} reviews={reviews} />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.querySelector('#root'),
 );
