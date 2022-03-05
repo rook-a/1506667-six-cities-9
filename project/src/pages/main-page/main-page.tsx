@@ -10,7 +10,7 @@ import EmptyMainPage from './empty-main-page';
 import { useAppSelector } from '../../hooks';
 
 import { Offer } from '../../types/offer';
-import { State } from '../../types/store';
+import { State } from '../../types/state';
 
 const ONE_PLACE = 1;
 

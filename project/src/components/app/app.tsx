@@ -9,7 +9,7 @@ import PrivateOutlet from '../private-outlet/private-outlet';
 
 import { useAppSelector } from '../../hooks';
 
-import { State } from '../../types/store';
+import { State } from '../../types/state';
 import { AppRoute, AuthorizationStatus } from '../../const';
 
 function App(): JSX.Element {

@@ -11,7 +11,7 @@ import { useAppSelector } from '../../hooks';
 import { getFormatDate, getRatingPercent } from '../../const';
 import { Offer } from '../../types/offer';
 import { Review } from '../../types/review';
-import { State } from '../../types/store';
+import { State } from '../../types/state';
 
 interface PropertyProps {
   isAuth: boolean;
