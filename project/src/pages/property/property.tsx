@@ -6,9 +6,12 @@ import Map from '../../components/map/map';
 import PlacesList from '../../components/places-list/places-list';
 import Bookmark from '../../components/boormark/boormark';
 
+import { useAppSelector } from '../../hooks';
+
 import { getFormatDate, getRatingPercent } from '../../const';
 import { Offer } from '../../types/offer';
 import { Review } from '../../types/review';
+import { State } from '../../types/state';
 
 interface PropertyProps {
   isAuth: boolean;
@@ -24,8 +27,11 @@ function Property({ isAuth, offers, reviews }: PropertyProps): JSX.Element {
   const selectedOfferId = Number(id);
   const maxReviews = reviews.slice(0, MAX_COUNT_OF_REVIEWS);
 
-  const offersNearby = offers.filter((offer) => offer.id !== selectedOfferId);
-  const currentOffer = offers.filter((offer) => offer.id === selectedOfferId);
+  const { city } = useAppSelector((state: State) => state);
+  const filteredOffers = offers.filter((offer) => offer.city.name === city);
+
+  const offersNearby = filteredOffers.filter((offer) => offer.id !== selectedOfferId);
+  const currentOffer = filteredOffers.filter((offer) => offer.id === selectedOfferId);
 
   const [{ bedrooms, maxAdults, type, title, price, rating, goods, images, host, description, isPremium, isFavorite }] =
     currentOffer;
@@ -147,7 +153,12 @@ function Property({ isAuth, offers, reviews }: PropertyProps): JSX.Element {
             </div>
           </div>
 
-          <Map className="property__map" city={offersNearby[0].city} offers={offers} selectedOffer={selectedOfferId} />
+          <Map
+            className="property__map"
+            city={filteredOffers[0].city}
+            offers={offers}
+            selectedOffer={selectedOfferId}
+          />
         </section>
 
         <div className="container">

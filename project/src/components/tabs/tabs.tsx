@@ -1,7 +1,16 @@
-import { CITIES } from '../../const';
 import cn from 'classnames';
+import { useAppDispatch } from '../../hooks';
+import { currentCity } from '../../store/action';
+import { CITIES } from '../../const';
 
-function Tabs(): JSX.Element {
+interface TabsProps {
+  city: string;
+}
+
+function Tabs({ city }: TabsProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const handleClickTab = (cityName: string) => dispatch(currentCity(cityName));
+
   return (
     <div className="tabs">
       <section className="locations container">
@@ -9,8 +18,12 @@ function Tabs(): JSX.Element {
           {CITIES.map((cityName) => (
             <li className="locations__item" key={cityName.toLowerCase()}>
               <a
-                className={cn('locations__item-link', 'tabs__item', { 'tabs__item--active': cityName === CITIES[0] })}
-                href="/">
+                className={cn('locations__item-link', 'tabs__item', { 'tabs__item--active': cityName === city })}
+                href="/"
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  handleClickTab(cityName);
+                }}>
                 <span>{cityName}</span>
               </a>
             </li>
