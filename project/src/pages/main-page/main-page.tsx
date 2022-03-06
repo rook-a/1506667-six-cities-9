@@ -55,7 +55,7 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
                 <Map
                   className="cities__map"
                   city={filteredOffers[0].city}
-                  offers={offers}
+                  offers={filteredOffers}
                   selectedOffer={selectedOffer}
                 />
               </div>
