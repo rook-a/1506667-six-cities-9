@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { useAppDispatch } from '../../hooks';
 import { currentCity } from '../../store/action';
-import { CITIES } from '../../const';
+import { CITIES } from '../../utils/const';
 
 interface TabsProps {
   city: string;

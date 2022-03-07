@@ -4,7 +4,7 @@ import cn from 'classnames';
 import Bookmark from '../boormark/boormark';
 
 import { Offer } from '../../types/offer';
-import { getRatingPercent } from '../../const';
+import { getRatingPercent } from '../../utils/utils';
 
 import styles from './card-place.module.css';
 

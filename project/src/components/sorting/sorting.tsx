@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import cn from 'classnames';
 
-import { SortTypes } from '../../const';
+import { SortTypes } from '../../utils/const';
 
 interface SortingProps {
   sortingType: string;

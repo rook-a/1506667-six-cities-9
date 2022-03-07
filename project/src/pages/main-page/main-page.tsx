@@ -9,11 +9,11 @@ import EmptyMainPage from './empty-main-page';
 
 import { useAppSelector } from '../../hooks';
 
-import { sortOffers } from '../../utils';
+import { sortOffers } from '../../utils/utils';
 
 import { Offer } from '../../types/offer';
 import { State } from '../../types/state';
-import { SortTypes } from '../../const';
+import { SortTypes } from '../../utils/const';
 
 const ONE_PLACE = 1;
 

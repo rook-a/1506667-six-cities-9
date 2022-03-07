@@ -10,7 +10,7 @@ import PrivateOutlet from '../private-outlet/private-outlet';
 import { useAppSelector } from '../../hooks';
 
 import { State } from '../../types/state';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../utils/const';
 
 function App(): JSX.Element {
   const { offers, reviews } = useAppSelector((state: State) => state);

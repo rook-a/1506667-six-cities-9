@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { currentCity, fillPlacesList } from './action';
 import { offers } from '../mocks/offers';
 import { reviews } from '../mocks/reviews';
-import { CITIES } from '../const';
+import { CITIES } from '../utils/const';
 
 const initialState = {
   city: CITIES[0],
