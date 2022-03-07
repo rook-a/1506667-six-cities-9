@@ -13,7 +13,6 @@ import { sortOffers } from '../../utils/utils';
 
 import { Offer } from '../../types/offer';
 import { State } from '../../types/state';
-import { SortTypes } from '../../utils/const';
 
 const ONE_PLACE = 1;
 
@@ -23,17 +22,12 @@ interface MainPageProps {
 
 function MainPage({ offers }: MainPageProps): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
-  const [sortType, setSortType] = useState<string>(SortTypes.POPULAR);
+  const { city, sortType } = useAppSelector((state: State) => state);
 
   const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
-  const { city } = useAppSelector((state: State) => state);
 
   const filteredOffers = offers.filter((offer) => offer.city.name === city);
   const isEmpty = filteredOffers.length === 0;
-
-  const handleSortClick = (value: string) => {
-    setSortType(value);
-  };
 
   const sortedOffers = () => sortOffers(sortType, filteredOffers);
 
@@ -55,7 +49,7 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
                 <b className="places__found">
                   {filteredOffers.length} {filteredOffers.length === ONE_PLACE ? 'place' : 'places'} to stay in {city}
                 </b>
-                <Sorting sortingType={sortType} onSortClick={handleSortClick} />
+                <Sorting sortingType={sortType} />
                 <PlacesList
                   offers={sortedOffers()}
                   className={'tabs__content cities__places-list'}

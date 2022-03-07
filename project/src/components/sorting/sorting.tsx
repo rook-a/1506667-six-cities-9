@@ -2,14 +2,17 @@ import { useState } from 'react';
 import cn from 'classnames';
 
 import { SortTypes } from '../../utils/const';
+import { useAppDispatch } from '../../hooks';
+import { currentSortType } from '../../store/action';
 
 interface SortingProps {
   sortingType: string;
-  onSortClick: (value: string) => void;
 }
 
-function Sorting({ sortingType, onSortClick }: SortingProps): JSX.Element {
+function Sorting({ sortingType }: SortingProps): JSX.Element {
   const [isOpened, setIsOpened] = useState(false);
+  const dispatch = useAppDispatch();
+  const handleClickSort = (sortType: string) => dispatch(currentSortType(sortType));
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -26,7 +29,10 @@ function Sorting({ sortingType, onSortClick }: SortingProps): JSX.Element {
             className={cn('places__option', { 'places__option--active': sortType === sortingType })}
             tabIndex={0}
             key={sortType}
-            onClick={() => onSortClick(sortType)}>
+            onClick={() => {
+              handleClickSort(sortType);
+              setIsOpened(!isOpened);
+            }}>
             {sortType}
           </li>
         ))}

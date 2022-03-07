@@ -13,12 +13,14 @@ export const getFormatDate = (date: string) => {
   return `${getMonth} ${getYear}`;
 };
 
-const sortByPriceLow = (offers: Offer[]) => offers.sort((offerOne, offerTwo) => offerOne.price - offerTwo.price);
-const sortByPriceHigh = (offers: Offer[]) => offers.sort((offerOne, offerTwo) => offerTwo.price - offerOne.price);
-const sortByRating = (offers: Offer[]) => offers.sort((offerOne, offerTwo) => offerTwo.rating - offerOne.rating);
+const sortByPriceLow = (offers: Offer[]) => offers.sort((a, b) => a.price - b.price);
+const sortByPriceHigh = (offers: Offer[]) => offers.sort((a, b) => b.price - a.price);
+const sortByRating = (offers: Offer[]) => offers.sort((a, b) => b.rating - a.rating);
 
 export const sortOffers = (sortType: string, offers: Offer[]) => {
   switch (sortType) {
+    case SortTypes.POPULAR:
+      return offers;
     case SortTypes.PRICE_LOW:
       return sortByPriceLow(offers);
     case SortTypes.PRICE_HIGH:
@@ -26,6 +28,6 @@ export const sortOffers = (sortType: string, offers: Offer[]) => {
     case SortTypes.TOP_RATED:
       return sortByRating(offers);
     default:
-      return offers;
+      throw new Error(`Unexpected sorting type ${sortType}`);
   }
 };
