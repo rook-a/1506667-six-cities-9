@@ -6,25 +6,31 @@ import Property from '../../pages/property/property';
 import Login from '../../pages/login/login';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateOutlet from '../private-outlet/private-outlet';
+import Spinner from '../spinner/spinner';
 
 import { useAppSelector } from '../../hooks';
 
 import { State } from '../../types/state';
-import { AppRoute, AuthorizationStatus } from '../../utils/const';
+import { AppRoute } from '../../utils/const';
+import { isCheckedAuth } from '../../utils/utils';
 
 function App(): JSX.Element {
-  const { offers, reviews } = useAppSelector((state: State) => state);
+  const { offers, reviews, authorizationStatus, isDataLoaded } = useAppSelector((state: State) => state);
+
+  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+    return <Spinner />;
+  }
 
   return (
     <BrowserRouter>
       <Routes>
         <Route index element={<MainPage offers={offers} />} />
-        <Route element={<PrivateOutlet authorizationStatus={AuthorizationStatus.AUTH} />}>
+        <Route element={<PrivateOutlet authorizationStatus={authorizationStatus} />}>
           <Route path={AppRoute.FAVORITES} element={<Favorites offers={offers} />} />
         </Route>
         <Route
           path={`${AppRoute.PROPERTY}/:id`}
-          element={<Property isAuth={true} offers={offers} reviews={reviews} />}
+          element={<Property offers={offers} reviews={reviews} isAuth={false} />}
         />
         <Route path={AppRoute.LOGIN} element={<Login />} />
         <Route path={AppRoute.NOT_FOUND} element={<NotFound />} />

@@ -1,5 +1,5 @@
 import { Offer } from '../types/offer';
-import { SortTypes } from './const';
+import { AuthorizationStatus, SortTypes } from './const';
 
 const MAX_RATING = 5;
 
@@ -31,3 +31,6 @@ export const sortOffers = (sortType: string, offers: Offer[]) => {
       throw new Error(`Unexpected sorting type ${sortType}`);
   }
 };
+
+export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+  authorizationStatus === AuthorizationStatus.UNKNOWN;
