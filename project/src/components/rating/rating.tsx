@@ -1,5 +1,5 @@
 import { ChangeEvent, Fragment } from 'react';
-import { RATING } from '../../const';
+import { RATING } from '../../utils/const';
 
 interface RatingProps {
   onRatingChange: (evt: ChangeEvent<HTMLInputElement>) => void;

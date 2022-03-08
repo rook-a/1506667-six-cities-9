@@ -8,7 +8,7 @@ import Bookmark from '../../components/boormark/boormark';
 
 import { useAppSelector } from '../../hooks';
 
-import { getFormatDate, getRatingPercent } from '../../const';
+import { getFormatDate, getRatingPercent } from '../../utils/utils';
 import { Offer } from '../../types/offer';
 import { Review } from '../../types/review';
 import { State } from '../../types/state';
