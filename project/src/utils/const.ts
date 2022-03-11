@@ -66,3 +66,10 @@ export enum HttpCode {
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
 }
+
+export enum FetchStatus {
+  IDLE = 'IDLE',
+  PENDING = 'PENDING',
+  SUCCESS = 'SUCCESS',
+  FAILED = 'FAILED',
+}

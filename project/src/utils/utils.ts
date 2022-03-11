@@ -1,5 +1,5 @@
 import { Offer } from '../types/offer';
-import { AuthorizationStatus, SortTypes } from './const';
+import { AuthorizationStatus, FetchStatus, SortTypes } from './const';
 
 const MAX_RATING = 5;
 
@@ -34,3 +34,6 @@ export const sortOffers = (sortType: string, offers: Offer[]) => {
 
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.UNKNOWN;
+
+export const isCheckPending = (fetchStatus: FetchStatus): boolean =>
+  fetchStatus === FetchStatus.IDLE || fetchStatus === FetchStatus.PENDING;

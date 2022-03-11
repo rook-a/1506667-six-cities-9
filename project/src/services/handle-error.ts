@@ -15,11 +15,13 @@ export const handleError = (error: unknown): void => {
         toast.info(response.data.error);
         break;
       case HttpCode.UNAUTHORIZED:
-        toast.info(response.data.error);
+        toast.info('You are not logged in. Not all features of the app are available');
         break;
       case HttpCode.NOT_FOUND:
-        toast.info(response.data.error);
+        toast.error(`${response.data.error} Try again later`);
         break;
+      default:
+        toast.error('Sorry. Server error or unknown error. Try again later');
     }
   }
 };

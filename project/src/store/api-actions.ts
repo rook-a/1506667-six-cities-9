@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { api, store } from '../store/index';
-import { loadOffer, loadOffers, loadReviews, requireAuthorization } from './action';
+import { loadOffersNearby, loadReviews, requireAuthorization } from './action';
 import { setToken, removeToken } from '../services/token';
 import { handleError } from '../services/handle-error';
 
@@ -15,25 +15,27 @@ import { AuthData } from '../types/auth-data';
 export const fetchOffersAction = createAsyncThunk('data/fetchOffers', async () => {
   try {
     const { data } = await api.get<Offer[]>(APIRoute.OFFERS);
-    store.dispatch(loadOffers(data));
+    return data;
   } catch (err) {
     handleError(err);
+    throw err;
   }
 });
 
 export const fetchOfferAction = createAsyncThunk('data/fetchOffer', async (id: number) => {
   try {
     const { data } = await api.get<Offer>(`${APIRoute.OFFERS}/${id}`);
-    store.dispatch(loadOffer(data));
+    return data;
   } catch (err) {
     handleError(err);
+    throw err;
   }
 });
 
 export const fetchOffersNearbyAction = createAsyncThunk('data/fetchOffersNearby', async (id: number) => {
   try {
     const { data } = await api.get<Offer[]>(`${APIRoute.OFFERS}/${id}/nearby`);
-    store.dispatch(loadOffers(data));
+    store.dispatch(loadOffersNearby(data));
   } catch (err) {
     handleError(err);
   }
@@ -43,6 +45,15 @@ export const fetchReviewsAction = createAsyncThunk('data/fetchReviews', async (i
   try {
     const { data } = await api.get<Review[]>(`${APIRoute.COMMENTS}/${id}`);
     store.dispatch(loadReviews(data));
+  } catch (err) {
+    handleError(err);
+  }
+});
+
+export const fetchFavoritesAction = createAsyncThunk('data/fetchFavorites', async () => {
+  try {
+    const { data } = await api.get<Offer[]>(`${APIRoute.FAVORITES}`);
+    return data;
   } catch (err) {
     handleError(err);
   }

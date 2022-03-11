@@ -12,12 +12,12 @@ import { useAppSelector } from '../../hooks';
 
 import { State } from '../../types/state';
 import { AppRoute } from '../../utils/const';
-import { isCheckedAuth } from '../../utils/utils';
+import { isCheckedAuth, isCheckPending } from '../../utils/utils';
 
 function App(): JSX.Element {
-  const { offers, reviews, authorizationStatus, isDataLoaded } = useAppSelector((state: State) => state);
+  const { offers, reviews, authorizationStatus, offersStatus } = useAppSelector((state: State) => state);
 
-  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+  if (isCheckedAuth(authorizationStatus) || isCheckPending(offersStatus)) {
     return <Spinner />;
   }
 

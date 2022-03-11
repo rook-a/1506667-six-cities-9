@@ -5,10 +5,7 @@ import { AuthorizationStatus } from '../utils/const';
 
 export const currentCity = createAction<string>('main/changeCity');
 export const currentSortType = createAction<string>('main/changeSortType');
-export const fillPlacesList = createAction<Offer[]>('main/fillPlacesList');
 
-export const loadOffers = createAction<Offer[]>('data/loadOffers');
-export const loadOffer = createAction<Offer>('data/loadOffer');
 export const loadReviews = createAction<Review[]>('data/loadReviews');
 export const loadOffersNearby = createAction<Offer[]>('data/loadOffersNearby');
 
