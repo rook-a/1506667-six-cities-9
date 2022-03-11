@@ -51,3 +51,25 @@ export enum SortTypes {
   PRICE_HIGH = 'Price: high to low',
   TOP_RATED = 'Top rated first',
 }
+
+export enum APIRoute {
+  OFFERS = '/hotels',
+  FAVORITES = '/favorite',
+  CHANGE_FAVORITES_STATUS = '/favorite/{hotelId}/{status}',
+  COMMENTS = '/comments',
+  LOGIN = '/login',
+  LOGOUT = '/logout',
+}
+
+export enum HttpCode {
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  NOT_FOUND = 404,
+}
+
+export enum FetchStatus {
+  IDLE = 'IDLE',
+  PENDING = 'PENDING',
+  SUCCESS = 'SUCCESS',
+  FAILED = 'FAILED',
+}

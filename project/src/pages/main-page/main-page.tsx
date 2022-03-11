@@ -33,7 +33,7 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
-      <Header isAuth={true} />
+      <Header isAuth={false} />
 
       <main className={`page__main page__main--index ${isEmpty && 'page__main--index-empty'}`}>
         <h1 className="visually-hidden">Cities</h1>
