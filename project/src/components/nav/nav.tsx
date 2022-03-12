@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks';
+import { logoutAction } from '../../store/api-actions';
 
 interface NavProps {
   isAuth?: boolean;
 }
 
 function Nav({ isAuth }: NavProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
   const titleLink = isAuth ? 'Favorites' : 'Sigh in';
 
   return (
@@ -22,7 +26,14 @@ function Nav({ isAuth }: NavProps): JSX.Element {
         </li>
         {isAuth && (
           <li className="header__nav-item">
-            <Link className="header__nav-link" to="/" title="Sign out">
+            <Link
+              onClick={(evt) => {
+                evt.preventDefault();
+                dispatch(logoutAction());
+              }}
+              className="header__nav-link"
+              to="/"
+              title="Sign out">
               <span className="header__signout">Sign out</span>
             </Link>
           </li>

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import MainPage from '../../pages/main-page/main-page';
 import Favorites from '../../pages/favorites/favorites';
@@ -7,6 +7,8 @@ import Login from '../../pages/login/login';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateOutlet from '../private-outlet/private-outlet';
 import Spinner from '../spinner/spinner';
+import HistoryRouter from '../history-route/history-route';
+import { browserHistory } from '../../browser-history';
 
 import { useAppSelector } from '../../hooks';
 
@@ -15,27 +17,24 @@ import { AppRoute } from '../../utils/const';
 import { isCheckedAuth, isCheckPending } from '../../utils/utils';
 
 function App(): JSX.Element {
-  const { offers, reviews, authorizationStatus, offersStatus } = useAppSelector((state: State) => state);
+  const { offers, authorizationStatus, offersStatus } = useAppSelector((state: State) => state);
 
   if (isCheckedAuth(authorizationStatus) || isCheckPending(offersStatus)) {
     return <Spinner />;
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route index element={<MainPage offers={offers} />} />
         <Route element={<PrivateOutlet authorizationStatus={authorizationStatus} />}>
           <Route path={AppRoute.FAVORITES} element={<Favorites offers={offers} />} />
         </Route>
-        <Route
-          path={`${AppRoute.PROPERTY}/:id`}
-          element={<Property offers={offers} reviews={reviews} isAuth={false} />}
-        />
+        <Route path={`${AppRoute.PROPERTY}/:id`} element={<Property />} />
         <Route path={AppRoute.LOGIN} element={<Login />} />
         <Route path={AppRoute.NOT_FOUND} element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

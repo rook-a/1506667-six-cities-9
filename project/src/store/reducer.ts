@@ -50,9 +50,7 @@ export const reducer = createReducer(initialState, (builder) => {
       state.sortType = action.payload;
     })
     .addCase(fetchOffersAction.pending, (state) => {
-      if (state.offersStatus === FetchStatus.IDLE) {
-        state.offersStatus = FetchStatus.PENDING;
-      }
+      state.offersStatus = FetchStatus.PENDING;
     })
     .addCase(fetchOffersAction.fulfilled, (state, action) => {
       state.offersStatus = FetchStatus.SUCCESS;

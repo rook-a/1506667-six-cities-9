@@ -9,7 +9,7 @@ import EmptyMainPage from './empty-main-page';
 
 import { useAppSelector } from '../../hooks';
 
-import { sortOffers } from '../../utils/utils';
+import { sortOffers, isAuth } from '../../utils/utils';
 
 import { Offer } from '../../types/offer';
 import { State } from '../../types/state';
@@ -22,7 +22,7 @@ interface MainPageProps {
 
 function MainPage({ offers }: MainPageProps): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
-  const { city, sortType } = useAppSelector((state: State) => state);
+  const { city, sortType, authorizationStatus } = useAppSelector((state: State) => state);
 
   const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
 
@@ -33,7 +33,7 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
-      <Header isAuth={false} />
+      <Header isAuth={isAuth(authorizationStatus)} />
 
       <main className={`page__main page__main--index ${isEmpty && 'page__main--index-empty'}`}>
         <h1 className="visually-hidden">Cities</h1>
