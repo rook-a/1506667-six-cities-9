@@ -3,7 +3,8 @@ import { currentCity, currentSortType, loadOffersNearby, loadReviews, requireAut
 import { CITIES, SortTypes, AuthorizationStatus, FetchStatus } from '../utils/const';
 import { Offer } from '../types/offer';
 import { Review } from '../types/review';
-import { fetchOfferAction, fetchOffersAction } from './api-actions';
+import { fetchOfferAction, fetchOffersAction, logoutAction } from './api-actions';
+import { removeToken } from '../services/token';
 
 interface InitialState {
   city: string;
@@ -21,6 +22,7 @@ interface InitialState {
   reviews: Review[];
 
   authorizationStatus: AuthorizationStatus;
+  logoutStatus: FetchStatus;
 }
 
 const initialState: InitialState = {
@@ -39,6 +41,7 @@ const initialState: InitialState = {
   reviews: [],
 
   authorizationStatus: AuthorizationStatus.UNKNOWN,
+  logoutStatus: FetchStatus.IDLE,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -79,5 +82,17 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(logoutAction.pending, (state) => {
+      state.logoutStatus = FetchStatus.PENDING;
+    })
+    .addCase(logoutAction.fulfilled, (state, action) => {
+      state.logoutStatus = FetchStatus.SUCCESS;
+      state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+      removeToken();
+    })
+    .addCase(logoutAction.rejected, (state) => {
+      state.logoutStatus = FetchStatus.FAILED;
+      state.authorizationStatus = AuthorizationStatus.AUTH;
     });
 });

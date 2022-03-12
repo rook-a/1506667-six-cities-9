@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { api, store } from '../store/index';
 import { loadOffersNearby, loadReviews, requireAuthorization, redirectToRoute } from './action';
-import { setToken, removeToken } from '../services/token';
+import { setToken } from '../services/token';
 import { handleError } from '../services/handle-error';
 
 import { APIRoute, AuthorizationStatus, AppRoute } from '../utils/const';
@@ -80,15 +80,15 @@ export const loginAction = createAsyncThunk('user/login', async ({ email, passwo
   } catch (err) {
     handleError(err);
     store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH));
+    throw err;
   }
 });
 
 export const logoutAction = createAsyncThunk('user/logout', async () => {
   try {
     await api.delete(APIRoute.LOGOUT);
-    removeToken();
-    store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH));
   } catch (err) {
     handleError(err);
+    throw err;
   }
 });
