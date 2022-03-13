@@ -20,7 +20,7 @@ function App(): JSX.Element {
   const { offers, authorizationStatus, offersStatus } = useAppSelector((state: State) => state);
 
   if (isCheckedAuth(authorizationStatus) || isCheckPending(offersStatus)) {
-    return <Spinner />;
+    return <Spinner className={'loader'} />;
   }
 
   return (

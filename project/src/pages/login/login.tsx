@@ -4,7 +4,7 @@ import LoginForm from '../../components/login-form/login-form';
 function Login(): JSX.Element {
   return (
     <div className="page page--gray page--login">
-      <Header isLogged />
+      <Header isLoginPage />
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">

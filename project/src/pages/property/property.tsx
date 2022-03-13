@@ -170,7 +170,7 @@ function Property(): JSX.Element {
     );
   }
 
-  return <Spinner />;
+  return <Spinner className={'loader'} />;
 }
 
 export default Property;

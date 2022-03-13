@@ -10,7 +10,7 @@ function NotFound(): JSX.Element {
 
   return (
     <div className="page page--gray">
-      <Header isLogged={false} />
+      <Header isLoginPage={false} />
 
       <main className={`${styles['page__error']} error`}>
         <section>

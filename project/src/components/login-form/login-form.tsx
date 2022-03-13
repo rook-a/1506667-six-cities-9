@@ -1,9 +1,14 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import cn from 'classnames';
 
-import { useAppDispatch } from '../../hooks';
+import Spinner from '../spinner/spinner';
+
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { loginAction } from '../../store/api-actions';
+
+import { State } from '../../types/state';
+import { FetchStatus } from '../../utils/const';
 
 import styles from './login-form.module.css';
 
@@ -32,6 +37,7 @@ type InitialState = { [key: string]: LoginField };
 
 function LoginForm(): JSX.Element {
   const dispatch = useAppDispatch();
+  const { loginStatus } = useAppSelector((state: State) => state);
 
   const [formState, setFormState] = useState<InitialState>({
     email: {
@@ -48,6 +54,7 @@ function LoginForm(): JSX.Element {
     },
   });
 
+  const isPending = loginStatus === FetchStatus.PENDING;
   const isValid = Object.values(formState).some(({ error }) => error === true);
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -95,8 +102,8 @@ function LoginForm(): JSX.Element {
           </div>
         ))}
 
-        <button className="login__submit form__submit button" type="submit" disabled={isValid}>
-          Sign in
+        <button className="login__submit form__submit button" type="submit" disabled={isValid || isPending}>
+          {isPending ? <Spinner className={'loader--small'} /> : 'Sign in'}
         </button>
       </form>
     </section>
