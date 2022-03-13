@@ -3,10 +3,10 @@ import Nav from '../nav/nav';
 
 interface HeaderProps {
   isAuth?: boolean;
-  isLogged?: boolean;
+  isLoginPage?: boolean;
 }
 
-function Header({ isAuth, isLogged }: HeaderProps): JSX.Element {
+function Header({ isAuth, isLoginPage }: HeaderProps): JSX.Element {
   return (
     <header className="header">
       <div className="container">
@@ -15,7 +15,7 @@ function Header({ isAuth, isLogged }: HeaderProps): JSX.Element {
             <Logo isFooter={false} />
           </div>
 
-          {!isLogged ? <Nav isAuth={isAuth} /> : ''}
+          {!isLoginPage ? <Nav isAuth={isAuth} /> : ''}
         </div>
       </div>
     </header>

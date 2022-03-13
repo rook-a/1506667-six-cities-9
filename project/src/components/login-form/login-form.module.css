@@ -1,0 +1,24 @@
+.login__input {
+  width: 100%;
+  margin-bottom: 24px;
+  outline: none;
+}
+
+.login__input:focus {
+  border: 1px solid #000000;
+}
+
+.login__input--mb {
+  border: 1px solid #ff0000;
+  margin-bottom: 10px;
+}
+
+.login__input--mb:focus {
+  border: 1px solid #ff0000;
+}
+
+.login__error {
+  font-size: 14px;
+  color: #ff0000;
+  margin: 0 0 24px 0;
+}

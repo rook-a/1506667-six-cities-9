@@ -1,9 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
+
+import { removeUser, setUser } from '../services/user';
+
 import { currentCity, currentSortType, loadOffersNearby, loadReviews, requireAuthorization } from './action';
+import { fetchOfferAction, fetchOffersAction, loginAction, logoutAction } from './api-actions';
+
 import { CITIES, SortTypes, AuthorizationStatus, FetchStatus } from '../utils/const';
 import { Offer } from '../types/offer';
 import { Review } from '../types/review';
-import { fetchOfferAction, fetchOffersAction } from './api-actions';
 
 interface InitialState {
   city: string;
@@ -21,6 +25,8 @@ interface InitialState {
   reviews: Review[];
 
   authorizationStatus: AuthorizationStatus;
+  loginStatus: FetchStatus;
+  logoutStatus: FetchStatus;
 }
 
 const initialState: InitialState = {
@@ -39,6 +45,8 @@ const initialState: InitialState = {
   reviews: [],
 
   authorizationStatus: AuthorizationStatus.UNKNOWN,
+  loginStatus: FetchStatus.IDLE,
+  logoutStatus: FetchStatus.IDLE,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -50,9 +58,7 @@ export const reducer = createReducer(initialState, (builder) => {
       state.sortType = action.payload;
     })
     .addCase(fetchOffersAction.pending, (state) => {
-      if (state.offersStatus === FetchStatus.IDLE) {
-        state.offersStatus = FetchStatus.PENDING;
-      }
+      state.offersStatus = FetchStatus.PENDING;
     })
     .addCase(fetchOffersAction.fulfilled, (state, action) => {
       state.offersStatus = FetchStatus.SUCCESS;
@@ -81,5 +87,29 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(loginAction.pending, (state) => {
+      state.loginStatus = FetchStatus.PENDING;
+    })
+    .addCase(loginAction.fulfilled, (state, action) => {
+      state.loginStatus = FetchStatus.SUCCESS;
+      state.authorizationStatus = AuthorizationStatus.AUTH;
+      setUser(action.payload);
+    })
+    .addCase(loginAction.rejected, (state) => {
+      state.loginStatus = FetchStatus.FAILED;
+      state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+    })
+    .addCase(logoutAction.pending, (state) => {
+      state.logoutStatus = FetchStatus.PENDING;
+    })
+    .addCase(logoutAction.fulfilled, (state, action) => {
+      state.logoutStatus = FetchStatus.SUCCESS;
+      state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+      removeUser();
+    })
+    .addCase(logoutAction.rejected, (state) => {
+      state.logoutStatus = FetchStatus.FAILED;
+      state.authorizationStatus = AuthorizationStatus.AUTH;
     });
 });

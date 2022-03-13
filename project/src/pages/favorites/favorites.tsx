@@ -23,7 +23,7 @@ function Favorites({ offers }: FavoritesProps): JSX.Element {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite === true);
   const favoriteOffersMap = mapOffersToCity(favoriteOffers);
 
-  if (offers.length === 0) {
+  if (favoriteOffers.length === 0) {
     return <EmptyFavorites />;
   }
 
