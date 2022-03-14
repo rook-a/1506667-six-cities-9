@@ -35,7 +35,7 @@ export const sortOffers = (sortType: string, offers: Offer[]) => {
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.UNKNOWN;
 
-export const isCheckPending = (fetchStatus: FetchStatus): boolean =>
+export const isPending = (fetchStatus: FetchStatus): boolean =>
   fetchStatus === FetchStatus.IDLE || fetchStatus === FetchStatus.PENDING;
 
 export const isAuth = (authorizationStatus: AuthorizationStatus) => authorizationStatus === AuthorizationStatus.AUTH;

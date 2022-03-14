@@ -14,13 +14,13 @@ import { useAppSelector } from '../../hooks';
 
 import { State } from '../../types/state';
 import { AppRoute } from '../../utils/const';
-import { isCheckedAuth, isCheckPending } from '../../utils/utils';
+import { isCheckedAuth } from '../../utils/utils';
 
 function App(): JSX.Element {
-  const { offers, authorizationStatus, offersStatus } = useAppSelector((state: State) => state);
+  const { offers, authorizationStatus } = useAppSelector((state: State) => state);
 
-  if (isCheckedAuth(authorizationStatus) || isCheckPending(offersStatus)) {
-    return <Spinner className={'loader'} />;
+  if (isCheckedAuth(authorizationStatus)) {
+    return <Spinner className="loader" />;
   }
 
   return (
