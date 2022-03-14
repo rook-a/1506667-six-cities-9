@@ -3,7 +3,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { removeUser, setUser } from '../services/user';
 
 import { currentCity, currentSortType, loadOffersNearby, loadReviews, requireAuthorization } from './action';
-import { fetchOfferAction, fetchOffersAction, loginAction, logoutAction } from './api-actions';
+import { fetchOfferAction, fetchOffersAction, loginAction, logoutAction, sendReview } from './api-actions';
 
 import { CITIES, SortTypes, AuthorizationStatus, FetchStatus } from '../utils/const';
 import { Offer } from '../types/offer';
@@ -23,6 +23,7 @@ interface InitialState {
 
   offersNearby: Offer[];
   reviews: Review[];
+  sendReviewStatus: FetchStatus;
 
   authorizationStatus: AuthorizationStatus;
   loginStatus: FetchStatus;
@@ -43,6 +44,7 @@ const initialState: InitialState = {
 
   offersNearby: [],
   reviews: [],
+  sendReviewStatus: FetchStatus.IDLE,
 
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   loginStatus: FetchStatus.IDLE,
@@ -84,6 +86,15 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadReviews, (state, action) => {
       state.reviews = action.payload;
+    })
+    .addCase(sendReview.pending, (state) => {
+      state.sendReviewStatus = FetchStatus.PENDING;
+    })
+    .addCase(sendReview.fulfilled, (state) => {
+      state.sendReviewStatus = FetchStatus.SUCCESS;
+    })
+    .addCase(sendReview.rejected, (state) => {
+      state.sendReviewStatus = FetchStatus.FAILED;
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;

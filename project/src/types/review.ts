@@ -12,3 +12,9 @@ export interface Review {
   rating: number;
   user: User;
 }
+
+export interface sendUserReview {
+  id: number;
+  comment: string;
+  rating: number;
+}

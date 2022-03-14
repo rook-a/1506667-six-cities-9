@@ -7,7 +7,7 @@ import { handleError } from '../services/handle-error';
 import { APIRoute, AuthorizationStatus, AppRoute } from '../utils/const';
 
 import { Offer } from '../types/offer';
-import { Review } from '../types/review';
+import { Review, sendUserReview } from '../types/review';
 import { UserData } from '../types/user-data';
 import { AuthData } from '../types/auth-data';
 
@@ -46,6 +46,16 @@ export const fetchReviewsAction = createAsyncThunk('data/fetchReviews', async (i
     store.dispatch(loadReviews(data));
   } catch (err) {
     handleError(err);
+  }
+});
+
+export const sendReview = createAsyncThunk('user/sendReview', async ({ id, comment, rating }: sendUserReview) => {
+  try {
+    const { data } = await api.post<sendUserReview>(`${APIRoute.COMMENTS}/${id}`, { comment, rating });
+    return data;
+  } catch (err) {
+    handleError(err);
+    throw err;
   }
 });
 

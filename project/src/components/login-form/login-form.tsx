@@ -27,7 +27,7 @@ function LoginForm(): JSX.Element {
   const { formState, handleChange, handleSubmit } = useLoginForm();
 
   const isPending = loginStatus === FetchStatus.PENDING;
-  const isValid = Object.values(formState).some(({ error }) => error === true);
+  const isValid = Object.values(formState).some(({ error }) => error);
 
   return (
     <section className="login">
@@ -52,7 +52,7 @@ function LoginForm(): JSX.Element {
         ))}
 
         <button className="login__submit form__submit button" type="submit" disabled={isValid || isPending}>
-          {isPending ? <Spinner className={'loader--small'} /> : 'Sign in'}
+          {isPending ? <Spinner className="loader--small" /> : 'Sign in'}
         </button>
       </form>
     </section>
