@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import cn from 'classnames';
 
 import { useAppDispatch } from '../../hooks';
@@ -37,4 +36,4 @@ function Tabs({ city }: TabsProps): JSX.Element {
   );
 }
 
-export default memo(Tabs, (prevProps, newProps) => prevProps.city === newProps.city);
+export default Tabs;

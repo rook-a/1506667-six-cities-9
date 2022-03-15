@@ -25,7 +25,7 @@ function LoginForm(): JSX.Element {
 
   const { formState, handleChange, handleSubmit } = useLoginForm();
 
-  const isPending = loginStatus === FetchStatus.PENDING;
+  const isPending = loginStatus === FetchStatus.Pending;
   const isValid = Object.values(formState).some(({ error }) => error);
 
   return (

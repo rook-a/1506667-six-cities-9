@@ -6,7 +6,7 @@ interface PrivateOutletProp {
 }
 
 function PrivateOutlet({ authorizationStatus }: PrivateOutletProp): JSX.Element {
-  return authorizationStatus === AuthorizationStatus.AUTH ? <Outlet /> : <Navigate to={AppRoute.LOGIN} />;
+  return authorizationStatus === AuthorizationStatus.Auth ? <Outlet /> : <Navigate to={AppRoute.Login} />;
 }
 
 export default PrivateOutlet;

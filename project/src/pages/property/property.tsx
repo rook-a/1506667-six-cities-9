@@ -35,7 +35,7 @@ function Property(): JSX.Element | null {
     return <Spinner className="loader" />;
   }
 
-  if (offerStatus === FetchStatus.FAILED) {
+  if (offerStatus === FetchStatus.Failed) {
     return <NotFound />;
   }
 

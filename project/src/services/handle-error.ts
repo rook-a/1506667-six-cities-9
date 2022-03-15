@@ -11,13 +11,13 @@ export const handleError = (error: unknown): void => {
 
   if (response) {
     switch (response.status) {
-      case HttpCode.BAD_REQUEST:
+      case HttpCode.BadRequest:
         toast.info(response.data.error);
         break;
-      case HttpCode.UNAUTHORIZED:
+      case HttpCode.Unauthorized:
         toast.info('You are not logged in. Not all features of the app are available');
         break;
-      case HttpCode.NOT_FOUND:
+      case HttpCode.NotFound:
         toast.error(`This page not found. Try again`);
         break;
       default:

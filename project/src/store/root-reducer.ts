@@ -1,9 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { NameSpaces } from '../utils/const';
+import { NameSpace } from '../utils/const';
 import { dataProcess } from './data-process/data-process';
 import { userProcess } from './user-process/user-process';
 
 export const rootReducer = combineReducers({
-  [NameSpaces.DATA]: dataProcess.reducer,
-  [NameSpaces.USER]: userProcess.reducer,
+  [NameSpace.Data]: dataProcess.reducer,
+  [NameSpace.User]: userProcess.reducer,
 });

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { removeUser, setUser } from '../../services/user';
 
-import { APIRoute, AppRoute, AuthorizationStatus, FetchStatus, NameSpaces } from '../../utils/const';
+import { APIRoute, AppRoute, AuthorizationStatus, FetchStatus, NameSpace } from '../../utils/const';
 import { sendUserReview } from '../../types/review';
 import { api, store } from '../index';
 import { handleError } from '../../services/handle-error';
@@ -19,16 +19,16 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  sendReviewStatus: FetchStatus.IDLE,
-  authorizationStatus: AuthorizationStatus.UNKNOWN,
+  sendReviewStatus: FetchStatus.Idle,
+  authorizationStatus: AuthorizationStatus.Unknown,
 
-  loginStatus: FetchStatus.IDLE,
-  logoutStatus: FetchStatus.IDLE,
+  loginStatus: FetchStatus.Idle,
+  logoutStatus: FetchStatus.Idle,
 };
 
 export const sendReview = createAsyncThunk('user/sendReview', async ({ id, comment, rating }: sendUserReview) => {
   try {
-    const { data } = await api.post<sendUserReview>(`${APIRoute.COMMENTS}/${id}`, { comment, rating });
+    const { data } = await api.post<sendUserReview>(`${APIRoute.Comments}/${id}`, { comment, rating });
     return data;
   } catch (err) {
     handleError(err);
@@ -38,20 +38,20 @@ export const sendReview = createAsyncThunk('user/sendReview', async ({ id, comme
 
 export const loginAction = createAsyncThunk('user/login', async ({ email, password }: AuthData) => {
   try {
-    const { data } = await api.post<UserData>(APIRoute.LOGIN, { email, password });
+    const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
 
-    store.dispatch(redirectToRoute(AppRoute.MAIN));
+    store.dispatch(redirectToRoute(AppRoute.Main));
     return data;
   } catch (err) {
     handleError(err);
-    store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH));
+    store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     throw err;
   }
 });
 
 export const logoutAction = createAsyncThunk('user/logout', async () => {
   try {
-    await api.delete(APIRoute.LOGOUT);
+    await api.delete(APIRoute.Logout);
   } catch (err) {
     handleError(err);
     throw err;
@@ -59,7 +59,7 @@ export const logoutAction = createAsyncThunk('user/logout', async () => {
 });
 
 export const userProcess = createSlice({
-  name: NameSpaces.USER,
+  name: NameSpace.User,
   initialState,
   reducers: {
     requireAuthorization: (state, action) => {
@@ -69,37 +69,37 @@ export const userProcess = createSlice({
   extraReducers: (buider) => {
     buider
       .addCase(sendReview.pending, (state) => {
-        state.sendReviewStatus = FetchStatus.PENDING;
+        state.sendReviewStatus = FetchStatus.Pending;
       })
       .addCase(sendReview.fulfilled, (state) => {
-        state.sendReviewStatus = FetchStatus.SUCCESS;
+        state.sendReviewStatus = FetchStatus.Success;
       })
       .addCase(sendReview.rejected, (state) => {
-        state.sendReviewStatus = FetchStatus.FAILED;
+        state.sendReviewStatus = FetchStatus.Failed;
       })
       .addCase(loginAction.pending, (state) => {
-        state.loginStatus = FetchStatus.PENDING;
+        state.loginStatus = FetchStatus.Pending;
       })
       .addCase(loginAction.fulfilled, (state, action) => {
-        state.loginStatus = FetchStatus.SUCCESS;
-        state.authorizationStatus = AuthorizationStatus.AUTH;
+        state.loginStatus = FetchStatus.Success;
+        state.authorizationStatus = AuthorizationStatus.Auth;
         setUser(action.payload);
       })
       .addCase(loginAction.rejected, (state) => {
-        state.loginStatus = FetchStatus.FAILED;
-        state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+        state.loginStatus = FetchStatus.Failed;
+        state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(logoutAction.pending, (state) => {
-        state.logoutStatus = FetchStatus.PENDING;
+        state.logoutStatus = FetchStatus.Pending;
       })
       .addCase(logoutAction.fulfilled, (state, action) => {
-        state.logoutStatus = FetchStatus.SUCCESS;
-        state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+        state.logoutStatus = FetchStatus.Success;
+        state.authorizationStatus = AuthorizationStatus.NoAuth;
         removeUser();
       })
       .addCase(logoutAction.rejected, (state) => {
-        state.logoutStatus = FetchStatus.FAILED;
-        state.authorizationStatus = AuthorizationStatus.AUTH;
+        state.logoutStatus = FetchStatus.Failed;
+        state.authorizationStatus = AuthorizationStatus.Auth;
       });
   },
 });

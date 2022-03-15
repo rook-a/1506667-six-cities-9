@@ -23,7 +23,7 @@ function ReviewsForm({ offerId }: ReviewsFormProps): JSX.Element {
   const { sendReviewStatus } = useAppSelector(({ USER }) => USER);
 
   useEffect(() => {
-    if (sendReviewStatus === FetchStatus.SUCCESS) {
+    if (sendReviewStatus === FetchStatus.Success) {
       setComment('');
       setRating('0');
       dispatch(fetchReviewsAction(offerId));
@@ -31,7 +31,7 @@ function ReviewsForm({ offerId }: ReviewsFormProps): JSX.Element {
   }, [dispatch, offerId, sendReviewStatus]);
 
   const isDisabled = rating === '0' || comment.length <= MIN_COMMENT_LENGTH || comment.length >= MAX_COMMENT_LENGTH;
-  const isFormDisabled = sendReviewStatus === FetchStatus.PENDING;
+  const isFormDisabled = sendReviewStatus === FetchStatus.Pending;
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value } = evt.target;
@@ -48,7 +48,7 @@ function ReviewsForm({ offerId }: ReviewsFormProps): JSX.Element {
     dispatch(sendReview({ id: offerId, comment, rating: Number(rating) }));
   };
 
-  if (sendReviewStatus === FetchStatus.FAILED) {
+  if (sendReviewStatus === FetchStatus.Failed) {
     toast.info('Some unexpected error. Try again!');
   }
 

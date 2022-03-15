@@ -1,80 +1,79 @@
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 enum RatingLabels {
-  PERFECT = 'perfect',
-  GOOD = 'good',
-  NOT_BAD = 'not bad',
-  BADLY = 'badly',
-  TERRIBLY = 'terribly',
+  Perfect = 'perfect',
+  Good = 'good',
+  NotBad = 'not bad',
+  Badly = 'badly',
+  Terribly = 'terribly',
 }
 
 export const RATING = [
   {
     id: 5,
-    title: RatingLabels.PERFECT,
+    title: RatingLabels.Perfect,
   },
   {
     id: 4,
-    title: RatingLabels.GOOD,
+    title: RatingLabels.Good,
   },
   {
     id: 3,
-    title: RatingLabels.NOT_BAD,
+    title: RatingLabels.NotBad,
   },
   {
     id: 2,
-    title: RatingLabels.BADLY,
+    title: RatingLabels.Badly,
   },
   {
     id: 1,
-    title: RatingLabels.TERRIBLY,
+    title: RatingLabels.Terribly,
   },
 ];
 
 export enum AppRoute {
-  MAIN = '/',
-  FAVORITES = '/favorites',
-  PROPERTY = '/offer',
-  LOGIN = '/login',
-  NOT_FOUND = '*',
+  Main = '/',
+  Favorites = '/favorites',
+  Property = '/offer',
+  Login = '/login',
+  NotFound = '*',
 }
 
 export enum AuthorizationStatus {
-  AUTH = 'AUTH',
-  NO_AUTH = 'NO_AUTH',
-  UNKNOWN = 'UNKNOWN',
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
 }
 
 export enum SortTypes {
-  POPULAR = 'Popular',
-  PRICE_LOW = 'Price: low to high',
-  PRICE_HIGH = 'Price: high to low',
-  TOP_RATED = 'Top rated first',
+  Popular = 'Popular',
+  PriceLow = 'Price: low to high',
+  PriceHigh = 'Price: high to low',
+  TopRated = 'Top rated first',
 }
 
 export enum APIRoute {
-  OFFERS = '/hotels',
-  FAVORITES = '/favorite',
-  CHANGE_FAVORITES_STATUS = '/favorite/{hotelId}/{status}',
-  COMMENTS = '/comments',
-  LOGIN = '/login',
-  LOGOUT = '/logout',
+  Offers = '/hotels',
+  Favorites = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 export enum HttpCode {
-  BAD_REQUEST = 400,
-  UNAUTHORIZED = 401,
-  NOT_FOUND = 404,
+  BadRequest = 400,
+  Unauthorized = 401,
+  NotFound = 404,
 }
 
 export enum FetchStatus {
-  IDLE = 'IDLE',
-  PENDING = 'PENDING',
-  SUCCESS = 'SUCCESS',
-  FAILED = 'FAILED',
+  Idle = 'IDLE',
+  Pending = 'PENDING',
+  Success = 'SUCCESS',
+  Failed = 'FAILED',
 }
 
-export enum NameSpaces {
-  USER = 'USER',
-  DATA = 'DATA',
+export enum NameSpace {
+  User = 'USER',
+  Data = 'DATA',
 }

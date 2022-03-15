@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { fetchOfferAction, fetchOffersAction } from '../api-actions';
 
-import { CITIES, FetchStatus, NameSpaces, SortTypes } from '../../utils/const';
+import { CITIES, FetchStatus, NameSpace, SortTypes } from '../../utils/const';
 
 import { Review } from '../../types/review';
 import { Offer } from '../../types/offer';
@@ -25,14 +25,14 @@ interface InitialState {
 
 const initialState: InitialState = {
   city: CITIES[0],
-  sortType: `${SortTypes.POPULAR}`,
+  sortType: `${SortTypes.Popular}`,
 
   offers: [],
   offersError: false,
-  offersStatus: FetchStatus.IDLE,
+  offersStatus: FetchStatus.Idle,
 
   offer: null,
-  offerStatus: FetchStatus.IDLE,
+  offerStatus: FetchStatus.Idle,
   offerError: false,
 
   offersNearby: [],
@@ -40,7 +40,7 @@ const initialState: InitialState = {
 };
 
 export const dataProcess = createSlice({
-  name: NameSpaces.DATA,
+  name: NameSpace.Data,
   initialState,
   reducers: {
     currentCity: (state, action) => {
@@ -59,25 +59,25 @@ export const dataProcess = createSlice({
   extraReducers: (buider) => {
     buider
       .addCase(fetchOffersAction.pending, (state) => {
-        state.offersStatus = FetchStatus.PENDING;
+        state.offersStatus = FetchStatus.Pending;
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
-        state.offersStatus = FetchStatus.SUCCESS;
+        state.offersStatus = FetchStatus.Success;
         state.offers = action.payload;
       })
       .addCase(fetchOffersAction.rejected, (state) => {
-        state.offersStatus = FetchStatus.FAILED;
+        state.offersStatus = FetchStatus.Failed;
         state.offersError = true;
       })
       .addCase(fetchOfferAction.pending, (state) => {
-        state.offerStatus = FetchStatus.PENDING;
+        state.offerStatus = FetchStatus.Pending;
       })
       .addCase(fetchOfferAction.fulfilled, (state, action) => {
-        state.offerStatus = FetchStatus.SUCCESS;
+        state.offerStatus = FetchStatus.Success;
         state.offer = action.payload;
       })
       .addCase(fetchOfferAction.rejected, (state) => {
-        state.offerStatus = FetchStatus.FAILED;
+        state.offerStatus = FetchStatus.Failed;
         state.offerError = true;
       });
   },

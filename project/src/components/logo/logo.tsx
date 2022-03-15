@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 interface LogoProps {
@@ -20,4 +19,4 @@ function Logo({ isFooter }: LogoProps): JSX.Element {
   );
 }
 
-export default memo(Logo, (prevProps, newProps) => prevProps.isFooter === newProps.isFooter);
+export default Logo;

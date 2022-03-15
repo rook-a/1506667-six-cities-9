@@ -28,11 +28,11 @@ function App(): JSX.Element {
       <Routes>
         <Route index element={<MainPage offers={offers} />} />
         <Route element={<PrivateOutlet authorizationStatus={authorizationStatus} />}>
-          <Route path={AppRoute.FAVORITES} element={<Favorites offers={offers} />} />
+          <Route path={AppRoute.Favorites} element={<Favorites offers={offers} />} />
         </Route>
-        <Route path={`${AppRoute.PROPERTY}/:id`} element={<Property />} />
-        <Route path={AppRoute.LOGIN} element={<Login />} />
-        <Route path={AppRoute.NOT_FOUND} element={<NotFound />} />
+        <Route path={`${AppRoute.Property}/:id`} element={<Property />} />
+        <Route path={AppRoute.Login} element={<Login />} />
+        <Route path={AppRoute.NotFound} element={<NotFound />} />
       </Routes>
     </HistoryRouter>
   );
