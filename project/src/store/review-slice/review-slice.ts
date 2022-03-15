@@ -1,17 +1,27 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
 import { api } from '../index';
+import { fetchReviewsAction } from '../api-actions';
+
 import { handleError } from '../../services/handle-error';
-import { Review, sendUserReview } from '../../types/review';
+
 import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
+import { Review, sendUserReview } from '../../types/review';
 
 interface InitialState {
   sendReviewStatus: FetchStatus;
+
   reviews: Review[];
+  reviewsStatus: FetchStatus;
+  reviewsError: boolean;
 }
 
 const initialState: InitialState = {
   sendReviewStatus: FetchStatus.Idle,
+
   reviews: [],
+  reviewsStatus: FetchStatus.Idle,
+  reviewsError: false,
 };
 
 export const sendReview = createAsyncThunk('user/sendReview', async ({ id, comment, rating }: sendUserReview) => {
@@ -42,6 +52,17 @@ export const reviewSlice = createSlice({
       })
       .addCase(sendReview.rejected, (state) => {
         state.sendReviewStatus = FetchStatus.Failed;
+      })
+      .addCase(fetchReviewsAction.pending, (state) => {
+        state.reviewsStatus = FetchStatus.Pending;
+      })
+      .addCase(fetchReviewsAction.fulfilled, (state, action) => {
+        state.reviewsStatus = FetchStatus.Success;
+        state.reviews = action.payload;
+      })
+      .addCase(fetchReviewsAction.rejected, (state) => {
+        state.reviewsStatus = FetchStatus.Failed;
+        state.reviewsError = true;
       });
   },
 });

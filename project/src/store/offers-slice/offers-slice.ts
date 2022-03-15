@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchOfferAction, fetchOffersAction } from '../api-actions';
+import { fetchOfferAction, fetchOffersAction, fetchOffersNearbyAction } from '../api-actions';
 
 import { FetchStatus, NameSpace } from '../../utils/const';
 
@@ -15,29 +15,29 @@ interface InitialState {
   offerStatus: FetchStatus;
   offerError: boolean;
 
-  offersNearby: Offer[];
+  offersNearby: Offer[] | undefined;
+  offersNearbyStatus: FetchStatus;
+  offersNearbyError: boolean;
 }
 
 const initialState: InitialState = {
   offers: [],
-  offersError: false,
   offersStatus: FetchStatus.Idle,
+  offersError: false,
 
   offer: null,
   offerStatus: FetchStatus.Idle,
   offerError: false,
 
   offersNearby: [],
+  offersNearbyStatus: FetchStatus.Idle,
+  offersNearbyError: false,
 };
 
 export const offersSlice = createSlice({
   name: NameSpace.Offers,
   initialState,
-  reducers: {
-    loadOffersNearby: (state, action) => {
-      state.offersNearby = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (buider) => {
     buider
       .addCase(fetchOffersAction.pending, (state) => {
@@ -61,8 +61,17 @@ export const offersSlice = createSlice({
       .addCase(fetchOfferAction.rejected, (state) => {
         state.offerStatus = FetchStatus.Failed;
         state.offerError = true;
+      })
+      .addCase(fetchOffersNearbyAction.pending, (state) => {
+        state.offersNearbyStatus = FetchStatus.Pending;
+      })
+      .addCase(fetchOffersNearbyAction.fulfilled, (state, action) => {
+        state.offersNearbyStatus = FetchStatus.Success;
+        state.offersNearby = action.payload;
+      })
+      .addCase(fetchOffersNearbyAction.rejected, (state) => {
+        state.offersNearbyStatus = FetchStatus.Failed;
+        state.offersNearbyError = true;
       });
   },
 });
-
-export const { loadOffersNearby } = offersSlice.actions;

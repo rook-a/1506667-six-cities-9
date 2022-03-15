@@ -2,8 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { api, store } from '../store/index';
 import { requireAuthorization } from './user-slice/user-slice';
-import { loadOffersNearby } from './offers-slice/offers-slice';
-import { loadReviews } from './review-slice/review-slice';
 
 import { handleError } from '../services/handle-error';
 
@@ -35,18 +33,20 @@ export const fetchOfferAction = createAsyncThunk('data/fetchOffer', async (id: n
 export const fetchOffersNearbyAction = createAsyncThunk('data/fetchOffersNearby', async (id: number) => {
   try {
     const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
-    store.dispatch(loadOffersNearby(data));
+    return data;
   } catch (err) {
     handleError(err);
+    throw err;
   }
 });
 
 export const fetchReviewsAction = createAsyncThunk('data/fetchReviews', async (id: number) => {
   try {
     const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
-    store.dispatch(loadReviews(data));
+    return data;
   } catch (err) {
     handleError(err);
+    throw err;
   }
 });
 
