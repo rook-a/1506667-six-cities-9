@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Logo from '../logo/logo';
 import Nav from '../nav/nav';
 
@@ -22,4 +23,4 @@ function Header({ isAuth, isLoginPage }: HeaderProps): JSX.Element {
   );
 }
 
-export default Header;
+export default memo(Header, (prevProps, newProps) => prevProps.isAuth === newProps.isAuth);

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { getUser } from '../../services/user';
@@ -48,4 +49,4 @@ function Nav({ isAuth }: NavProps): JSX.Element {
   );
 }
 
-export default Nav;
+export default memo(Nav, (prevProps, newProps) => prevProps.isAuth === newProps.isAuth);

@@ -1,6 +1,9 @@
+import { memo } from 'react';
 import cn from 'classnames';
+
 import { useAppDispatch } from '../../hooks';
 import { currentCity } from '../../store/data-process/data-process';
+
 import { CITIES } from '../../utils/const';
 
 interface TabsProps {
@@ -34,4 +37,4 @@ function Tabs({ city }: TabsProps): JSX.Element {
   );
 }
 
-export default Tabs;
+export default memo(Tabs, (prevProps, newProps) => prevProps.city === newProps.city);

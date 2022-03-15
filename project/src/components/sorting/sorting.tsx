@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import cn from 'classnames';
 
 import { SortTypes } from '../../utils/const';
@@ -41,4 +41,4 @@ function Sorting({ sortingType }: SortingProps): JSX.Element {
   );
 }
 
-export default Sorting;
+export default memo(Sorting, (prevProps, newProps) => prevProps.sortingType === newProps.sortingType);

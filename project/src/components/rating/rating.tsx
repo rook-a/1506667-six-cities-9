@@ -1,4 +1,4 @@
-import { ChangeEvent, Fragment } from 'react';
+import { ChangeEvent, Fragment, memo } from 'react';
 import { RATING } from '../../utils/const';
 
 interface RatingProps {
@@ -33,4 +33,4 @@ function Rating({ onFormDisabled, onRatingChange, currentRating }: RatingProps):
   );
 }
 
-export default Rating;
+export default memo(Rating, (prevProps, newProps) => prevProps.currentRating === newProps.currentRating);
