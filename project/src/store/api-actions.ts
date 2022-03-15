@@ -1,15 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { api, store } from '../store/index';
-import { loadOffersNearby, loadReviews, requireAuthorization, redirectToRoute } from './action';
+import { requireAuthorization } from './user-process/user-process';
+import { loadOffersNearby, loadReviews } from './data-process/data-process';
+
 import { handleError } from '../services/handle-error';
 
-import { APIRoute, AuthorizationStatus, AppRoute } from '../utils/const';
+import { APIRoute, AuthorizationStatus } from '../utils/const';
 
 import { Offer } from '../types/offer';
-import { Review, sendUserReview } from '../types/review';
-import { UserData } from '../types/user-data';
-import { AuthData } from '../types/auth-data';
+import { Review } from '../types/review';
 
 export const fetchOffersAction = createAsyncThunk('data/fetchOffers', async () => {
   try {
@@ -49,16 +49,6 @@ export const fetchReviewsAction = createAsyncThunk('data/fetchReviews', async (i
   }
 });
 
-export const sendReview = createAsyncThunk('user/sendReview', async ({ id, comment, rating }: sendUserReview) => {
-  try {
-    const { data } = await api.post<sendUserReview>(`${APIRoute.COMMENTS}/${id}`, { comment, rating });
-    return data;
-  } catch (err) {
-    handleError(err);
-    throw err;
-  }
-});
-
 export const fetchFavoritesAction = createAsyncThunk('data/fetchFavorites', async () => {
   try {
     const { data } = await api.get<Offer[]>(`${APIRoute.FAVORITES}`);
@@ -75,27 +65,5 @@ export const checkAuthAction = createAsyncThunk('user/checkAuth', async () => {
   } catch (err) {
     handleError(err);
     store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH));
-  }
-});
-
-export const loginAction = createAsyncThunk('user/login', async ({ email, password }: AuthData) => {
-  try {
-    const { data } = await api.post<UserData>(APIRoute.LOGIN, { email, password });
-
-    store.dispatch(redirectToRoute(AppRoute.MAIN));
-    return data;
-  } catch (err) {
-    handleError(err);
-    store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH));
-    throw err;
-  }
-});
-
-export const logoutAction = createAsyncThunk('user/logout', async () => {
-  try {
-    await api.delete(APIRoute.LOGOUT);
-  } catch (err) {
-    handleError(err);
-    throw err;
   }
 });

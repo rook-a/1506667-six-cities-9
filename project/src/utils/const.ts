@@ -73,3 +73,8 @@ export enum FetchStatus {
   SUCCESS = 'SUCCESS',
   FAILED = 'FAILED',
 }
+
+export enum NameSpaces {
+  USER = 'USER',
+  DATA = 'DATA',
+}

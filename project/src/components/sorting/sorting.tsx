@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { SortTypes } from '../../utils/const';
 import { useAppDispatch } from '../../hooks';
-import { currentSortType } from '../../store/action';
+import { currentSortType } from '../../store/data-process/data-process';
 
 interface SortingProps {
   sortingType: string;

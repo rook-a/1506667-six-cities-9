@@ -12,7 +12,6 @@ import { useAppSelector } from '../../hooks';
 import { sortOffers, isAuth } from '../../utils/utils';
 
 import { Offer } from '../../types/offer';
-import { State } from '../../types/state';
 
 const ONE_PLACE = 1;
 
@@ -22,7 +21,8 @@ interface MainPageProps {
 
 function MainPage({ offers }: MainPageProps): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
-  const { city, sortType, authorizationStatus } = useAppSelector((state: State) => state);
+  const { city, sortType } = useAppSelector(({ DATA }) => DATA);
+  const { authorizationStatus } = useAppSelector(({ USER }) => USER);
 
   const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
 

@@ -14,14 +14,14 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { FetchStatus } from '../../utils/const';
 import { getFormatDate, getRatingPercent, isAuth, isPending } from '../../utils/utils';
-import { State } from '../../types/state';
 
 const MAX_COUNT_OF_REVIEWS = 10;
 
 function Property(): JSX.Element | null {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const { authorizationStatus, reviews, offer, offerStatus, offersNearby } = useAppSelector((state: State) => state);
+  const { authorizationStatus } = useAppSelector(({ USER }) => USER);
+  const { reviews, offer, offerStatus, offersNearby } = useAppSelector(({ DATA }) => DATA);
   const selectedOfferId = Number(id);
   const maxReviews = reviews.slice(0, MAX_COUNT_OF_REVIEWS);
 

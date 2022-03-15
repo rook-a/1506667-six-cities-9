@@ -4,10 +4,10 @@ import { toast } from 'react-toastify';
 import Rating from '../rating/rating';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchReviewsAction, sendReview } from '../../store/api-actions';
+import { fetchReviewsAction } from '../../store/api-actions';
 
-import { State } from '../../types/state';
 import { FetchStatus } from '../../utils/const';
+import { sendReview } from '../../store/user-process/user-process';
 
 const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 300;
@@ -20,7 +20,7 @@ function ReviewsForm({ offerId }: ReviewsFormProps): JSX.Element {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('0');
   const dispatch = useAppDispatch();
-  const { sendReviewStatus } = useAppSelector((state: State) => state);
+  const { sendReviewStatus } = useAppSelector(({ USER }) => USER);
 
   useEffect(() => {
     if (sendReviewStatus === FetchStatus.SUCCESS) {

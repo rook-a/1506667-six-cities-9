@@ -3,12 +3,11 @@ import cn from 'classnames';
 import Spinner from '../spinner/spinner';
 
 import { useAppSelector } from '../../hooks';
+import useLoginForm from '../../hooks/use-login-form';
 
-import { State } from '../../types/state';
 import { FetchStatus } from '../../utils/const';
 
 import styles from './login-form.module.css';
-import useLoginForm from '../../hooks/use-login-form';
 
 const fields = {
   email: {
@@ -22,7 +21,7 @@ const fields = {
 };
 
 function LoginForm(): JSX.Element {
-  const { loginStatus } = useAppSelector((state: State) => state);
+  const { loginStatus } = useAppSelector(({ USER }) => USER);
 
   const { formState, handleChange, handleSubmit } = useLoginForm();
 

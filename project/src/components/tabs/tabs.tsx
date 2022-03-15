@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { useAppDispatch } from '../../hooks';
-import { currentCity } from '../../store/action';
+import { currentCity } from '../../store/data-process/data-process';
 import { CITIES } from '../../utils/const';
 
 interface TabsProps {

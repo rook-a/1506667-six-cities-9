@@ -12,12 +12,12 @@ import { browserHistory } from '../../browser-history';
 
 import { useAppSelector } from '../../hooks';
 
-import { State } from '../../types/state';
 import { AppRoute } from '../../utils/const';
 import { isCheckedAuth } from '../../utils/utils';
 
 function App(): JSX.Element {
-  const { offers, authorizationStatus } = useAppSelector((state: State) => state);
+  const { authorizationStatus } = useAppSelector(({ USER }) => USER);
+  const { offers } = useAppSelector(({ DATA }) => DATA);
 
   if (isCheckedAuth(authorizationStatus)) {
     return <Spinner className="loader" />;
