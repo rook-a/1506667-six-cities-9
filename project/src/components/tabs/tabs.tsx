@@ -1,7 +1,7 @@
 import cn from 'classnames';
 
 import { useAppDispatch } from '../../hooks';
-import { currentCity } from '../../store/data-process/data-process';
+import { currentCity } from '../../store/app-slice/app-slice';
 
 import { CITIES } from '../../utils/const';
 

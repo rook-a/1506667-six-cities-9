@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { getUser } from '../../services/user';
-import { logoutAction } from '../../store/user-process/user-process';
+import { logoutAction } from '../../store/user-slice/user-slice';
 
 interface NavProps {
   isAuth?: boolean;

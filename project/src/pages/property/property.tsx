@@ -21,7 +21,8 @@ function Property(): JSX.Element | null {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const { authorizationStatus } = useAppSelector(({ USER }) => USER);
-  const { reviews, offer, offerStatus, offersNearby } = useAppSelector(({ DATA }) => DATA);
+  const { offer, offerStatus, offersNearby } = useAppSelector(({ OFFERS }) => OFFERS);
+  const { reviews } = useAppSelector(({ REVIEW }) => REVIEW);
   const selectedOfferId = Number(id);
   const maxReviews = reviews.slice(0, MAX_COUNT_OF_REVIEWS);
 

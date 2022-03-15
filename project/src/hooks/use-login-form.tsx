@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { loginAction } from '../store/user-process/user-process';
+import { loginAction } from '../store/user-slice/user-slice';
 import { useAppDispatch } from './index';
 
 const REG_EXP_EMAIL = /^\S+@[aA-zZ]{2,10}\.[aA-zZ]{2,3}$/;

@@ -74,6 +74,8 @@ export enum FetchStatus {
 }
 
 export enum NameSpace {
+  App = 'APP',
   User = 'USER',
-  Data = 'DATA',
+  Offers = 'OFFERS',
+  Review = 'REVIEW',
 }

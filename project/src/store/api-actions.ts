@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { api, store } from '../store/index';
-import { requireAuthorization } from './user-process/user-process';
-import { loadOffersNearby, loadReviews } from './data-process/data-process';
+import { requireAuthorization } from './user-slice/user-slice';
+import { loadOffersNearby } from './offers-slice/offers-slice';
+import { loadReviews } from './review-slice/review-slice';
 
 import { handleError } from '../services/handle-error';
 

@@ -1,17 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+import { api, store } from '../index';
 import { removeUser, setUser } from '../../services/user';
+import { redirectToRoute } from '../action';
+
+import { handleError } from '../../services/handle-error';
 
 import { APIRoute, AppRoute, AuthorizationStatus, FetchStatus, NameSpace } from '../../utils/const';
-import { sendUserReview } from '../../types/review';
-import { api, store } from '../index';
-import { handleError } from '../../services/handle-error';
+
 import { UserData } from '../../types/user-data';
-import { redirectToRoute } from '../action';
 import { AuthData } from '../../types/auth-data';
 
 interface InitialState {
-  sendReviewStatus: FetchStatus;
   authorizationStatus: AuthorizationStatus;
 
   loginStatus: FetchStatus;
@@ -19,22 +19,11 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  sendReviewStatus: FetchStatus.Idle,
   authorizationStatus: AuthorizationStatus.Unknown,
 
   loginStatus: FetchStatus.Idle,
   logoutStatus: FetchStatus.Idle,
 };
-
-export const sendReview = createAsyncThunk('user/sendReview', async ({ id, comment, rating }: sendUserReview) => {
-  try {
-    const { data } = await api.post<sendUserReview>(`${APIRoute.Comments}/${id}`, { comment, rating });
-    return data;
-  } catch (err) {
-    handleError(err);
-    throw err;
-  }
-});
 
 export const loginAction = createAsyncThunk('user/login', async ({ email, password }: AuthData) => {
   try {
@@ -58,7 +47,7 @@ export const logoutAction = createAsyncThunk('user/logout', async () => {
   }
 });
 
-export const userProcess = createSlice({
+export const userSlice = createSlice({
   name: NameSpace.User,
   initialState,
   reducers: {
@@ -68,15 +57,6 @@ export const userProcess = createSlice({
   },
   extraReducers: (buider) => {
     buider
-      .addCase(sendReview.pending, (state) => {
-        state.sendReviewStatus = FetchStatus.Pending;
-      })
-      .addCase(sendReview.fulfilled, (state) => {
-        state.sendReviewStatus = FetchStatus.Success;
-      })
-      .addCase(sendReview.rejected, (state) => {
-        state.sendReviewStatus = FetchStatus.Failed;
-      })
       .addCase(loginAction.pending, (state) => {
         state.loginStatus = FetchStatus.Pending;
       })
@@ -104,4 +84,4 @@ export const userProcess = createSlice({
   },
 });
 
-export const { requireAuthorization } = userProcess.actions;
+export const { requireAuthorization } = userSlice.actions;
