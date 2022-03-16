@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchOfferAction, fetchOffersAction, fetchOffersNearbyAction } from '../api-actions';
+import { fetchFavoritesAction, fetchOfferAction, fetchOffersAction, fetchOffersNearbyAction } from '../api-actions';
 
 import { FetchStatus, NameSpace } from '../../utils/const';
 
@@ -19,6 +19,10 @@ interface InitialState {
   offersNearby: Offer[] | undefined;
   offersNearbyStatus: FetchStatus;
   offersNearbyError: boolean;
+
+  favoriteOffers: Offer[] | undefined;
+  favoriteOffersStatus: FetchStatus;
+  favoriteOffersError: boolean;
 }
 
 const initialState: InitialState = {
@@ -33,6 +37,10 @@ const initialState: InitialState = {
   offersNearby: [],
   offersNearbyStatus: FetchStatus.Idle,
   offersNearbyError: false,
+
+  favoriteOffers: [],
+  favoriteOffersStatus: FetchStatus.Idle,
+  favoriteOffersError: false,
 };
 
 export const offersSlice = createSlice({
@@ -73,6 +81,17 @@ export const offersSlice = createSlice({
       .addCase(fetchOffersNearbyAction.rejected, (state) => {
         state.offersNearbyStatus = FetchStatus.Failed;
         state.offersNearbyError = true;
+      })
+      .addCase(fetchFavoritesAction.pending, (state) => {
+        state.favoriteOffersStatus = FetchStatus.Pending;
+      })
+      .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
+        state.favoriteOffersStatus = FetchStatus.Success;
+        state.favoriteOffers = action.payload;
+      })
+      .addCase(fetchFavoritesAction.rejected, (state) => {
+        state.favoriteOffersStatus = FetchStatus.Failed;
+        state.favoriteOffersError = true;
       });
   },
 });
@@ -85,3 +104,5 @@ export const selectOffer = (state: State) => selectOffersState(state).offer;
 export const selectOfferStatus = (state: State) => selectOffersState(state).offerStatus;
 export const selectoffersNearby = (state: State) => selectOffersState(state).offersNearby;
 export const selectoffersNearbyStatus = (state: State) => selectOffersState(state).offersNearbyStatus;
+export const selectFavoriteOffers = (state: State) => selectOffersState(state).favoriteOffers;
+export const selectFavoriteOffersStatus = (state: State) => selectOffersState(state).favoriteOffersStatus;

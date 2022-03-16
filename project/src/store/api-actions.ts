@@ -56,6 +56,7 @@ export const fetchFavoritesAction = createAsyncThunk('data/fetchFavorites', asyn
     return data;
   } catch (err) {
     handleError(err);
+    throw err;
   }
 });
 
