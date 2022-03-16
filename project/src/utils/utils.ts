@@ -13,9 +13,9 @@ export const getFormatDate = (date: string) => {
   return `${getMonth} ${getYear}`;
 };
 
-const sortByPriceLow = (offers: Offer[]) => offers.sort((a, b) => a.price - b.price);
-const sortByPriceHigh = (offers: Offer[]) => offers.sort((a, b) => b.price - a.price);
-const sortByRating = (offers: Offer[]) => offers.sort((a, b) => b.rating - a.rating);
+export const sortByPriceLow = (offers: Offer[]) => offers.sort((a, b) => a.price - b.price);
+export const sortByPriceHigh = (offers: Offer[]) => offers.sort((a, b) => b.price - a.price);
+export const sortByRating = (offers: Offer[]) => offers.sort((a, b) => b.rating - a.rating);
 
 export const sortOffers = (sortType: string, offers: Offer[]) => {
   switch (sortType) {

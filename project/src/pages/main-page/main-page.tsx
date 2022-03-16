@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import Tabs from '../../components/tabs/tabs';
 import Map from '../../components/map/map';
@@ -14,23 +14,30 @@ import { selectOffers } from '../../store/offers-slice/offers-slice';
 import { sortOffers, isAuth } from '../../utils/utils';
 
 import { selectCity, selectSortType } from '../../store/app-slice/app-slice';
+import { createSelector } from 'reselect';
 
 const ONE_PLACE = 1;
 
 function MainPage(): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
-  const offers = useAppSelector(selectOffers);
-
+  // const offers = useAppSelector(selectOffers);
+  const state = useAppSelector((state) => state);
   const city = useAppSelector(selectCity);
   const sortType = useAppSelector(selectSortType);
   const authorizationStatus = useAppSelector(selectRequireAuthrization);
 
-  const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
+  // const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
+  const handlePlaceCardHover = useCallback((offerId: number | null) => {
+    setSelectedOffer(offerId);
+  }, []);
 
-  const filteredOffers = offers.filter((offer) => offer.city.name === city);
+  const filtered = createSelector(selectCity, selectOffers, (city, offers) => {
+    return offers.filter((offer) => offer.city.name === city);
+  });
+  const filteredOffers = filtered(state);
   const isEmpty = filteredOffers.length === 0;
 
-  const sortedOffers = () => sortOffers(sortType, filteredOffers);
+  const sortedOffers = createSelector(selectSortType, (sortType) => sortOffers(sortType, filteredOffers));
 
   return (
     <div className="page page--gray page--main">
@@ -52,7 +59,7 @@ function MainPage(): JSX.Element {
                 </b>
                 <Sorting sortingType={sortType} />
                 <PlacesList
-                  offers={sortedOffers()}
+                  offers={sortedOffers(state)}
                   className={'tabs__content cities__places-list'}
                   onPlaceCardHover={handlePlaceCardHover}
                 />

@@ -1,5 +1,6 @@
 import CardPlace from '../card-place/card-place';
 import { Offer } from '../../types/offer';
+import { memo, useCallback } from 'react';
 
 interface PlaceListProps {
   offers: Offer[];
@@ -8,8 +9,10 @@ interface PlaceListProps {
 }
 
 function PlacesList({ offers, className, onPlaceCardHover }: PlaceListProps): JSX.Element {
-  const handleCardActive = (valueId: number | null) =>
-    onPlaceCardHover !== undefined ? onPlaceCardHover(valueId) : null;
+  const handleCardActive = useCallback(
+    (valueId: number | null) => (onPlaceCardHover !== undefined ? onPlaceCardHover(valueId) : null),
+    [onPlaceCardHover],
+  );
 
   return (
     <div className={`places__list ${className}`}>
@@ -20,4 +23,5 @@ function PlacesList({ offers, className, onPlaceCardHover }: PlaceListProps): JS
   );
 }
 
-export default PlacesList;
+// export default PlacesList;
+export default memo(PlacesList);
