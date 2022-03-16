@@ -9,20 +9,17 @@ import EmptyMainPage from './empty-main-page';
 
 import { useAppSelector } from '../../hooks';
 import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
+import { selectOffers } from '../../store/offers-slice/offers-slice';
 
 import { sortOffers, isAuth } from '../../utils/utils';
 
-import { Offer } from '../../types/offer';
 import { selectCity, selectSortType } from '../../store/app-slice/app-slice';
 
 const ONE_PLACE = 1;
 
-interface MainPageProps {
-  offers: Offer[];
-}
-
-function MainPage({ offers }: MainPageProps): JSX.Element {
+function MainPage(): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
+  const offers = useAppSelector(selectOffers);
 
   const city = useAppSelector(selectCity);
   const sortType = useAppSelector(selectSortType);
