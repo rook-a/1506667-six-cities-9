@@ -14,15 +14,31 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { FetchStatus } from '../../utils/const';
 import { getFormatDate, getRatingPercent, isAuth, isPending } from '../../utils/utils';
+import {
+  selectOffer,
+  selectoffersNearby,
+  selectoffersNearbyStatus,
+  selectOfferStatus,
+} from '../../store/offers-slice/offers-slice';
+import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
+import { selectReview, selectReviewStatus } from '../../store/review-slice/review-slice';
 
 const MAX_COUNT_OF_REVIEWS = 10;
 
 function Property(): JSX.Element | null {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const { authorizationStatus } = useAppSelector(({ User }) => User);
-  const { offer, offerStatus, offersNearby, offersNearbyStatus } = useAppSelector(({ Offers }) => Offers);
-  const { reviews, reviewsStatus } = useAppSelector(({ Review }) => Review);
+  //App
+  const authorizationStatus = useAppSelector(selectRequireAuthrization);
+  //Offers
+  const offer = useAppSelector(selectOffer);
+  const offerStatus = useAppSelector(selectOfferStatus);
+  const offersNearby = useAppSelector(selectoffersNearby);
+  const offersNearbyStatus = useAppSelector(selectoffersNearbyStatus);
+  //Review
+  const reviews = useAppSelector(selectReview);
+  const reviewsStatus = useAppSelector(selectReviewStatus);
+
   const selectedOfferId = Number(id);
   const maxReviews = reviews.slice(0, MAX_COUNT_OF_REVIEWS);
 

@@ -7,6 +7,7 @@ import { handleError } from '../../services/handle-error';
 
 import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
 import { Review, sendUserReview } from '../../types/review';
+import { State } from '../../types/state';
 
 interface InitialState {
   sendReviewStatus: FetchStatus;
@@ -68,3 +69,9 @@ export const reviewSlice = createSlice({
 });
 
 export const { loadReviews } = reviewSlice.actions;
+
+const selectReviewState = (state: State) => state[NameSpace.Review];
+
+export const selectReview = (state: State) => selectReviewState(state).reviews;
+export const selectReviewStatus = (state: State) => selectReviewState(state).reviewsStatus;
+export const selectsendReviewStatus = (state: State) => selectReviewState(state).sendReviewStatus;

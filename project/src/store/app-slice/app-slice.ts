@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { State } from '../../types/state';
 import { CITIES, NameSpace, SortTypes } from '../../utils/const';
 
 interface InitialState {
@@ -25,3 +26,8 @@ export const appSlice = createSlice({
 });
 
 export const { currentCity, currentSortType } = appSlice.actions;
+
+const selectAppState = (state: State) => state[NameSpace.App];
+
+export const selectCity = (state: State) => selectAppState(state).city;
+export const selectSortType = (state: State) => selectAppState(state).sortType;

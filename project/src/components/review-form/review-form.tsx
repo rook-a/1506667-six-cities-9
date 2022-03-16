@@ -5,9 +5,9 @@ import Rating from '../rating/rating';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchReviewsAction } from '../../store/api-actions';
+import { selectsendReviewStatus, sendReview } from '../../store/review-slice/review-slice';
 
 import { FetchStatus } from '../../utils/const';
-import { sendReview } from '../../store/review-slice/review-slice';
 
 const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 300;
@@ -20,7 +20,7 @@ function ReviewsForm({ offerId }: ReviewsFormProps): JSX.Element {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('0');
   const dispatch = useAppDispatch();
-  const { sendReviewStatus } = useAppSelector(({ Review }) => Review);
+  const sendReviewStatus = useAppSelector(selectsendReviewStatus);
 
   useEffect(() => {
     if (sendReviewStatus === FetchStatus.Success) {

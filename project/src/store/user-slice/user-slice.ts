@@ -10,6 +10,7 @@ import { APIRoute, AppRoute, AuthorizationStatus, FetchStatus, NameSpace } from 
 
 import { UserData } from '../../types/user-data';
 import { AuthData } from '../../types/auth-data';
+import { State } from '../../types/state';
 
 interface InitialState {
   authorizationStatus: AuthorizationStatus;
@@ -85,3 +86,9 @@ export const userSlice = createSlice({
 });
 
 export const { requireAuthorization } = userSlice.actions;
+
+const selectUserState = (state: State) => state[NameSpace.User];
+
+export const selectRequireAuthrization = (state: State) => selectUserState(state).authorizationStatus;
+export const selectloginStatus = (state: State) => selectUserState(state).loginStatus;
+export const selectlogoutStatus = (state: State) => selectUserState(state).logoutStatus;

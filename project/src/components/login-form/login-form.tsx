@@ -4,6 +4,7 @@ import Spinner from '../spinner/spinner';
 
 import { useAppSelector } from '../../hooks';
 import useLoginForm from '../../hooks/use-login-form';
+import { selectloginStatus } from '../../store/user-slice/user-slice';
 
 import { FetchStatus } from '../../utils/const';
 
@@ -21,7 +22,7 @@ const fields = {
 };
 
 function LoginForm(): JSX.Element {
-  const { loginStatus } = useAppSelector(({ User }) => User);
+  const loginStatus = useAppSelector(selectloginStatus);
 
   const { formState, handleChange, handleSubmit } = useLoginForm();
 

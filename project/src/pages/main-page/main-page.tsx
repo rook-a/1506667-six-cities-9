@@ -8,10 +8,12 @@ import Sorting from '../../components/sorting/sorting';
 import EmptyMainPage from './empty-main-page';
 
 import { useAppSelector } from '../../hooks';
+import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
 
 import { sortOffers, isAuth } from '../../utils/utils';
 
 import { Offer } from '../../types/offer';
+import { selectCity, selectSortType } from '../../store/app-slice/app-slice';
 
 const ONE_PLACE = 1;
 
@@ -21,8 +23,10 @@ interface MainPageProps {
 
 function MainPage({ offers }: MainPageProps): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
-  const { city, sortType } = useAppSelector(({ App }) => App);
-  const { authorizationStatus } = useAppSelector(({ User }) => User);
+
+  const city = useAppSelector(selectCity);
+  const sortType = useAppSelector(selectSortType);
+  const authorizationStatus = useAppSelector(selectRequireAuthrization);
 
   const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
 

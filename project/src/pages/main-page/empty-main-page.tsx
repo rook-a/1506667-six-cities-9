@@ -1,7 +1,8 @@
 import { useAppSelector } from '../../hooks';
+import { selectCity } from '../../store/app-slice/app-slice';
 
 function EmptyMainPage(): JSX.Element {
-  const { city } = useAppSelector(({ App }) => App);
+  const city = useAppSelector(selectCity);
 
   return (
     <div className="cities">

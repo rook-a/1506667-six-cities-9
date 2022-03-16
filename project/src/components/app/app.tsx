@@ -11,13 +11,15 @@ import HistoryRouter from '../history-route/history-route';
 import { browserHistory } from '../../browser-history';
 
 import { useAppSelector } from '../../hooks';
+import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
+import { selectOffers } from '../../store/offers-slice/offers-slice';
 
 import { AppRoute } from '../../utils/const';
 import { isCheckedAuth } from '../../utils/utils';
 
 function App(): JSX.Element {
-  const { authorizationStatus } = useAppSelector(({ User }) => User);
-  const { offers } = useAppSelector(({ Offers }) => Offers);
+  const authorizationStatus = useAppSelector(selectRequireAuthrization);
+  const offers = useAppSelector(selectOffers);
 
   if (isCheckedAuth(authorizationStatus)) {
     return <Spinner className="loader" />;

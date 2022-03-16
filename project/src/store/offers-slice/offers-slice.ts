@@ -5,6 +5,7 @@ import { fetchOfferAction, fetchOffersAction, fetchOffersNearbyAction } from '..
 import { FetchStatus, NameSpace } from '../../utils/const';
 
 import { Offer } from '../../types/offer';
+import { State } from '../../types/state';
 
 interface InitialState {
   offers: Offer[];
@@ -75,3 +76,12 @@ export const offersSlice = createSlice({
       });
   },
 });
+
+const selectOffersState = (state: State) => state[NameSpace.Offers];
+
+export const selectOffers = (state: State) => selectOffersState(state).offers;
+export const selectOffersStatus = (state: State) => selectOffersState(state).offersStatus;
+export const selectOffer = (state: State) => selectOffersState(state).offer;
+export const selectOfferStatus = (state: State) => selectOffersState(state).offerStatus;
+export const selectoffersNearby = (state: State) => selectOffersState(state).offersNearby;
+export const selectoffersNearbyStatus = (state: State) => selectOffersState(state).offersNearbyStatus;
