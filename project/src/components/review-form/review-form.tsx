@@ -20,7 +20,7 @@ function ReviewsForm({ offerId }: ReviewsFormProps): JSX.Element {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('0');
   const dispatch = useAppDispatch();
-  const { sendReviewStatus } = useAppSelector(({ REVIEW }) => REVIEW);
+  const { sendReviewStatus } = useAppSelector(({ Review }) => Review);
 
   useEffect(() => {
     if (sendReviewStatus === FetchStatus.Success) {

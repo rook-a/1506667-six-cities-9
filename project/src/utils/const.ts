@@ -40,9 +40,9 @@ export enum AppRoute {
 }
 
 export enum AuthorizationStatus {
-  Auth = 'AUTH',
-  NoAuth = 'NO_AUTH',
-  Unknown = 'UNKNOWN',
+  Auth = 'Auth',
+  NoAuth = 'NoAuth',
+  Unknown = 'Unknown',
 }
 
 export enum SortTypes {
@@ -67,15 +67,15 @@ export enum HttpCode {
 }
 
 export enum FetchStatus {
-  Idle = 'IDLE',
-  Pending = 'PENDING',
-  Success = 'SUCCESS',
-  Failed = 'FAILED',
+  Idle = 'Idle',
+  Pending = 'Pending',
+  Success = 'Success',
+  Failed = 'Failed',
 }
 
 export enum NameSpace {
-  App = 'APP',
-  User = 'USER',
-  Offers = 'OFFERS',
-  Review = 'REVIEW',
+  App = 'App',
+  User = 'User',
+  Offers = 'Offers',
+  Review = 'Review',
 }

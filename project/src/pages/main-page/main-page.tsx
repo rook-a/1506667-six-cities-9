@@ -21,8 +21,8 @@ interface MainPageProps {
 
 function MainPage({ offers }: MainPageProps): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
-  const { city, sortType } = useAppSelector(({ APP }) => APP);
-  const { authorizationStatus } = useAppSelector(({ USER }) => USER);
+  const { city, sortType } = useAppSelector(({ App }) => App);
+  const { authorizationStatus } = useAppSelector(({ User }) => User);
 
   const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
 

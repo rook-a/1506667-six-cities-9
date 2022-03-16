@@ -20,9 +20,9 @@ const MAX_COUNT_OF_REVIEWS = 10;
 function Property(): JSX.Element | null {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const { authorizationStatus } = useAppSelector(({ USER }) => USER);
-  const { offer, offerStatus, offersNearby, offersNearbyStatus } = useAppSelector(({ OFFERS }) => OFFERS);
-  const { reviews, reviewsStatus } = useAppSelector(({ REVIEW }) => REVIEW);
+  const { authorizationStatus } = useAppSelector(({ User }) => User);
+  const { offer, offerStatus, offersNearby, offersNearbyStatus } = useAppSelector(({ Offers }) => Offers);
+  const { reviews, reviewsStatus } = useAppSelector(({ Review }) => Review);
   const selectedOfferId = Number(id);
   const maxReviews = reviews.slice(0, MAX_COUNT_OF_REVIEWS);
 

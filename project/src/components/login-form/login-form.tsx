@@ -21,7 +21,7 @@ const fields = {
 };
 
 function LoginForm(): JSX.Element {
-  const { loginStatus } = useAppSelector(({ USER }) => USER);
+  const { loginStatus } = useAppSelector(({ User }) => User);
 
   const { formState, handleChange, handleSubmit } = useLoginForm();
 

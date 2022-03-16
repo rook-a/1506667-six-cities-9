@@ -16,8 +16,8 @@ import { AppRoute } from '../../utils/const';
 import { isCheckedAuth } from '../../utils/utils';
 
 function App(): JSX.Element {
-  const { authorizationStatus } = useAppSelector(({ USER }) => USER);
-  const { offers } = useAppSelector(({ OFFERS }) => OFFERS);
+  const { authorizationStatus } = useAppSelector(({ User }) => User);
+  const { offers } = useAppSelector(({ Offers }) => Offers);
 
   if (isCheckedAuth(authorizationStatus)) {
     return <Spinner className="loader" />;
