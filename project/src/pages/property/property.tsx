@@ -14,14 +14,31 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { FetchStatus } from '../../utils/const';
 import { getFormatDate, getRatingPercent, isAuth, isPending } from '../../utils/utils';
-import { State } from '../../types/state';
+import {
+  selectOffer,
+  selectoffersNearby,
+  selectoffersNearbyStatus,
+  selectOfferStatus,
+} from '../../store/offers-slice/offers-slice';
+import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
+import { selectReview, selectReviewStatus } from '../../store/review-slice/review-slice';
 
 const MAX_COUNT_OF_REVIEWS = 10;
 
 function Property(): JSX.Element | null {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const { authorizationStatus, reviews, offer, offerStatus, offersNearby } = useAppSelector((state: State) => state);
+  //App
+  const authorizationStatus = useAppSelector(selectRequireAuthrization);
+  //Offers
+  const offer = useAppSelector(selectOffer);
+  const offerStatus = useAppSelector(selectOfferStatus);
+  const offersNearby = useAppSelector(selectoffersNearby);
+  const offersNearbyStatus = useAppSelector(selectoffersNearbyStatus);
+  //Review
+  const reviews = useAppSelector(selectReview);
+  const reviewsStatus = useAppSelector(selectReviewStatus);
+
   const selectedOfferId = Number(id);
   const maxReviews = reviews.slice(0, MAX_COUNT_OF_REVIEWS);
 
@@ -35,7 +52,7 @@ function Property(): JSX.Element | null {
     return <Spinner className="loader" />;
   }
 
-  if (offerStatus === FetchStatus.FAILED) {
+  if (offerStatus === FetchStatus.Failed) {
     return <NotFound />;
   }
 
@@ -122,42 +139,49 @@ function Property(): JSX.Element | null {
                 <h2 className="reviews__title">
                   Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
                 </h2>
-                <ul className="reviews__list">
-                  {maxReviews.map((review) => {
-                    const { comment, date, rating, user, id } = review;
-                    const { avatarUrl, isPro, name } = user;
+                {reviewsStatus === FetchStatus.Failed && (
+                  <p style={{ marginTop: '0', marginBottom: '30px', textAlign: 'center', color: '#FF0000' }}>
+                    There should be reviews, but something went wrong. Try refreshing this page
+                  </p>
+                )}
+                {reviewsStatus === FetchStatus.Success && (
+                  <ul className="reviews__list">
+                    {maxReviews.map((review) => {
+                      const { comment, date, rating, user, id } = review;
+                      const { avatarUrl, isPro, name } = user;
 
-                    return (
-                      <li className="reviews__item" key={id}>
-                        <div className="reviews__user user">
-                          <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                            <img
-                              className="reviews__avatar user__avatar"
-                              src={avatarUrl}
-                              width="54"
-                              height="54"
-                              alt="Reviews avatar"
-                            />
-                          </div>
-                          <span className="reviews__user-name">{name}</span>
-                          {isPro && <span className="property__user-status">Pro</span>}
-                        </div>
-                        <div className="reviews__info">
-                          <div className="reviews__rating rating">
-                            <div className="reviews__stars rating__stars">
-                              <span style={{ width: `${getRatingPercent(rating)}%` }}></span>
-                              <span className="visually-hidden">Rating</span>
+                      return (
+                        <li className="reviews__item" key={id}>
+                          <div className="reviews__user user">
+                            <div className="reviews__avatar-wrapper user__avatar-wrapper">
+                              <img
+                                className="reviews__avatar user__avatar"
+                                src={avatarUrl}
+                                width="54"
+                                height="54"
+                                alt="Reviews avatar"
+                              />
                             </div>
+                            <span className="reviews__user-name">{name}</span>
+                            {isPro && <span className="property__user-status">Pro</span>}
                           </div>
-                          <p className="reviews__text">{comment}</p>
-                          <time className="reviews__time" dateTime={date}>
-                            {getFormatDate(date)}
-                          </time>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
+                          <div className="reviews__info">
+                            <div className="reviews__rating rating">
+                              <div className="reviews__stars rating__stars">
+                                <span style={{ width: `${getRatingPercent(rating)}%` }}></span>
+                                <span className="visually-hidden">Rating</span>
+                              </div>
+                            </div>
+                            <p className="reviews__text">{comment}</p>
+                            <time className="reviews__time" dateTime={date}>
+                              {getFormatDate(date)}
+                            </time>
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
                 {isAuth(authorizationStatus) && <ReviewsForm offerId={selectedOfferId} />}
               </section>
             </div>
@@ -166,7 +190,7 @@ function Property(): JSX.Element | null {
           <Map
             className="property__map"
             city={offer.city}
-            offers={[...offersNearby, offer]}
+            offers={[...(offersNearby || []), offer]}
             selectedOffer={selectedOfferId}
           />
         </section>
@@ -175,7 +199,15 @@ function Property(): JSX.Element | null {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
 
-            <PlacesList offers={offersNearby} className={'near-places__list'} />
+            {offersNearbyStatus === FetchStatus.Success && (
+              <PlacesList offers={offersNearby || []} className={'near-places__list'} />
+            )}
+
+            {offersNearbyStatus === FetchStatus.Failed && (
+              <p style={{ margin: '0', textAlign: 'center', color: '#FF0000' }}>
+                There should be offers nearby here, but something went wrong. Try refreshing this page.
+              </p>
+            )}
           </section>
         </div>
       </main>

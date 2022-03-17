@@ -1,19 +1,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { api, store } from '../store/index';
-import { loadOffersNearby, loadReviews, requireAuthorization, redirectToRoute } from './action';
+import { requireAuthorization } from './user-slice/user-slice';
+
 import { handleError } from '../services/handle-error';
 
-import { APIRoute, AuthorizationStatus, AppRoute } from '../utils/const';
+import { APIRoute, AuthorizationStatus } from '../utils/const';
 
 import { Offer } from '../types/offer';
-import { Review, sendUserReview } from '../types/review';
-import { UserData } from '../types/user-data';
-import { AuthData } from '../types/auth-data';
+import { Review } from '../types/review';
 
 export const fetchOffersAction = createAsyncThunk('data/fetchOffers', async () => {
   try {
-    const { data } = await api.get<Offer[]>(APIRoute.OFFERS);
+    const { data } = await api.get<Offer[]>(APIRoute.Offers);
     return data;
   } catch (err) {
     handleError(err);
@@ -23,7 +22,7 @@ export const fetchOffersAction = createAsyncThunk('data/fetchOffers', async () =
 
 export const fetchOfferAction = createAsyncThunk('data/fetchOffer', async (id: number) => {
   try {
-    const { data } = await api.get<Offer>(`${APIRoute.OFFERS}/${id}`);
+    const { data } = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
     return data;
   } catch (err) {
     handleError(err);
@@ -33,25 +32,17 @@ export const fetchOfferAction = createAsyncThunk('data/fetchOffer', async (id: n
 
 export const fetchOffersNearbyAction = createAsyncThunk('data/fetchOffersNearby', async (id: number) => {
   try {
-    const { data } = await api.get<Offer[]>(`${APIRoute.OFFERS}/${id}/nearby`);
-    store.dispatch(loadOffersNearby(data));
+    const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
+    return data;
   } catch (err) {
     handleError(err);
+    throw err;
   }
 });
 
 export const fetchReviewsAction = createAsyncThunk('data/fetchReviews', async (id: number) => {
   try {
-    const { data } = await api.get<Review[]>(`${APIRoute.COMMENTS}/${id}`);
-    store.dispatch(loadReviews(data));
-  } catch (err) {
-    handleError(err);
-  }
-});
-
-export const sendReview = createAsyncThunk('user/sendReview', async ({ id, comment, rating }: sendUserReview) => {
-  try {
-    const { data } = await api.post<sendUserReview>(`${APIRoute.COMMENTS}/${id}`, { comment, rating });
+    const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
     return data;
   } catch (err) {
     handleError(err);
@@ -61,41 +52,20 @@ export const sendReview = createAsyncThunk('user/sendReview', async ({ id, comme
 
 export const fetchFavoritesAction = createAsyncThunk('data/fetchFavorites', async () => {
   try {
-    const { data } = await api.get<Offer[]>(`${APIRoute.FAVORITES}`);
+    const { data } = await api.get<Offer[]>(`${APIRoute.Favorites}`);
     return data;
   } catch (err) {
     handleError(err);
+    throw err;
   }
 });
 
 export const checkAuthAction = createAsyncThunk('user/checkAuth', async () => {
   try {
-    await api.get(APIRoute.LOGIN);
-    store.dispatch(requireAuthorization(AuthorizationStatus.AUTH));
+    await api.get(APIRoute.Login);
+    store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
   } catch (err) {
     handleError(err);
-    store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH));
-  }
-});
-
-export const loginAction = createAsyncThunk('user/login', async ({ email, password }: AuthData) => {
-  try {
-    const { data } = await api.post<UserData>(APIRoute.LOGIN, { email, password });
-
-    store.dispatch(redirectToRoute(AppRoute.MAIN));
-    return data;
-  } catch (err) {
-    handleError(err);
-    store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH));
-    throw err;
-  }
-});
-
-export const logoutAction = createAsyncThunk('user/logout', async () => {
-  try {
-    await api.delete(APIRoute.LOGOUT);
-  } catch (err) {
-    handleError(err);
-    throw err;
+    store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   }
 });

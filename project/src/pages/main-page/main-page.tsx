@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import Tabs from '../../components/tabs/tabs';
 import Map from '../../components/map/map';
@@ -8,28 +8,36 @@ import Sorting from '../../components/sorting/sorting';
 import EmptyMainPage from './empty-main-page';
 
 import { useAppSelector } from '../../hooks';
+import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
+import { selectOffers } from '../../store/offers-slice/offers-slice';
 
 import { sortOffers, isAuth } from '../../utils/utils';
 
-import { Offer } from '../../types/offer';
-import { State } from '../../types/state';
+import { selectCity, selectSortType } from '../../store/app-slice/app-slice';
+import { createSelector } from 'reselect';
 
 const ONE_PLACE = 1;
 
-interface MainPageProps {
-  offers: Offer[];
-}
-
-function MainPage({ offers }: MainPageProps): JSX.Element {
+function MainPage(): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
-  const { city, sortType, authorizationStatus } = useAppSelector((state: State) => state);
+  // const offers = useAppSelector(selectOffers);
+  const state = useAppSelector((state) => state);
+  const city = useAppSelector(selectCity);
+  const sortType = useAppSelector(selectSortType);
+  const authorizationStatus = useAppSelector(selectRequireAuthrization);
 
-  const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
+  // const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
+  const handlePlaceCardHover = useCallback((offerId: number | null) => {
+    setSelectedOffer(offerId);
+  }, []);
 
-  const filteredOffers = offers.filter((offer) => offer.city.name === city);
+  const filtered = createSelector(selectCity, selectOffers, (city, offers) => {
+    return offers.filter((offer) => offer.city.name === city);
+  });
+  const filteredOffers = filtered(state);
   const isEmpty = filteredOffers.length === 0;
 
-  const sortedOffers = () => sortOffers(sortType, filteredOffers);
+  const sortedOffers = createSelector(selectSortType, (sortType) => sortOffers(sortType, filteredOffers));
 
   return (
     <div className="page page--gray page--main">
@@ -51,7 +59,7 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
                 </b>
                 <Sorting sortingType={sortType} />
                 <PlacesList
-                  offers={sortedOffers()}
+                  offers={sortedOffers(state)}
                   className={'tabs__content cities__places-list'}
                   onPlaceCardHover={handlePlaceCardHover}
                 />

@@ -13,19 +13,19 @@ export const getFormatDate = (date: string) => {
   return `${getMonth} ${getYear}`;
 };
 
-const sortByPriceLow = (offers: Offer[]) => offers.sort((a, b) => a.price - b.price);
-const sortByPriceHigh = (offers: Offer[]) => offers.sort((a, b) => b.price - a.price);
-const sortByRating = (offers: Offer[]) => offers.sort((a, b) => b.rating - a.rating);
+export const sortByPriceLow = (offers: Offer[]) => offers.sort((a, b) => a.price - b.price);
+export const sortByPriceHigh = (offers: Offer[]) => offers.sort((a, b) => b.price - a.price);
+export const sortByRating = (offers: Offer[]) => offers.sort((a, b) => b.rating - a.rating);
 
 export const sortOffers = (sortType: string, offers: Offer[]) => {
   switch (sortType) {
-    case SortTypes.POPULAR:
+    case SortTypes.Popular:
       return offers;
-    case SortTypes.PRICE_LOW:
+    case SortTypes.PriceLow:
       return sortByPriceLow(offers);
-    case SortTypes.PRICE_HIGH:
+    case SortTypes.PriceHigh:
       return sortByPriceHigh(offers);
-    case SortTypes.TOP_RATED:
+    case SortTypes.TopRated:
       return sortByRating(offers);
     default:
       throw new Error(`Unexpected sorting type ${sortType}`);
@@ -33,9 +33,9 @@ export const sortOffers = (sortType: string, offers: Offer[]) => {
 };
 
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
-  authorizationStatus === AuthorizationStatus.UNKNOWN;
+  authorizationStatus === AuthorizationStatus.Unknown;
 
 export const isPending = (fetchStatus: FetchStatus): boolean =>
-  fetchStatus === FetchStatus.IDLE || fetchStatus === FetchStatus.PENDING;
+  fetchStatus === FetchStatus.Idle || fetchStatus === FetchStatus.Pending;
 
-export const isAuth = (authorizationStatus: AuthorizationStatus) => authorizationStatus === AuthorizationStatus.AUTH;
+export const isAuth = (authorizationStatus: AuthorizationStatus) => authorizationStatus === AuthorizationStatus.Auth;

@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { loginAction } from '../store/user-slice/user-slice';
 import { useAppDispatch } from './index';
-import { loginAction } from '../store/api-actions';
 
 const REG_EXP_EMAIL = /^\S+@[aA-zZ]{2,10}\.[aA-zZ]{2,3}$/;
 const REG_EXP_PASSWORD = /([0-9]{1}[aA-zZ]{1})|([aA-zZ]{1}[0-9]{1})/i;

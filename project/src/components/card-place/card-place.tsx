@@ -26,10 +26,14 @@ function CardPlace({ offer, isFavorites, onCardHover }: CardPlaceProp): JSX.Elem
 
   const { description, type, price, isFavorite, previewImage, title, rating, id, isPremium } = offer;
 
+  //думаю нужно их объединить в одну. сейчас, вроде как, передаются две разные ссылки
+  const handleCardHover = () => (onCardHover !== undefined ? onCardHover(id) : null);
+  const handleCardHoverRemove = () => (onCardHover !== undefined ? onCardHover(null) : null);
+
   return (
     <article
-      onMouseOver={() => (onCardHover !== undefined ? onCardHover(id) : null)}
-      onMouseLeave={() => (onCardHover !== undefined ? onCardHover(null) : null)}
+      onMouseOver={handleCardHover}
+      onMouseLeave={handleCardHoverRemove}
       className={`place-card ${favorites.containerCls}`}>
       {isPremium && (
         <div className="place-card__mark">

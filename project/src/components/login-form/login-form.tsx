@@ -3,12 +3,12 @@ import cn from 'classnames';
 import Spinner from '../spinner/spinner';
 
 import { useAppSelector } from '../../hooks';
+import useLoginForm from '../../hooks/use-login-form';
+import { selectloginStatus } from '../../store/user-slice/user-slice';
 
-import { State } from '../../types/state';
 import { FetchStatus } from '../../utils/const';
 
 import styles from './login-form.module.css';
-import useLoginForm from '../../hooks/use-login-form';
 
 const fields = {
   email: {
@@ -22,11 +22,11 @@ const fields = {
 };
 
 function LoginForm(): JSX.Element {
-  const { loginStatus } = useAppSelector((state: State) => state);
+  const loginStatus = useAppSelector(selectloginStatus);
 
   const { formState, handleChange, handleSubmit } = useLoginForm();
 
-  const isPending = loginStatus === FetchStatus.PENDING;
+  const isPending = loginStatus === FetchStatus.Pending;
   const isValid = Object.values(formState).some(({ error }) => error);
 
   return (

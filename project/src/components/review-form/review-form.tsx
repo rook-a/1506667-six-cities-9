@@ -4,9 +4,9 @@ import { toast } from 'react-toastify';
 import Rating from '../rating/rating';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchReviewsAction, sendReview } from '../../store/api-actions';
+import { fetchReviewsAction } from '../../store/api-actions';
+import { selectsendReviewStatus, sendReview } from '../../store/review-slice/review-slice';
 
-import { State } from '../../types/state';
 import { FetchStatus } from '../../utils/const';
 
 const MIN_COMMENT_LENGTH = 50;
@@ -20,10 +20,10 @@ function ReviewsForm({ offerId }: ReviewsFormProps): JSX.Element {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('0');
   const dispatch = useAppDispatch();
-  const { sendReviewStatus } = useAppSelector((state: State) => state);
+  const sendReviewStatus = useAppSelector(selectsendReviewStatus);
 
   useEffect(() => {
-    if (sendReviewStatus === FetchStatus.SUCCESS) {
+    if (sendReviewStatus === FetchStatus.Success) {
       setComment('');
       setRating('0');
       dispatch(fetchReviewsAction(offerId));
@@ -31,7 +31,7 @@ function ReviewsForm({ offerId }: ReviewsFormProps): JSX.Element {
   }, [dispatch, offerId, sendReviewStatus]);
 
   const isDisabled = rating === '0' || comment.length <= MIN_COMMENT_LENGTH || comment.length >= MAX_COMMENT_LENGTH;
-  const isFormDisabled = sendReviewStatus === FetchStatus.PENDING;
+  const isFormDisabled = sendReviewStatus === FetchStatus.Pending;
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value } = evt.target;
@@ -48,7 +48,7 @@ function ReviewsForm({ offerId }: ReviewsFormProps): JSX.Element {
     dispatch(sendReview({ id: offerId, comment, rating: Number(rating) }));
   };
 
-  if (sendReviewStatus === FetchStatus.FAILED) {
+  if (sendReviewStatus === FetchStatus.Failed) {
     toast.info('Some unexpected error. Try again!');
   }
 

@@ -11,13 +11,13 @@ import HistoryRouter from '../history-route/history-route';
 import { browserHistory } from '../../browser-history';
 
 import { useAppSelector } from '../../hooks';
+import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
 
-import { State } from '../../types/state';
 import { AppRoute } from '../../utils/const';
 import { isCheckedAuth } from '../../utils/utils';
 
 function App(): JSX.Element {
-  const { offers, authorizationStatus } = useAppSelector((state: State) => state);
+  const authorizationStatus = useAppSelector(selectRequireAuthrization);
 
   if (isCheckedAuth(authorizationStatus)) {
     return <Spinner className="loader" />;
@@ -26,13 +26,13 @@ function App(): JSX.Element {
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
-        <Route index element={<MainPage offers={offers} />} />
+        <Route index element={<MainPage />} />
         <Route element={<PrivateOutlet authorizationStatus={authorizationStatus} />}>
-          <Route path={AppRoute.FAVORITES} element={<Favorites offers={offers} />} />
+          <Route path={AppRoute.Favorites} element={<Favorites />} />
         </Route>
-        <Route path={`${AppRoute.PROPERTY}/:id`} element={<Property />} />
-        <Route path={AppRoute.LOGIN} element={<Login />} />
-        <Route path={AppRoute.NOT_FOUND} element={<NotFound />} />
+        <Route path={`${AppRoute.Property}/:id`} element={<Property />} />
+        <Route path={AppRoute.Login} element={<Login />} />
+        <Route path={AppRoute.NotFound} element={<NotFound />} />
       </Routes>
     </HistoryRouter>
   );
