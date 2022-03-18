@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import Rating from '../rating/rating';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchReviewsAction } from '../../store/api-actions';
+import { fetchReviewsAction } from '../../store/review-slice/review-slice';
 import { selectsendReviewStatus, sendReview } from '../../store/review-slice/review-slice';
 
 import { FetchStatus } from '../../utils/const';

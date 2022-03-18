@@ -4,7 +4,7 @@ import EmptyFavorites from './empty-favorites';
 import CardPlace from '../../components/card-place/card-place';
 
 import { useAppSelector } from '../../hooks';
-import { selectFavoriteOffers } from '../../store/offers-slice/offers-slice';
+import { selectFavoriteOffers } from '../../store/favorites-slice/favorites-slice';
 
 import { Offer } from '../../types/offer';
 

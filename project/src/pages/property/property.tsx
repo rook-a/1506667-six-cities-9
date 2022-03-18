@@ -9,7 +9,8 @@ import Bookmark from '../../components/boormark/boormark';
 import Spinner from '../../components/spinner/spinner';
 import NotFound from '../not-found/not-found';
 
-import { fetchOfferAction, fetchOffersNearbyAction, fetchReviewsAction } from '../../store/api-actions';
+import { fetchOfferAction, fetchOffersNearbyAction } from '../../store/offers-slice/offers-slice';
+import { fetchReviewsAction } from '../../store/review-slice/review-slice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { FetchStatus } from '../../utils/const';

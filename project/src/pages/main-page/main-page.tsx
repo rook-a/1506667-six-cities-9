@@ -9,35 +9,27 @@ import EmptyMainPage from './empty-main-page';
 
 import { useAppSelector } from '../../hooks';
 import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
-import { selectOffers } from '../../store/offers-slice/offers-slice';
-
-import { sortOffers, isAuth } from '../../utils/utils';
-
 import { selectCity, selectSortType } from '../../store/app-slice/app-slice';
-import { createSelector } from 'reselect';
+import { selectCurrentOffers } from '../../store/offers-slice/offers-slice';
+
+import { isAuth } from '../../utils/utils';
 
 const ONE_PLACE = 1;
 
 function MainPage(): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
-  // const offers = useAppSelector(selectOffers);
-  const state = useAppSelector((state) => state);
+
+  const currentOffers = useAppSelector(selectCurrentOffers);
+
   const city = useAppSelector(selectCity);
   const sortType = useAppSelector(selectSortType);
   const authorizationStatus = useAppSelector(selectRequireAuthrization);
 
-  // const handlePlaceCardHover = (offerId: number | null) => setSelectedOffer(offerId);
   const handlePlaceCardHover = useCallback((offerId: number | null) => {
     setSelectedOffer(offerId);
   }, []);
 
-  const filtered = createSelector(selectCity, selectOffers, (city, offers) => {
-    return offers.filter((offer) => offer.city.name === city);
-  });
-  const filteredOffers = filtered(state);
-  const isEmpty = filteredOffers.length === 0;
-
-  const sortedOffers = createSelector(selectSortType, (sortType) => sortOffers(sortType, filteredOffers));
+  const isEmpty = currentOffers.length === 0;
 
   return (
     <div className="page page--gray page--main">
@@ -55,11 +47,11 @@ function MainPage(): JSX.Element {
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">
-                  {filteredOffers.length} {filteredOffers.length === ONE_PLACE ? 'place' : 'places'} to stay in {city}
+                  {currentOffers.length} {currentOffers.length === ONE_PLACE ? 'place' : 'places'} to stay in {city}
                 </b>
                 <Sorting sortingType={sortType} />
                 <PlacesList
-                  offers={sortedOffers(state)}
+                  offers={currentOffers}
                   className={'tabs__content cities__places-list'}
                   onPlaceCardHover={handlePlaceCardHover}
                 />
@@ -68,8 +60,8 @@ function MainPage(): JSX.Element {
               <div className="cities__right-section">
                 <Map
                   className="cities__map"
-                  city={filteredOffers[0].city}
-                  offers={filteredOffers}
+                  city={currentOffers[0].city}
+                  offers={currentOffers}
                   selectedOffer={selectedOffer}
                 />
               </div>
