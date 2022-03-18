@@ -8,6 +8,7 @@ import { fetchReviewsAction } from '../../store/review-slice/review-slice';
 import { selectsendReviewStatus, sendReview } from '../../store/review-slice/review-slice';
 
 import { FetchStatus } from '../../utils/const';
+import Spinner from '../spinner/spinner';
 
 const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 300;
@@ -76,7 +77,7 @@ function ReviewsForm({ offerId }: ReviewsFormProps): JSX.Element {
           with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
         <button className="reviews__submit form__submit button" type="submit" disabled={isDisabled || isFormDisabled}>
-          Submit
+          {isFormDisabled ? <Spinner className="loader--small" /> : 'Submit'}
         </button>
       </div>
     </form>
