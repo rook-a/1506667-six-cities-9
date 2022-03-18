@@ -3,10 +3,11 @@ import Footer from '../../components/footer/footer';
 import EmptyFavorites from './empty-favorites';
 import CardPlace from '../../components/card-place/card-place';
 
-import { useAppSelector } from '../../hooks';
-import { selectFavoriteOffers } from '../../store/favorites-slice/favorites-slice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchFavoritesAction, selectFavoriteOffers } from '../../store/favorites-slice/favorites-slice';
 
 import { Offer } from '../../types/offer';
+import { useEffect } from 'react';
 
 const mapOffersToCity = (arr: Offer[]) =>
   arr.reduce<{ [key: string]: Offer[] }>((acc, offer) => {
@@ -19,14 +20,18 @@ const mapOffersToCity = (arr: Offer[]) =>
   }, {});
 
 function Favorites(): JSX.Element {
+  const dispatch = useAppDispatch();
   const getOffers = useAppSelector(selectFavoriteOffers);
-  const offers = getOffers || [];
+  const offers = getOffers;
+  const favoriteOffersMap = mapOffersToCity(offers);
+
+  useEffect(() => {
+    dispatch(fetchFavoritesAction());
+  }, [dispatch]);
 
   if (offers.length === 0) {
     return <EmptyFavorites />;
   }
-
-  const favoriteOffersMap = mapOffersToCity(offers);
 
   return (
     <div className="page">

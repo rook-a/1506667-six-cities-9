@@ -89,7 +89,12 @@ function Property(): JSX.Element | null {
               )}
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
-                <Bookmark isSmall={false} className={'property__bookmark-button'} isFavorite={isFavorite} />
+                <Bookmark
+                  id={selectedOfferId}
+                  isSmall={false}
+                  className={'property__bookmark-button'}
+                  isFavorite={isFavorite}
+                />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

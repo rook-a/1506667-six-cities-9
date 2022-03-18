@@ -53,7 +53,7 @@ function CardPlace({ offer, isFavorites, onCardHover }: CardPlaceProp): JSX.Elem
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <Bookmark isSmall className={'place-card__bookmark-button'} isFavorite={isFavorite} />
+          <Bookmark id={id} isSmall className={'place-card__bookmark-button'} isFavorite={isFavorite} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

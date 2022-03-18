@@ -8,7 +8,7 @@ import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
 import { State } from '../../types/state';
 
 interface InitialState {
-  favoriteOffers: Offer[] | undefined;
+  favoriteOffers: Offer[];
   favoriteOffersStatus: FetchStatus;
   favoriteOffersError: boolean;
 }
@@ -19,9 +19,24 @@ const initialState: InitialState = {
   favoriteOffersError: false,
 };
 
+interface sendFavoriteStatus {
+  id: number;
+  status: number;
+}
+
 export const fetchFavoritesAction = createAsyncThunk('data/fetchFavorites', async () => {
   try {
     const { data } = await api.get<Offer[]>(`${APIRoute.Favorites}`);
+    return data;
+  } catch (err) {
+    handleError(err);
+    throw err;
+  }
+});
+
+export const sendFavorite = createAsyncThunk('user/sendReview', async ({ id, status }: sendFavoriteStatus) => {
+  try {
+    const { data } = await api.post<sendFavoriteStatus>(`${APIRoute.Favorites}/${id}/${status}`);
     return data;
   } catch (err) {
     handleError(err);
@@ -43,6 +58,16 @@ export const favoritesSlice = createSlice({
         state.favoriteOffers = action.payload;
       })
       .addCase(fetchFavoritesAction.rejected, (state) => {
+        state.favoriteOffersStatus = FetchStatus.Failed;
+        state.favoriteOffersError = true;
+      })
+      .addCase(sendFavorite.pending, (state) => {
+        state.favoriteOffersStatus = FetchStatus.Pending;
+      })
+      .addCase(sendFavorite.fulfilled, (state) => {
+        state.favoriteOffersStatus = FetchStatus.Success;
+      })
+      .addCase(sendFavorite.rejected, (state) => {
         state.favoriteOffersStatus = FetchStatus.Failed;
         state.favoriteOffersError = true;
       });
