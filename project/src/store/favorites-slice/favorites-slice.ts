@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 import { api } from '../index';
 import { handleError } from '../../services/handle-error';
@@ -11,12 +12,18 @@ interface InitialState {
   favoriteOffers: Offer[];
   favoriteOffersStatus: FetchStatus;
   favoriteOffersError: boolean;
+
+  sendFavoriteStatus: FetchStatus;
+  sendFavoriteError: boolean;
 }
 
 const initialState: InitialState = {
   favoriteOffers: [],
   favoriteOffersStatus: FetchStatus.Idle,
   favoriteOffersError: false,
+
+  sendFavoriteStatus: FetchStatus.Idle,
+  sendFavoriteError: false,
 };
 
 interface sendFavoriteStatus {
@@ -39,7 +46,7 @@ export const sendFavorite = createAsyncThunk('user/sendReview', async ({ id, sta
     const { data } = await api.post<sendFavoriteStatus>(`${APIRoute.Favorites}/${id}/${status}`);
     return data;
   } catch (err) {
-    handleError(err);
+    toast.error("Sorry, can't add to favorites. Try again later");
     throw err;
   }
 });
@@ -62,14 +69,14 @@ export const favoritesSlice = createSlice({
         state.favoriteOffersError = true;
       })
       .addCase(sendFavorite.pending, (state) => {
-        state.favoriteOffersStatus = FetchStatus.Pending;
+        state.sendFavoriteStatus = FetchStatus.Pending;
       })
       .addCase(sendFavorite.fulfilled, (state) => {
-        state.favoriteOffersStatus = FetchStatus.Success;
+        state.sendFavoriteStatus = FetchStatus.Success;
       })
       .addCase(sendFavorite.rejected, (state) => {
-        state.favoriteOffersStatus = FetchStatus.Failed;
-        state.favoriteOffersError = true;
+        state.sendFavoriteStatus = FetchStatus.Failed;
+        state.sendFavoriteError = true;
       });
   },
 });
@@ -78,3 +85,4 @@ const selectFavoritesState = (state: State) => state[NameSpace.Favorites];
 
 export const selectFavoriteOffers = (state: State) => selectFavoritesState(state).favoriteOffers;
 export const selectFavoriteOffersStatus = (state: State) => selectFavoritesState(state).favoriteOffersStatus;
+export const selectsendFavoriteStatus = (state: State) => selectFavoritesState(state).sendFavoriteStatus;
