@@ -85,4 +85,4 @@ const selectFavoritesState = (state: State) => state[NameSpace.Favorites];
 
 export const selectFavoriteOffers = (state: State) => selectFavoritesState(state).favoriteOffers;
 export const selectFavoriteOffersStatus = (state: State) => selectFavoritesState(state).favoriteOffersStatus;
-export const selectsendFavoriteStatus = (state: State) => selectFavoritesState(state).sendFavoriteStatus;
+export const selectSendFavoriteStatus = (state: State) => selectFavoritesState(state).sendFavoriteStatus;

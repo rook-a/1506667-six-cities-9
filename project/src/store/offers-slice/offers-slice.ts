@@ -89,6 +89,9 @@ export const offersSlice = createSlice({
       })
       .addCase(fetchOfferAction.fulfilled, (state, action) => {
         state.offerStatus = FetchStatus.Success;
+        const index = state.offers.findIndex(({ id }) => id === action.payload.id);
+
+        state.offers[index] = action.payload;
         state.offer = action.payload;
       })
       .addCase(fetchOfferAction.rejected, (state) => {

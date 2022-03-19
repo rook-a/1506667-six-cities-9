@@ -1,14 +1,9 @@
-import { useState } from 'react';
 import cn from 'classnames';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { redirectToRoute } from '../../store/action';
-import {
-  fetchFavoritesAction,
-  selectsendFavoriteStatus,
-  sendFavorite,
-} from '../../store/favorites-slice/favorites-slice';
+import { selectSendFavoriteStatus, sendFavorite } from '../../store/favorites-slice/favorites-slice';
 import { fetchOfferAction } from '../../store/offers-slice/offers-slice';
 import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
 
@@ -23,8 +18,7 @@ interface BookmarkProps {
 function Bookmark({ id, isSmall, className, isFavorite }: BookmarkProps): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(selectRequireAuthrization);
-  const sendFavoriteStatus = useAppSelector(selectsendFavoriteStatus);
-  const [favorite, setFavorite] = useState(isFavorite);
+  const sendFavoriteStatus = useAppSelector(selectSendFavoriteStatus);
 
   const idAuth = authorizationStatus === AuthorizationStatus.Auth;
 
@@ -35,27 +29,25 @@ function Bookmark({ id, isSmall, className, isFavorite }: BookmarkProps): JSX.El
 
   const handleClick = () => {
     if (idAuth) {
-      dispatch(sendFavorite({ id, status: Number(!favorite) }));
+      dispatch(sendFavorite({ id, status: Number(!isFavorite) }));
     } else {
       dispatch(redirectToRoute(AppRoute.Login));
     }
 
     if (sendFavoriteStatus === FetchStatus.Success) {
-      setFavorite(!favorite);
       dispatch(fetchOfferAction(id));
-      dispatch(fetchFavoritesAction());
     }
   };
 
   return (
     <button
       onClick={handleClick}
-      className={cn('button', `${className}`, { 'place-card__bookmark-button--active': favorite })}
+      className={cn('button', `${className}`, { 'place-card__bookmark-button--active': isFavorite })}
       type="button">
       <svg className="place-card__bookmark-icon" width={bookmark.width} height={bookmark.height}>
         <use xlinkHref="#icon-bookmark" />
       </svg>
-      <span className="visually-hidden">{favorite ? 'In bookmarks' : 'To bookmarks'}</span>
+      <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
     </button>
   );
 }
