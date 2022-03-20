@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { api } from '../index';
-import { fetchReviewsAction } from '../api-actions';
 
 import { handleError } from '../../services/handle-error';
 
@@ -31,6 +30,15 @@ export const sendReview = createAsyncThunk('user/sendReview', async ({ id, comme
     return data;
   } catch (err) {
     handleError(err);
+    throw err;
+  }
+});
+
+export const fetchReviewsAction = createAsyncThunk('data/fetchReviews', async (id: number) => {
+  try {
+    const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
+    return data;
+  } catch (err) {
     throw err;
   }
 });

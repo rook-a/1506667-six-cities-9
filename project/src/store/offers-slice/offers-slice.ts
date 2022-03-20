@@ -1,8 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 
-import { fetchFavoritesAction, fetchOfferAction, fetchOffersAction, fetchOffersNearbyAction } from '../api-actions';
+import { api } from '../index';
+import { handleError } from '../../services/handle-error';
+import { changeFavoriteStatus } from '../favorites-slice/favorites-slice';
+import { selectCity, selectSortType } from '../app-slice/app-slice';
 
-import { FetchStatus, NameSpace } from '../../utils/const';
+import { sortOffers } from '../../utils/utils';
+import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
 
 import { Offer } from '../../types/offer';
 import { State } from '../../types/state';
@@ -19,10 +23,6 @@ interface InitialState {
   offersNearby: Offer[] | undefined;
   offersNearbyStatus: FetchStatus;
   offersNearbyError: boolean;
-
-  favoriteOffers: Offer[] | undefined;
-  favoriteOffersStatus: FetchStatus;
-  favoriteOffersError: boolean;
 }
 
 const initialState: InitialState = {
@@ -37,11 +37,37 @@ const initialState: InitialState = {
   offersNearby: [],
   offersNearbyStatus: FetchStatus.Idle,
   offersNearbyError: false,
-
-  favoriteOffers: [],
-  favoriteOffersStatus: FetchStatus.Idle,
-  favoriteOffersError: false,
 };
+
+export const fetchOffersAction = createAsyncThunk('data/fetchOffers', async () => {
+  try {
+    const { data } = await api.get<Offer[]>(APIRoute.Offers);
+    return data;
+  } catch (err) {
+    handleError(err);
+    throw err;
+  }
+});
+
+export const fetchOfferAction = createAsyncThunk('data/fetchOffer', async (id: number) => {
+  try {
+    const { data } = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
+    return data;
+  } catch (err) {
+    handleError(err);
+    throw err;
+  }
+});
+
+export const fetchOffersNearbyAction = createAsyncThunk('data/fetchOffersNearby', async (id: number) => {
+  try {
+    const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
+    return data;
+  } catch (err) {
+    handleError(err);
+    throw err;
+  }
+});
 
 export const offersSlice = createSlice({
   name: NameSpace.Offers,
@@ -82,16 +108,10 @@ export const offersSlice = createSlice({
         state.offersNearbyStatus = FetchStatus.Failed;
         state.offersNearbyError = true;
       })
-      .addCase(fetchFavoritesAction.pending, (state) => {
-        state.favoriteOffersStatus = FetchStatus.Pending;
-      })
-      .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
-        state.favoriteOffersStatus = FetchStatus.Success;
-        state.favoriteOffers = action.payload;
-      })
-      .addCase(fetchFavoritesAction.rejected, (state) => {
-        state.favoriteOffersStatus = FetchStatus.Failed;
-        state.favoriteOffersError = true;
+      .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        const index = state.offers.findIndex(({ id }) => id === action.payload.id);
+        state.offers[index] = action.payload;
+        state.offer = state.offer !== null ? action.payload : null;
       });
   },
 });
@@ -104,5 +124,13 @@ export const selectOffer = (state: State) => selectOffersState(state).offer;
 export const selectOfferStatus = (state: State) => selectOffersState(state).offerStatus;
 export const selectoffersNearby = (state: State) => selectOffersState(state).offersNearby;
 export const selectoffersNearbyStatus = (state: State) => selectOffersState(state).offersNearbyStatus;
-export const selectFavoriteOffers = (state: State) => selectOffersState(state).favoriteOffers;
-export const selectFavoriteOffersStatus = (state: State) => selectOffersState(state).favoriteOffersStatus;
+
+export const selectCurrentOffers = createSelector(
+  selectCity,
+  selectSortType,
+  selectOffers,
+  (city, sortType, offers) => {
+    const filteredOffers = offers.filter((offer) => offer.city.name === city);
+    return sortOffers(sortType, filteredOffers);
+  },
+);

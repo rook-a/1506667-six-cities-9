@@ -9,7 +9,8 @@ import Bookmark from '../../components/boormark/boormark';
 import Spinner from '../../components/spinner/spinner';
 import NotFound from '../not-found/not-found';
 
-import { fetchOfferAction, fetchOffersNearbyAction, fetchReviewsAction } from '../../store/api-actions';
+import { fetchOfferAction, fetchOffersNearbyAction } from '../../store/offers-slice/offers-slice';
+import { fetchReviewsAction } from '../../store/review-slice/review-slice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { FetchStatus } from '../../utils/const';
@@ -88,7 +89,12 @@ function Property(): JSX.Element | null {
               )}
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
-                <Bookmark isSmall={false} className={'property__bookmark-button'} isFavorite={isFavorite} />
+                <Bookmark
+                  id={selectedOfferId}
+                  isSmall={false}
+                  className={'property__bookmark-button'}
+                  isFavorite={isFavorite}
+                />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
