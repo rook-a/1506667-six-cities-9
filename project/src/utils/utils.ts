@@ -39,3 +39,6 @@ export const isPending = (fetchStatus: FetchStatus): boolean =>
   fetchStatus === FetchStatus.Idle || fetchStatus === FetchStatus.Pending;
 
 export const isAuth = (authorizationStatus: AuthorizationStatus) => authorizationStatus === AuthorizationStatus.Auth;
+
+export const getRandomNumber = (from: number, to: number) =>
+  from >= 0 && to > from ? Math.round(Math.random() * (to - from) + from) : 0;
