@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { getUser } from '../../services/user';
+import { fetchOffersAction } from '../../store/offers-slice/offers-slice';
 import { logoutAction } from '../../store/user-slice/user-slice';
 
 interface NavProps {
@@ -35,6 +36,7 @@ function Nav({ isAuth }: NavProps): JSX.Element {
               onClick={(evt) => {
                 evt.preventDefault();
                 dispatch(logoutAction());
+                dispatch(fetchOffersAction());
               }}
               className="header__nav-link"
               to="/"

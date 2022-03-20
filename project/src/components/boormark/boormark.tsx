@@ -3,11 +3,13 @@ import cn from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { redirectToRoute } from '../../store/action';
-import { changeFavoriteStatus } from '../../store/favorites-slice/favorites-slice';
+import { changeFavoriteStatus, selectChangeFavoriteStatus } from '../../store/favorites-slice/favorites-slice';
 
 import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
 
-import { AppRoute, AuthorizationStatus } from '../../utils/const';
+import { AppRoute, AuthorizationStatus, FetchStatus } from '../../utils/const';
+
+import styles from './bookmark.module.css';
 interface BookmarkProps {
   id: number;
   isSmall: boolean;
@@ -18,8 +20,9 @@ interface BookmarkProps {
 function Bookmark({ id, isSmall, className, isFavorite }: BookmarkProps): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(selectRequireAuthrization);
-
+  const favoriteStatus = useAppSelector(selectChangeFavoriteStatus);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const isPending = favoriteStatus === FetchStatus.Pending;
 
   const bookmark = {
     width: isSmall ? 18 : 31,
@@ -37,7 +40,12 @@ function Bookmark({ id, isSmall, className, isFavorite }: BookmarkProps): JSX.El
   return (
     <button
       onClick={handleClick}
-      className={cn('button', `${className}`, { 'place-card__bookmark-button--active': isFavorite })}
+      className={cn(
+        'button',
+        `${className}`,
+        { 'place-card__bookmark-button--active': isFavorite },
+        { [styles['button--pending']]: isPending },
+      )}
       type="button">
       <svg className="place-card__bookmark-icon" width={bookmark.width} height={bookmark.height}>
         <use xlinkHref="#icon-bookmark" />

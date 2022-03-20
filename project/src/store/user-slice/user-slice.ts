@@ -73,7 +73,7 @@ export const userSlice = createSlice({
       .addCase(logoutAction.pending, (state) => {
         state.logoutStatus = FetchStatus.Pending;
       })
-      .addCase(logoutAction.fulfilled, (state, action) => {
+      .addCase(logoutAction.fulfilled, (state) => {
         state.logoutStatus = FetchStatus.Success;
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         removeUser();
