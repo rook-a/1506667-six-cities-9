@@ -13,8 +13,7 @@ interface InitialState {
   favoriteOffersStatus: FetchStatus;
   favoriteOffersError: boolean;
 
-  sendFavoriteStatus: FetchStatus;
-  sendFavoriteError: boolean;
+  changeFavoriteStatus: FetchStatus;
 }
 
 const initialState: InitialState = {
@@ -22,8 +21,7 @@ const initialState: InitialState = {
   favoriteOffersStatus: FetchStatus.Idle,
   favoriteOffersError: false,
 
-  sendFavoriteStatus: FetchStatus.Idle,
-  sendFavoriteError: false,
+  changeFavoriteStatus: FetchStatus.Idle,
 };
 
 interface sendFavoriteStatus {
@@ -41,15 +39,18 @@ export const fetchFavoritesAction = createAsyncThunk('data/fetchFavorites', asyn
   }
 });
 
-export const sendFavorite = createAsyncThunk('user/sendReview', async ({ id, status }: sendFavoriteStatus) => {
-  try {
-    const { data } = await api.post<sendFavoriteStatus>(`${APIRoute.Favorites}/${id}/${status}`);
-    return data;
-  } catch (err) {
-    toast.error("Sorry, can't add to favorites. Try again later");
-    throw err;
-  }
-});
+export const changeFavoriteStatus = createAsyncThunk(
+  'data/changeFavoriteStatus',
+  async ({ id, status }: sendFavoriteStatus) => {
+    try {
+      const { data } = await api.post<Offer>(`${APIRoute.Favorites}/${id}/${status}`);
+      return data;
+    } catch (err) {
+      toast.error('Sorry, no luck processing the changes. Try again later');
+      throw err;
+    }
+  },
+);
 
 export const favoritesSlice = createSlice({
   name: NameSpace.Favorites,
@@ -68,15 +69,15 @@ export const favoritesSlice = createSlice({
         state.favoriteOffersStatus = FetchStatus.Failed;
         state.favoriteOffersError = true;
       })
-      .addCase(sendFavorite.pending, (state) => {
-        state.sendFavoriteStatus = FetchStatus.Pending;
+      .addCase(changeFavoriteStatus.pending, (state) => {
+        state.changeFavoriteStatus = FetchStatus.Pending;
       })
-      .addCase(sendFavorite.fulfilled, (state) => {
-        state.sendFavoriteStatus = FetchStatus.Success;
+      .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        state.changeFavoriteStatus = FetchStatus.Success;
+        state.favoriteOffers = state.favoriteOffers.filter(({ id }) => id !== action.payload.id);
       })
-      .addCase(sendFavorite.rejected, (state) => {
-        state.sendFavoriteStatus = FetchStatus.Failed;
-        state.sendFavoriteError = true;
+      .addCase(changeFavoriteStatus.rejected, (state) => {
+        state.changeFavoriteStatus = FetchStatus.Failed;
       });
   },
 });
@@ -85,4 +86,4 @@ const selectFavoritesState = (state: State) => state[NameSpace.Favorites];
 
 export const selectFavoriteOffers = (state: State) => selectFavoritesState(state).favoriteOffers;
 export const selectFavoriteOffersStatus = (state: State) => selectFavoritesState(state).favoriteOffersStatus;
-export const selectSendFavoriteStatus = (state: State) => selectFavoritesState(state).sendFavoriteStatus;
+export const selectChangeFavoriteStatus = (state: State) => selectFavoritesState(state).changeFavoriteStatus;

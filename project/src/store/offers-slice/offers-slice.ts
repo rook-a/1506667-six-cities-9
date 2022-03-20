@@ -1,13 +1,15 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 
+import { api } from '../index';
+import { handleError } from '../../services/handle-error';
+import { changeFavoriteStatus } from '../favorites-slice/favorites-slice';
+import { selectCity, selectSortType } from '../app-slice/app-slice';
+
+import { sortOffers } from '../../utils/utils';
 import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
 
 import { Offer } from '../../types/offer';
 import { State } from '../../types/state';
-import { selectCity, selectSortType } from '../app-slice/app-slice';
-import { sortOffers } from '../../utils/utils';
-import { handleError } from '../../services/handle-error';
-import { api } from '../index';
 
 interface InitialState {
   offers: Offer[];
@@ -89,9 +91,6 @@ export const offersSlice = createSlice({
       })
       .addCase(fetchOfferAction.fulfilled, (state, action) => {
         state.offerStatus = FetchStatus.Success;
-        const index = state.offers.findIndex(({ id }) => id === action.payload.id);
-
-        state.offers[index] = action.payload;
         state.offer = action.payload;
       })
       .addCase(fetchOfferAction.rejected, (state) => {
@@ -108,6 +107,11 @@ export const offersSlice = createSlice({
       .addCase(fetchOffersNearbyAction.rejected, (state) => {
         state.offersNearbyStatus = FetchStatus.Failed;
         state.offersNearbyError = true;
+      })
+      .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        const index = state.offers.findIndex(({ id }) => id === action.payload.id);
+        state.offers[index] = action.payload;
+        state.offer = state.offer !== null ? action.payload : null;
       });
   },
 });

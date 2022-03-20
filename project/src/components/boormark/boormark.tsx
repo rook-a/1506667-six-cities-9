@@ -3,11 +3,11 @@ import cn from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { redirectToRoute } from '../../store/action';
-import { selectSendFavoriteStatus, sendFavorite } from '../../store/favorites-slice/favorites-slice';
-import { fetchOfferAction } from '../../store/offers-slice/offers-slice';
+import { changeFavoriteStatus } from '../../store/favorites-slice/favorites-slice';
+
 import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
 
-import { AppRoute, AuthorizationStatus, FetchStatus } from '../../utils/const';
+import { AppRoute, AuthorizationStatus } from '../../utils/const';
 interface BookmarkProps {
   id: number;
   isSmall: boolean;
@@ -18,9 +18,8 @@ interface BookmarkProps {
 function Bookmark({ id, isSmall, className, isFavorite }: BookmarkProps): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(selectRequireAuthrization);
-  const sendFavoriteStatus = useAppSelector(selectSendFavoriteStatus);
 
-  const idAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   const bookmark = {
     width: isSmall ? 18 : 31,
@@ -28,14 +27,10 @@ function Bookmark({ id, isSmall, className, isFavorite }: BookmarkProps): JSX.El
   };
 
   const handleClick = () => {
-    if (idAuth) {
-      dispatch(sendFavorite({ id, status: Number(!isFavorite) }));
+    if (isAuth) {
+      dispatch(changeFavoriteStatus({ id, status: Number(!isFavorite) }));
     } else {
       dispatch(redirectToRoute(AppRoute.Login));
-    }
-
-    if (sendFavoriteStatus === FetchStatus.Success) {
-      dispatch(fetchOfferAction(id));
     }
   };
 
