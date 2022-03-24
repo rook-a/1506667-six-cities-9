@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
+import { AxiosInstance } from 'axios';
 
-import { api } from '../index';
 import { handleError } from '../../services/handle-error';
 import { changeFavoriteStatus } from '../favorites-slice/favorites-slice';
 import { selectCity, selectSortType } from '../app-slice/app-slice';
@@ -9,7 +9,7 @@ import { sortOffers } from '../../utils/utils';
 import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
 
 import { Offer } from '../../types/offer';
-import { State } from '../../types/state';
+import { AppDispatch, State } from '../../types/state';
 
 interface InitialState {
   offers: Offer[];
@@ -39,7 +39,13 @@ const initialState: InitialState = {
   offersNearbyError: false,
 };
 
-export const fetchOffersAction = createAsyncThunk('data/fetchOffers', async () => {
+export const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchOffers',
+  async (_arg, {dispatch, extra: api}) => {
   try {
     const { data } = await api.get<Offer[]>(APIRoute.Offers);
     return data;
@@ -49,7 +55,13 @@ export const fetchOffersAction = createAsyncThunk('data/fetchOffers', async () =
   }
 });
 
-export const fetchOfferAction = createAsyncThunk('data/fetchOffer', async (id: number) => {
+export const fetchOfferAction = createAsyncThunk<Offer, number, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchOffer',
+  async (id: number, {dispatch, extra: api}) => {
   try {
     const { data } = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
     return data;
@@ -59,7 +71,13 @@ export const fetchOfferAction = createAsyncThunk('data/fetchOffer', async (id: n
   }
 });
 
-export const fetchOffersNearbyAction = createAsyncThunk('data/fetchOffersNearby', async (id: number) => {
+export const fetchOffersNearbyAction = createAsyncThunk<Offer[], number, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchOffersNearby',
+  async (id: number, {dispatch, extra: api}) => {
   try {
     const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
     return data;

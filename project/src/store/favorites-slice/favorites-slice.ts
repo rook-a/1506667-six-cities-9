@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { AxiosInstance } from 'axios';
 
-import { api } from '../index';
 import { handleError } from '../../services/handle-error';
 
-import { Offer } from '../../types/offer';
 import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
-import { State } from '../../types/state';
+import { Offer } from '../../types/offer';
+import { AppDispatch, State } from '../../types/state';
+import { sendFavoriteStatus } from '../../types/send-favorite-status';
 
 interface InitialState {
   favoriteOffers: Offer[];
@@ -24,12 +25,15 @@ const initialState: InitialState = {
   changeFavoriteStatus: FetchStatus.Idle,
 };
 
-interface sendFavoriteStatus {
-  id: number;
-  status: number;
-}
-
-export const fetchFavoritesAction = createAsyncThunk('data/fetchFavorites', async () => {
+export const fetchFavoritesAction = createAsyncThunk<
+  Offer[],
+  undefined,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/fetchFavorites', async (_arg, { dispatch, extra: api }) => {
   try {
     const { data } = await api.get<Offer[]>(`${APIRoute.Favorites}`);
     return data;
@@ -39,18 +43,23 @@ export const fetchFavoritesAction = createAsyncThunk('data/fetchFavorites', asyn
   }
 });
 
-export const changeFavoriteStatus = createAsyncThunk(
-  'data/changeFavoriteStatus',
-  async ({ id, status }: sendFavoriteStatus) => {
-    try {
-      const { data } = await api.post<Offer>(`${APIRoute.Favorites}/${id}/${status}`);
-      return data;
-    } catch (err) {
-      toast.error('Sorry, no luck processing the changes. Try again later');
-      throw err;
-    }
-  },
-);
+export const changeFavoriteStatus = createAsyncThunk<
+  Offer,
+  sendFavoriteStatus,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/changeFavoriteStatus', async ({ id, status }: sendFavoriteStatus, { dispatch, extra: api }) => {
+  try {
+    const { data } = await api.post<Offer>(`${APIRoute.Favorites}/${id}/${status}`);
+    return data;
+  } catch (err) {
+    toast.error('Sorry, no luck processing the changes. Try again later');
+    throw err;
+  }
+});
 
 export const favoritesSlice = createSlice({
   name: NameSpace.Favorites,

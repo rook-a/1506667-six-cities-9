@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
-import { api } from '../index';
+import { AxiosInstance } from 'axios';
 
 import { handleError } from '../../services/handle-error';
 
 import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
 import { Review, sendUserReview } from '../../types/review';
-import { State } from '../../types/state';
+import { AppDispatch, State } from '../../types/state';
 
 interface InitialState {
   sendReviewStatus: FetchStatus;
@@ -24,7 +23,13 @@ const initialState: InitialState = {
   reviewsError: false,
 };
 
-export const sendReview = createAsyncThunk('user/sendReview', async ({ id, comment, rating }: sendUserReview) => {
+export const sendReview = createAsyncThunk<sendUserReview, sendUserReview, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'user/sendReview',
+  async ({ id, comment, rating }: sendUserReview, {dispatch, extra: api}) => {
   try {
     const { data } = await api.post<sendUserReview>(`${APIRoute.Comments}/${id}`, { comment, rating });
     return data;
@@ -34,7 +39,13 @@ export const sendReview = createAsyncThunk('user/sendReview', async ({ id, comme
   }
 });
 
-export const fetchReviewsAction = createAsyncThunk('data/fetchReviews', async (id: number) => {
+export const fetchReviewsAction = createAsyncThunk<Review[], number, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchReviews',
+  async (id: number, {dispatch, extra: api}) => {
   try {
     const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
     return data;
@@ -46,11 +57,7 @@ export const fetchReviewsAction = createAsyncThunk('data/fetchReviews', async (i
 export const reviewSlice = createSlice({
   name: NameSpace.Review,
   initialState,
-  reducers: {
-    loadReviews: (state, action) => {
-      state.reviews = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (buider) => {
     buider
       .addCase(sendReview.pending, (state) => {
@@ -75,8 +82,6 @@ export const reviewSlice = createSlice({
       });
   },
 });
-
-export const { loadReviews } = reviewSlice.actions;
 
 const selectReviewState = (state: State) => state[NameSpace.Review];
 

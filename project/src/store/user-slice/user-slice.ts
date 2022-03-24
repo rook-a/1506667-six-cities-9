@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { api, store } from '../index';
 import { removeUser, setUser } from '../../services/user';
 import { redirectToRoute } from '../action';
 
@@ -10,7 +9,8 @@ import { APIRoute, AppRoute, AuthorizationStatus, FetchStatus, NameSpace } from 
 
 import { UserData } from '../../types/user-data';
 import { AuthData } from '../../types/auth-data';
-import { State } from '../../types/state';
+import { AppDispatch, State } from '../../types/state';
+import { AxiosInstance } from 'axios';
 
 interface InitialState {
   authorizationStatus: AuthorizationStatus;
@@ -26,20 +26,47 @@ const initialState: InitialState = {
   logoutStatus: FetchStatus.Idle,
 };
 
-export const loginAction = createAsyncThunk('user/login', async ({ email, password }: AuthData) => {
+export const checkAuthAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance,
+}>(
+  'user/checkAuth', async (_arg, {dispatch, extra: api}) => {
+  try {
+    await api.get(APIRoute.Login);
+    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+  } catch (err) {
+    handleError(err);
+    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+  }
+});
+
+export const loginAction = createAsyncThunk<UserData, AuthData, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'user/login',
+  async ({ email, password }: AuthData, {dispatch, extra: api}) => {
   try {
     const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
 
-    store.dispatch(redirectToRoute(AppRoute.Main));
+    dispatch(redirectToRoute(AppRoute.Main));
     return data;
   } catch (err) {
     handleError(err);
-    store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     throw err;
   }
 });
 
-export const logoutAction = createAsyncThunk('user/logout', async () => {
+export const logoutAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'user/logout',
+  async (_arg, {dispatch, extra: api}) => {
   try {
     await api.delete(APIRoute.Logout);
   } catch (err) {

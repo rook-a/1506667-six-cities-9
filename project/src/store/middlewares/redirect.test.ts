@@ -6,9 +6,7 @@ import { AppRoute } from '../../utils/const';
 import { State } from '../../types/state';
 
 const fakeHistory = {
-  location: {
-    pathname: '',
-  },
+  location: { pathname: '' },
   push(path: string) {
     this.location.pathname = path;
   },
@@ -29,13 +27,11 @@ describe('Middleware: redirect', () => {
     store.dispatch(redirectToRoute(AppRoute.Login));
 
     expect(fakeHistory.location.pathname).toBe(AppRoute.Login);
-    expect(store.getActions()).toEqual([
-      redirectToRoute(AppRoute.Login),
-    ]);
+    expect(store.getActions()).toEqual([redirectToRoute(AppRoute.Login)]);
   });
 
   it('should not to be redirect /favorites because bad action', () => {
-    store.dispatch({type: 'UNKNOWN_ACTION', payload: AppRoute.Favorites});
+    store.dispatch({ type: 'UNKNOWN_ACTION', payload: AppRoute.Favorites });
 
     expect(fakeHistory.location.pathname).not.toBe(AppRoute.Favorites);
   });
