@@ -84,7 +84,7 @@ function LoginForm(): JSX.Element {
       <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>
         {Object.entries(fields).map(([name, { label, type }]) => (
           <div className="login__input-wrapper form__input-wrapper" key={name}>
-            <label className="visually-hidden">E-mail</label>
+            <label className="visually-hidden">{name}</label>
             <input
               onChange={handleChange}
               className={cn([styles['login__input']], 'form__input', {

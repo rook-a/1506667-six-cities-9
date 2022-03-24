@@ -7,8 +7,6 @@ import Login from '../../pages/login/login';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateOutlet from '../private-outlet/private-outlet';
 import Spinner from '../spinner/spinner';
-import HistoryRouter from '../history-route/history-route';
-import { browserHistory } from '../../browser-history';
 
 import { useAppSelector } from '../../hooks';
 import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
@@ -24,17 +22,15 @@ function App(): JSX.Element {
   }
 
   return (
-    <HistoryRouter history={browserHistory}>
-      <Routes>
-        <Route index element={<MainPage />} />
-        <Route element={<PrivateOutlet authorizationStatus={authorizationStatus} />}>
-          <Route path={AppRoute.Favorites} element={<Favorites />} />
-        </Route>
-        <Route path={`${AppRoute.Property}/:id`} element={<Property />} />
-        <Route path={AppRoute.Login} element={<Login />} />
-        <Route path={AppRoute.NotFound} element={<NotFound />} />
-      </Routes>
-    </HistoryRouter>
+    <Routes>
+      <Route index element={<MainPage />} />
+      <Route element={<PrivateOutlet authorizationStatus={authorizationStatus} />}>
+        <Route path={AppRoute.Favorites} element={<Favorites />} />
+      </Route>
+      <Route path={`${AppRoute.Property}/:id`} element={<Property />} />
+      <Route path={AppRoute.Login} element={<Login />} />
+      <Route path={AppRoute.NotFound} element={<NotFound />} />
+    </Routes>
   );
 }
 
