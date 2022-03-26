@@ -1,7 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
+
 import Rating from './rating';
+
+import { RATING } from '../../utils/const';
 
 describe('component: Rating', () => {
   it('should render correctly', () => {
@@ -14,10 +17,6 @@ describe('component: Rating', () => {
       </Provider>,
     );
 
-    expect(screen.getByTitle(/perfect/i)).toBeInTheDocument();
-    expect(screen.getByTitle(/good/i)).toBeInTheDocument();
-    expect(screen.getByTitle(/not bad/i)).toBeInTheDocument();
-    expect(screen.getByTitle(/badly/i)).toBeInTheDocument();
-    expect(screen.getByTitle(/terribly/i)).toBeInTheDocument();
+    expect(screen.getAllByTestId('rating')).toHaveLength(RATING.length);
   });
 });

@@ -26,7 +26,7 @@ function Tabs({ city }: TabsProps): JSX.Element {
                   evt.preventDefault();
                   handleClickTab(cityName);
                 }}>
-                <span>{cityName}</span>
+                <span data-testid="cityName">{cityName}</span>
               </a>
             </li>
           ))}

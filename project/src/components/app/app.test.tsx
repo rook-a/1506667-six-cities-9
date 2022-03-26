@@ -48,7 +48,7 @@ describe('App routing', () => {
     render(fakeApp);
 
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument();
   });
 
   it('should render Favorites when user navigate to "/favorites"', () => {
@@ -77,8 +77,8 @@ describe('App routing', () => {
 
     render(fakeApp);
 
-    expect(screen.getByText("That page can't be found")).toBeInTheDocument();
-    expect(screen.getByText('Back to main page')).toBeInTheDocument();
-    expect(screen.getByText('Go back')).toBeInTheDocument();
+    expect(screen.getByText(/That page can't be found/i)).toBeInTheDocument();
+    expect(screen.getByText(/Back to main page/i)).toBeInTheDocument();
+    expect(screen.getByText(/Go back/i)).toBeInTheDocument();
   });
 });

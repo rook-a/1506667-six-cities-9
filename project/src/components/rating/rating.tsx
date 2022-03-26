@@ -21,6 +21,7 @@ function Rating({ onFormDisabled, onRatingChange, currentRating }: RatingProps):
             onChange={onRatingChange}
             checked={id === currentRating}
             disabled={onFormDisabled}
+            data-testid="rating"
           />
           <label className="reviews__rating-label form__rating-label" htmlFor={`${id}-stars`} title={title}>
             <svg className="form__star-image" width="37" height="33">
