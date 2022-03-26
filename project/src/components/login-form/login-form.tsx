@@ -94,6 +94,7 @@ function LoginForm(): JSX.Element {
               name={name}
               value={formState[name].value}
               placeholder={label}
+              data-testid={name}
               required
             />
             {formState[name].error && <p className={styles['login__error']}>{formState[name].errorText}</p>}

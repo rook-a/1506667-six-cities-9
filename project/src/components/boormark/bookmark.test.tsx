@@ -31,6 +31,26 @@ describe('component: Bookmark', () => {
     expect(screen.queryByRole('button')).not.toHaveClass('place-card__bookmark-button--active');
   });
 
+  it('should bookmark button disabled when changeFavoriteStatus: pending ', () => {
+    const store = mockStore({
+      User: {
+        authorizationStatus: AuthorizationStatus.Auth,
+      },
+      Favorites: { changeFavoriteStatus: FetchStatus.Pending },
+    });
+
+    render(
+      <Provider store={store}>
+        <HistoryRouter history={history}>
+          <Bookmark id={1} isSmall className={'cities__place-card'} isFavorite />
+        </HistoryRouter>
+      </Provider>,
+    );
+
+    expect(screen.getByRole('button')).toBeDisabled();
+    expect(screen.getByRole('button')).not.toBeEnabled();
+  });
+
   it('should click and /login dispatch when user not authrized', () => {
     const dispatch = jest.fn();
     const useDispatch = jest.spyOn(Redux, 'useDispatch');
@@ -76,6 +96,8 @@ describe('component: Bookmark', () => {
     );
 
     expect(screen.getByRole('button')).toBeInTheDocument();
+    expect(screen.getByRole('button')).not.toBeDisabled();
+    expect(screen.getByRole('button')).toBeEnabled();
 
     userEvent.click(screen.getByRole('button'));
     expect(screen.getByRole('button').classList.contains('place-card__bookmark-button--active'));

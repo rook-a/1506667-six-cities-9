@@ -46,7 +46,8 @@ function Bookmark({ id, isSmall, className, isFavorite }: BookmarkProps): JSX.El
         { 'place-card__bookmark-button--active': isFavorite },
         { [styles['button--pending']]: isPending },
       )}
-      type="button">
+      type="button"
+      disabled={isPending}>
       <svg className="place-card__bookmark-icon" width={bookmark.width} height={bookmark.height}>
         <use xlinkHref="#icon-bookmark" />
       </svg>
