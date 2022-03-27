@@ -45,6 +45,7 @@ describe('User slice', () => {
 
       const store = mockStore();
       Storage.prototype.setItem = jest.fn();
+      Storage.prototype.setItem('six-cities-token', 'secretToken');
 
       await store.dispatch(loginAction(fakeUser));
 
@@ -64,6 +65,7 @@ describe('User slice', () => {
 
       const store = mockStore();
       Storage.prototype.removeItem = jest.fn();
+      Storage.prototype.removeItem('six-cities-token');
 
       await store.dispatch(logoutAction());
 
