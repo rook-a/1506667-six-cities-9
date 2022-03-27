@@ -21,8 +21,7 @@ const mapOffersToCity = (arr: Offer[]) =>
 
 function Favorites(): JSX.Element {
   const dispatch = useAppDispatch();
-  const getOffers = useAppSelector(selectFavoriteOffers);
-  const offers = getOffers;
+  const offers = useAppSelector(selectFavoriteOffers);
   const favoriteOffersMap = mapOffersToCity(offers);
 
   useEffect(() => {

@@ -18,7 +18,7 @@ const store = mockStore({
   User: {
     authorizationStatus: AuthorizationStatus.Auth,
   },
-  Favorites: { favoritesOffers: [mockOffer] },
+  Favorites: { favoriteOffers: [mockOffer] },
 });
 
 describe('component: Favorites', () => {
