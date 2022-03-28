@@ -56,7 +56,7 @@ export const changeFavoriteStatus = createAsyncThunk<
     const { data } = await api.post<Offer>(`${APIRoute.Favorites}/${id}/${status}`);
     return data;
   } catch (err) {
-    toast.error('Sorry, no luck processing the changes. Try again later');
+    toast.error('Sorry, no luck processing the changes. Try reload page');
     throw err;
   }
 });

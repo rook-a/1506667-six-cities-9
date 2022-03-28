@@ -4,11 +4,11 @@ import cn from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { redirectToRoute } from '../../store/action';
-import { changeFavoriteStatus, selectChangeFavoriteStatus } from '../../store/favorites-slice/favorites-slice';
+import { changeFavoriteStatus } from '../../store/favorites-slice/favorites-slice';
 
 import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
 
-import { AppRoute, AuthorizationStatus, FetchStatus } from '../../utils/const';
+import { AppRoute, AuthorizationStatus } from '../../utils/const';
 
 import styles from './bookmark.module.css';
 interface BookmarkProps {
@@ -21,9 +21,7 @@ interface BookmarkProps {
 function Bookmark({ id, isSmall, className, isFavorite }: BookmarkProps): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(selectRequireAuthrization);
-  const favoriteStatus = useAppSelector(selectChangeFavoriteStatus);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-  const isPending = favoriteStatus === FetchStatus.Pending;
 
   const bookmark = {
     width: isSmall ? 18 : 31,
@@ -32,6 +30,7 @@ function Bookmark({ id, isSmall, className, isFavorite }: BookmarkProps): JSX.El
 
   const handleClick = (evt: MouseEvent<HTMLButtonElement>) => {
     if (isAuth) {
+      evt.currentTarget.classList.add(`${[styles['button--pending']]}`);
       dispatch(changeFavoriteStatus({ id, status: Number(!isFavorite) }));
     } else {
       dispatch(redirectToRoute(AppRoute.Login));
@@ -41,14 +40,8 @@ function Bookmark({ id, isSmall, className, isFavorite }: BookmarkProps): JSX.El
   return (
     <button
       onClick={handleClick}
-      className={cn(
-        'button',
-        `${className}`,
-        { 'place-card__bookmark-button--active': isFavorite },
-        { [styles['button--pending']]: isPending },
-      )}
-      type="button"
-      disabled={isPending}>
+      className={cn('button', `${className}`, { 'place-card__bookmark-button--active': isFavorite })}
+      type="button">
       <svg className="place-card__bookmark-icon" width={bookmark.width} height={bookmark.height}>
         <use xlinkHref="#icon-bookmark" />
       </svg>
