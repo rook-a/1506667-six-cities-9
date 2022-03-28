@@ -1,14 +1,12 @@
+import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import HistoryRouter from '../history-route/history-route';
-import { createMemoryHistory } from 'history';
 
 import Header from './header';
 
 import { AuthorizationStatus } from '../../utils/const';
 
-const history = createMemoryHistory();
 const mockStore = configureMockStore();
 
 describe('component: Header', () => {
@@ -21,9 +19,9 @@ describe('component: Header', () => {
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <Header />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -43,9 +41,9 @@ describe('component: Header', () => {
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <Header isAuth />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 

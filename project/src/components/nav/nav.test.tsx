@@ -1,22 +1,20 @@
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { Provider } from 'react-redux';
-import { createMemoryHistory } from 'history';
 
 import Nav from './nav';
-import HistoryRouter from '../history-route/history-route';
 
 const mockStore = configureMockStore();
-const history = createMemoryHistory();
-const store = mockStore({});
+const store = mockStore();
 
 describe('component: Nav', () => {
   it('should render correctly when component NoAuth', () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <Nav />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -26,9 +24,9 @@ describe('component: Nav', () => {
   it('should render correctly when component Auth', () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <Nav isAuth />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 

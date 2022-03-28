@@ -18,6 +18,7 @@ function Nav({ isAuth }: NavProps): JSX.Element {
   const handleClick = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
     dispatch(logoutAction());
+    dispatch(fetchOffersAction());
   };
 
   return (
@@ -38,14 +39,7 @@ function Nav({ isAuth }: NavProps): JSX.Element {
         </li>
         {isAuth && (
           <li className="header__nav-item">
-            <Link
-              onClick={(evt) => {
-                handleClick(evt);
-                dispatch(fetchOffersAction());
-              }}
-              className="header__nav-link"
-              to="/"
-              title="Sign out">
+            <Link onClick={handleClick} className="header__nav-link" to="/" title="Sign out">
               <span className="header__signout">Sign out</span>
             </Link>
           </li>

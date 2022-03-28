@@ -30,9 +30,6 @@ describe('Middleware: redirect', () => {
   it('should be redirect to /login', () => {
     store.dispatch(redirectToRoute(AppRoute.Login));
 
-    // тут в toBe('') получается
-    // expect(fakeHistory.location.pathname).toBe(AppRoute.Login);
-
     expect(store.getActions()).toEqual([redirectToRoute(AppRoute.Login)]);
   });
 

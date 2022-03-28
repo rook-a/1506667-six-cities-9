@@ -1,18 +1,16 @@
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { Provider } from 'react-redux';
-import { createMemoryHistory } from 'history';
-import thunk from 'redux-thunk';
 
-import HistoryRouter from '../../components/history-route/history-route';
 import Property from './property';
 
-import { AppRoute, AuthorizationStatus, FetchStatus } from '../../utils/const';
+import { AuthorizationStatus, FetchStatus } from '../../utils/const';
 import { mockOffer, mockReview } from '../../utils/mock';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const history = createMemoryHistory();
 
 const store = mockStore({
   User: {
@@ -24,16 +22,12 @@ const store = mockStore({
 });
 
 describe('component: Property', () => {
-  beforeEach(() => {
-    history.push(AppRoute.Property);
-  });
-
   it('should render correctly', () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter initialEntries={['/offer/12345']}>
           <Property />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 

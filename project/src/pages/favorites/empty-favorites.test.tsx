@@ -1,29 +1,20 @@
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { Provider } from 'react-redux';
-import { createMemoryHistory } from 'history';
 
-import HistoryRouter from '../../components/history-route/history-route';
 import EmptyFavorites from './empty-favorites';
 
-import { AppRoute } from '../../utils/const';
-
 const mockStore = configureMockStore();
-const history = createMemoryHistory();
-
-const store = mockStore({});
+const store = mockStore();
 
 describe('component: EmptyFavorites', () => {
-  beforeEach(() => {
-    history.push(AppRoute.Favorites);
-  });
-
   it('should render correctly', () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <EmptyFavorites />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 

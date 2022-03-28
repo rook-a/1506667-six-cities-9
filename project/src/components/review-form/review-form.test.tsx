@@ -1,18 +1,17 @@
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { Provider } from 'react-redux';
-import { createMemoryHistory } from 'history';
 import userEvent from '@testing-library/user-event';
 
 import ReviewsForm from './review-form';
-import HistoryRouter from '../history-route/history-route';
+
 import { AuthorizationStatus, FetchStatus } from '../../utils/const';
 
 const mockNotValidComment = 'Lorem ipsum dolor sit amet, consectetuer';
 const mockValidComment = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ae';
 
 const mockStore = configureMockStore();
-const history = createMemoryHistory();
 const store = mockStore({
   User: {
     authorizationStatus: AuthorizationStatus.NoAuth,
@@ -24,9 +23,9 @@ describe('component: ReviewsForm', () => {
   it('should render correctly', () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <ReviewsForm offerId={1} />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -41,9 +40,9 @@ describe('component: ReviewsForm', () => {
   it('should enter comment 60 signs', () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <ReviewsForm offerId={1} />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -53,15 +52,14 @@ describe('component: ReviewsForm', () => {
     userEvent.type(screen.getByRole('textbox'), mockValidComment);
 
     expect(screen.getByRole('button')).toBeEnabled();
-    expect(screen.getByRole('button')).not.toBeDisabled();
   });
 
   it('should enter comment 40 signs', () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <ReviewsForm offerId={1} />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -72,6 +70,5 @@ describe('component: ReviewsForm', () => {
     userEvent.type(screen.getByRole('textbox'), mockNotValidComment);
 
     expect(screen.getByRole('button')).toBeDisabled();
-    expect(screen.getByRole('button')).not.toBeEnabled();
   });
 });

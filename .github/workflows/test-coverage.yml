@@ -20,7 +20,7 @@ jobs:
 
       - name: Run checks
         run: |
-          if [ -d 'project' ]; then cd project && npm run test && npm run lint; else echo 'Skip. The project directory does not exist'; fi
+          if [ -d 'project' ]; then cd project && npm test && npm run lint; else echo 'Skip. The project directory does not exist'; fi
 
       - name: Test & code coverage
         uses: paambaati/codeclimate-action@v3.0.0

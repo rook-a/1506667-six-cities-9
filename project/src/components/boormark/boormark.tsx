@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import cn from 'classnames';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -29,7 +30,7 @@ function Bookmark({ id, isSmall, className, isFavorite }: BookmarkProps): JSX.El
     height: isSmall ? 19 : 33,
   };
 
-  const handleClick = () => {
+  const handleClick = (evt: MouseEvent<HTMLButtonElement>) => {
     if (isAuth) {
       dispatch(changeFavoriteStatus({ id, status: Number(!isFavorite) }));
     } else {

@@ -1,20 +1,19 @@
-import { render, screen } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
-import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import HistoryRouter from '../../components/history-route/history-route';
+import { MemoryRouter } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
+import { configureMockStore } from '@jedmao/redux-mock-store';
+
 import NotFound from './not-found';
 
 describe('component: NotFound', () => {
   it('should render correctly', () => {
-    const history = createMemoryHistory();
     const mockStore = configureMockStore();
 
     render(
       <Provider store={mockStore({})}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <NotFound />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 

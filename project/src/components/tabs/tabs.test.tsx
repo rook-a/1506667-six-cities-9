@@ -11,7 +11,7 @@ describe('component: Tabs', () => {
     const mockStore = configureMockStore();
 
     render(
-      <Provider store={mockStore({})}>
+      <Provider store={mockStore()}>
         <Tabs city={'Paris'} />
       </Provider>,
     );

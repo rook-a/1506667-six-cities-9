@@ -1,14 +1,12 @@
+import * as Redux from 'react-redux';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { Provider } from 'react-redux';
-import * as Redux from 'react-redux';
 import Bookmark from './boormark';
 import { AuthorizationStatus, FetchStatus } from '../../utils/const';
-import { createMemoryHistory } from 'history';
-import HistoryRouter from '../history-route/history-route';
 
-const history = createMemoryHistory();
 const mockStore = configureMockStore();
 const store = mockStore({
   User: {
@@ -21,9 +19,9 @@ describe('component: Bookmark', () => {
   it('should render correctly', () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <Bookmark id={1} isSmall className={'cities__place-card'} isFavorite={false} />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -41,14 +39,13 @@ describe('component: Bookmark', () => {
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <Bookmark id={1} isSmall className={'cities__place-card'} isFavorite />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
     expect(screen.getByRole('button')).toBeDisabled();
-    expect(screen.getByRole('button')).not.toBeEnabled();
   });
 
   it('should click and /login dispatch when user not authrized', () => {
@@ -58,9 +55,9 @@ describe('component: Bookmark', () => {
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <Bookmark id={1} isSmall className={'cities__place-card'} isFavorite={false} />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -76,7 +73,7 @@ describe('component: Bookmark', () => {
     });
   });
 
-  it('should click when user authrized', () => {
+  it('waiting for the correct action to be dispatch when bookmark clicked', () => {
     const dispatch = jest.fn();
     const useDispatch = jest.spyOn(Redux, 'useDispatch');
     useDispatch.mockReturnValue(dispatch);
@@ -89,15 +86,14 @@ describe('component: Bookmark', () => {
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <Bookmark id={1} isSmall className={'cities__place-card'} isFavorite={false} />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
     expect(screen.getByRole('button')).toBeInTheDocument();
     expect(screen.getByRole('button')).not.toBeDisabled();
-    expect(screen.getByRole('button')).toBeEnabled();
 
     userEvent.click(screen.getByRole('button'));
     expect(screen.getByRole('button').classList.contains('place-card__bookmark-button--active'));

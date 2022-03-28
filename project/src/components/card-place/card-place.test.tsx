@@ -1,8 +1,7 @@
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { Provider } from 'react-redux';
-import HistoryRouter from '../history-route/history-route';
-import { createMemoryHistory } from 'history';
 import userEvent from '@testing-library/user-event';
 
 import CardPlace from './card-place';
@@ -10,7 +9,6 @@ import CardPlace from './card-place';
 import { mockOffer } from '../../utils/mock';
 import { AuthorizationStatus, FetchStatus } from '../../utils/const';
 
-const history = createMemoryHistory();
 const mockStore = configureMockStore();
 const store = mockStore({
   User: {
@@ -23,31 +21,38 @@ describe('component: CardPlace', () => {
   it('should render correctly', () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <CardPlace offer={mockOffer} />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
     expect(screen.getByRole('article')).toBeInTheDocument();
   });
 
-  it('should call onCardHover function when user hover and unhover', () => {
-    const handleCardHover = jest.fn();
+  it('should call onCardHover function and change state id when user hover and unhover', () => {
+    const mockState: { id: number | null } = {
+      id: null,
+    };
+
+    const handleCardHover = (id: number | null) => {
+      mockState.id = id;
+    };
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <CardPlace offer={mockOffer} onCardHover={handleCardHover} />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
-    expect(screen.getByRole('article')).toBeInTheDocument();
+    const card = screen.getByRole('article');
 
-    userEvent.hover(screen.getByRole('article'));
-    userEvent.unhover(screen.getByRole('article'));
+    userEvent.hover(card);
+    expect(mockState).toHaveProperty('id', 12345);
 
-    expect(handleCardHover).toBeCalledTimes(2);
+    userEvent.unhover(card);
+    expect(mockState).toHaveProperty('id', null);
   });
 });

@@ -11,7 +11,7 @@ describe('component: Sorting', () => {
     const mockStore = configureMockStore();
 
     render(
-      <Provider store={mockStore({})}>
+      <Provider store={mockStore()}>
         <Sorting sortingType={'Popular'} />
       </Provider>,
     );
@@ -26,7 +26,7 @@ describe('component: Sorting', () => {
     useDispatch.mockReturnValue(dispatch);
 
     render(
-      <Provider store={mockStore({})}>
+      <Provider store={mockStore()}>
         <Sorting sortingType={'Popular'} />
       </Provider>,
     );
@@ -51,7 +51,7 @@ describe('component: Sorting', () => {
     useDispatch.mockReturnValue(dispatch);
 
     render(
-      <Provider store={mockStore({})}>
+      <Provider store={mockStore()}>
         <Sorting sortingType={'Popular'} />
       </Provider>,
     );

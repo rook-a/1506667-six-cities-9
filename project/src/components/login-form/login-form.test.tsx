@@ -1,16 +1,15 @@
-import { render, screen } from '@testing-library/react';
-import { configureMockStore } from '@jedmao/redux-mock-store';
-import { Provider } from 'react-redux';
-import { createMemoryHistory } from 'history';
-import userEvent from '@testing-library/user-event';
 import * as Redux from 'react-redux';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { configureMockStore } from '@jedmao/redux-mock-store';
+import userEvent from '@testing-library/user-event';
 
 import LoginForm from './login-form';
-import HistoryRouter from '../history-route/history-route';
+
 import { AuthorizationStatus, FetchStatus } from '../../utils/const';
 
 const mockStore = configureMockStore();
-const history = createMemoryHistory();
 const store = mockStore({
   User: {
     authorizationStatus: AuthorizationStatus.NoAuth,
@@ -19,16 +18,12 @@ const store = mockStore({
 });
 
 describe('component: LoginForm', () => {
-  beforeEach(() => {
-    history.push('/login');
-  });
-
   it('should render correctly', () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <LoginForm />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -39,9 +34,9 @@ describe('component: LoginForm', () => {
   it('should enter correct login and password', () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <LoginForm />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -63,9 +58,9 @@ describe('component: LoginForm', () => {
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <LoginForm />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -79,24 +74,20 @@ describe('component: LoginForm', () => {
   });
 
   it('should submit the login form', () => {
-    const dispatch = jest.fn();
+    const submitDispatch = jest.fn();
     const useDispatch = jest.spyOn(Redux, 'useDispatch');
-    useDispatch.mockReturnValue(dispatch);
+    useDispatch.mockReturnValue(submitDispatch);
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <MemoryRouter>
           <LoginForm />
-        </HistoryRouter>
+        </MemoryRouter>
       </Provider>,
     );
 
-    userEvent.type(screen.getByTestId(/email/i), 'test@mail.ru');
-    userEvent.type(screen.getByTestId(/password/i), 'test1');
-    userEvent.click(screen.getByRole('button'));
+    fireEvent.submit(screen.getByRole('button'));
 
-    expect(screen.getByDisplayValue(/test@mail.ru/i)).toBeInTheDocument();
-    expect(screen.getByDisplayValue(/test1/i)).toBeInTheDocument();
-    expect(useDispatch).toBeCalledTimes(18);
+    expect(submitDispatch).toBeCalledTimes(1);
   });
 });
