@@ -1,14 +1,27 @@
+import { ChangeEvent, FormEvent, useState } from 'react';
 import cn from 'classnames';
 
 import Spinner from '../spinner/spinner';
 
-import { useAppSelector } from '../../hooks';
-import useLoginForm from '../../hooks/use-login-form';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectloginStatus } from '../../store/user-slice/user-slice';
+import { loginAction } from '../../store/user-slice/user-slice';
 
 import { FetchStatus } from '../../utils/const';
 
 import styles from './login-form.module.css';
+
+const REG_EXP_EMAIL = /^\S+@[aA-zZ]{2,10}\.[aA-zZ]{2,3}$/;
+const REG_EXP_PASSWORD = /([0-9]{1}[aA-zZ]{1})|([aA-zZ]{1}[0-9]{1})/i;
+
+interface LoginField {
+  value: string;
+  regexp: RegExp;
+  error: boolean;
+  errorText: string;
+}
+
+type InitialState = { [key: string]: LoginField };
 
 const fields = {
   email: {
@@ -22,12 +35,48 @@ const fields = {
 };
 
 function LoginForm(): JSX.Element {
+  const dispatch = useAppDispatch();
   const loginStatus = useAppSelector(selectloginStatus);
-
-  const { formState, handleChange, handleSubmit } = useLoginForm();
+  const [formState, setFormState] = useState<InitialState>({
+    email: {
+      value: '',
+      regexp: REG_EXP_EMAIL,
+      error: false,
+      errorText: 'Email is not entered correctly',
+    },
+    password: {
+      value: '',
+      regexp: REG_EXP_PASSWORD,
+      error: false,
+      errorText: 'Enter at least 1 number and 1 letter',
+    },
+  });
 
   const isPending = loginStatus === FetchStatus.Pending;
   const isValid = Object.values(formState).some(({ error }) => error);
+
+  const handleSubmit = (evt: FormEvent) => {
+    if (evt) evt.preventDefault();
+    const authData = { email: formState.email.value, password: formState.password.value };
+
+    dispatch(loginAction(authData));
+  };
+
+  const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = evt.target;
+
+    const regExp = formState[name].regexp;
+    const isValid = regExp.test(value);
+
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: {
+        ...prevState[name],
+        error: !isValid,
+        value,
+      },
+    }));
+  };
 
   return (
     <section className="login">
@@ -35,7 +84,7 @@ function LoginForm(): JSX.Element {
       <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>
         {Object.entries(fields).map(([name, { label, type }]) => (
           <div className="login__input-wrapper form__input-wrapper" key={name}>
-            <label className="visually-hidden">E-mail</label>
+            <label className="visually-hidden">{name}</label>
             <input
               onChange={handleChange}
               className={cn([styles['login__input']], 'form__input', {
@@ -45,6 +94,7 @@ function LoginForm(): JSX.Element {
               name={name}
               value={formState[name].value}
               placeholder={label}
+              data-testid={name}
               required
             />
             {formState[name].error && <p className={styles['login__error']}>{formState[name].errorText}</p>}

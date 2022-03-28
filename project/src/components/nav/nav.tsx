@@ -1,6 +1,8 @@
+import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { getUser } from '../../services/user';
+import { fetchOffersAction } from '../../store/offers-slice/offers-slice';
 import { logoutAction } from '../../store/user-slice/user-slice';
 
 interface NavProps {
@@ -12,6 +14,12 @@ function Nav({ isAuth }: NavProps): JSX.Element {
   const { avatarUrl, email } = getUser();
 
   const titleLink = isAuth ? 'Favorites' : 'Sigh in';
+
+  const handleClick = (evt: MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    dispatch(logoutAction());
+    dispatch(fetchOffersAction());
+  };
 
   return (
     <nav className="header__nav">
@@ -31,14 +39,7 @@ function Nav({ isAuth }: NavProps): JSX.Element {
         </li>
         {isAuth && (
           <li className="header__nav-item">
-            <Link
-              onClick={(evt) => {
-                evt.preventDefault();
-                dispatch(logoutAction());
-              }}
-              className="header__nav-link"
-              to="/"
-              title="Sign out">
+            <Link onClick={handleClick} className="header__nav-link" to="/" title="Sign out">
               <span className="header__signout">Sign out</span>
             </Link>
           </li>

@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import cn from 'classnames';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -8,6 +9,8 @@ import { changeFavoriteStatus } from '../../store/favorites-slice/favorites-slic
 import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
 
 import { AppRoute, AuthorizationStatus } from '../../utils/const';
+
+import styles from './bookmark.module.css';
 interface BookmarkProps {
   id: number;
   isSmall: boolean;
@@ -18,7 +21,6 @@ interface BookmarkProps {
 function Bookmark({ id, isSmall, className, isFavorite }: BookmarkProps): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(selectRequireAuthrization);
-
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   const bookmark = {
@@ -26,8 +28,9 @@ function Bookmark({ id, isSmall, className, isFavorite }: BookmarkProps): JSX.El
     height: isSmall ? 19 : 33,
   };
 
-  const handleClick = () => {
+  const handleClick = (evt: MouseEvent<HTMLButtonElement>) => {
     if (isAuth) {
+      evt.currentTarget.classList.add(`${[styles['button--pending']]}`);
       dispatch(changeFavoriteStatus({ id, status: Number(!isFavorite) }));
     } else {
       dispatch(redirectToRoute(AppRoute.Login));
