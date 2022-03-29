@@ -125,4 +125,3 @@ const selectUserState = (state: State) => state[NameSpace.User];
 
 export const selectRequireAuthrization = (state: State) => selectUserState(state).authorizationStatus;
 export const selectloginStatus = (state: State) => selectUserState(state).loginStatus;
-export const selectlogoutStatus = (state: State) => selectUserState(state).logoutStatus;

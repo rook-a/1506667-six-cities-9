@@ -17,7 +17,7 @@ interface ReviewsFormProps {
   offerId: number;
 }
 
-function ReviewsForm({ offerId }: ReviewsFormProps): JSX.Element {
+function ReviewForm({ offerId }: ReviewsFormProps): JSX.Element {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('0');
   const dispatch = useAppDispatch();
@@ -84,4 +84,4 @@ function ReviewsForm({ offerId }: ReviewsFormProps): JSX.Element {
   );
 }
 
-export default ReviewsForm;
+export default ReviewForm;

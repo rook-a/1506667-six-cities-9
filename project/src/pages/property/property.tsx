@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Header from '../../components/header/header';
-import ReviewsForm from '../../components/review-form/review-form';
+import ReviewForm from '../../components/review-form/review-form';
 import Map from '../../components/map/map';
 import PlacesList from '../../components/places-list/places-list';
 import Bookmark from '../../components/boormark/boormark';
@@ -188,7 +188,7 @@ function Property(): JSX.Element | null {
                     })}
                   </ul>
                 )}
-                {isAuth(authorizationStatus) && <ReviewsForm offerId={selectedOfferId} />}
+                {isAuth(authorizationStatus) && <ReviewForm offerId={selectedOfferId} />}
               </section>
             </div>
           </div>
