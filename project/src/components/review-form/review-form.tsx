@@ -13,11 +13,11 @@ import Spinner from '../spinner/spinner';
 const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 300;
 
-interface ReviewsFormProps {
+interface ReviewFormProps {
   offerId: number;
 }
 
-function ReviewForm({ offerId }: ReviewsFormProps): JSX.Element {
+function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('0');
   const dispatch = useAppDispatch();
