@@ -9,11 +9,12 @@ import { Offer } from '../../types/offer';
 import { AppDispatch, State } from '../../types/state';
 import { sendFavoriteStatus } from '../../types/send-favorite-status';
 
-interface InitialState {
+export interface InitialState {
   favoriteOffers: Offer[];
   favoriteOffersStatus: FetchStatus;
   favoriteOffersError: boolean;
 
+  processingId: number | null;
   changeFavoriteStatus: FetchStatus;
 }
 
@@ -22,6 +23,7 @@ const initialState: InitialState = {
   favoriteOffersStatus: FetchStatus.Idle,
   favoriteOffersError: false,
 
+  processingId: null,
   changeFavoriteStatus: FetchStatus.Idle,
 };
 
@@ -56,7 +58,7 @@ export const changeFavoriteStatus = createAsyncThunk<
     const { data } = await api.post<Offer>(`${APIRoute.Favorites}/${id}/${status}`);
     return data;
   } catch (err) {
-    toast.error('Sorry, no luck processing the changes. Try reload page');
+    toast.error('Sorry, no luck processing the changes. Try again later');
     throw err;
   }
 });
@@ -64,7 +66,11 @@ export const changeFavoriteStatus = createAsyncThunk<
 export const favoritesSlice = createSlice({
   name: NameSpace.Favorites,
   initialState,
-  reducers: {},
+  reducers: {
+    processingId: (state, action) => {
+      state.processingId = action.payload;
+    },
+  },
   extraReducers: (buider) => {
     buider
       .addCase(fetchFavoritesAction.pending, (state) => {
@@ -83,16 +89,21 @@ export const favoritesSlice = createSlice({
       })
       .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
         state.changeFavoriteStatus = FetchStatus.Success;
+        state.processingId = null;
         state.favoriteOffers = state.favoriteOffers.filter(({ id }) => id !== action.payload.id);
       })
       .addCase(changeFavoriteStatus.rejected, (state) => {
         state.changeFavoriteStatus = FetchStatus.Failed;
+        state.processingId = null;
       });
   },
 });
+
+export const { processingId } = favoritesSlice.actions;
 
 const selectFavoritesState = (state: State) => state[NameSpace.Favorites];
 
 export const selectFavoriteOffers = (state: State) => selectFavoritesState(state).favoriteOffers;
 export const selectFavoriteOffersStatus = (state: State) => selectFavoritesState(state).favoriteOffersStatus;
 export const selectChangeFavoriteStatus = (state: State) => selectFavoritesState(state).changeFavoriteStatus;
+export const selectProcessingId = (state: State) => selectFavoritesState(state).processingId;

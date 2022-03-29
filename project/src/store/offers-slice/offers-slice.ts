@@ -39,13 +39,15 @@ const initialState: InitialState = {
   offersNearbyError: false,
 };
 
-export const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  'data/fetchOffers',
-  async (_arg, {dispatch, extra: api}) => {
+export const fetchOffersAction = createAsyncThunk<
+  Offer[],
+  undefined,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/fetchOffers', async (_arg, { dispatch, extra: api }) => {
   try {
     const { data } = await api.get<Offer[]>(APIRoute.Offers);
     return data;
@@ -55,13 +57,15 @@ export const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
   }
 });
 
-export const fetchOfferAction = createAsyncThunk<Offer, number, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  'data/fetchOffer',
-  async (id: number, {dispatch, extra: api}) => {
+export const fetchOfferAction = createAsyncThunk<
+  Offer,
+  number,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/fetchOffer', async (id: number, { dispatch, extra: api }) => {
   try {
     const { data } = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
     return data;
@@ -71,13 +75,15 @@ export const fetchOfferAction = createAsyncThunk<Offer, number, {
   }
 });
 
-export const fetchOffersNearbyAction = createAsyncThunk<Offer[], number, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  'data/fetchOffersNearby',
-  async (id: number, {dispatch, extra: api}) => {
+export const fetchOffersNearbyAction = createAsyncThunk<
+  Offer[],
+  number,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/fetchOffersNearby', async (id: number, { dispatch, extra: api }) => {
   try {
     const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
     return data;
@@ -137,11 +143,10 @@ export const offersSlice = createSlice({
 const selectOffersState = (state: State) => state[NameSpace.Offers];
 
 export const selectOffers = (state: State) => selectOffersState(state).offers;
-export const selectOffersStatus = (state: State) => selectOffersState(state).offersStatus;
 export const selectOffer = (state: State) => selectOffersState(state).offer;
 export const selectOfferStatus = (state: State) => selectOffersState(state).offerStatus;
-export const selectoffersNearby = (state: State) => selectOffersState(state).offersNearby;
-export const selectoffersNearbyStatus = (state: State) => selectOffersState(state).offersNearbyStatus;
+export const selectOffersNearby = (state: State) => selectOffersState(state).offersNearby;
+export const selectOffersNearbyStatus = (state: State) => selectOffersState(state).offersNearbyStatus;
 
 export const selectCurrentOffers = createSelector(
   selectCity,

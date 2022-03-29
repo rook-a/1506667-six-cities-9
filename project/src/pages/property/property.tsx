@@ -9,22 +9,23 @@ import Bookmark from '../../components/boormark/boormark';
 import Spinner from '../../components/spinner/spinner';
 import NotFound from '../not-found/not-found';
 
-import { fetchOfferAction, fetchOffersNearbyAction } from '../../store/offers-slice/offers-slice';
-import { fetchReviewsAction } from '../../store/review-slice/review-slice';
+import {
+  fetchOfferAction,
+  fetchOffersNearbyAction,
+  selectOffer,
+  selectOffersNearby,
+  selectOffersNearbyStatus,
+  selectOfferStatus,
+} from '../../store/offers-slice/offers-slice';
+import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
+import { selectReviewStatus, fetchReviewsAction, selectCurrentReview } from '../../store/review-slice/review-slice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { FetchStatus } from '../../utils/const';
 import { getFormatDate, getRatingPercent, isAuth, isPending } from '../../utils/utils';
-import {
-  selectOffer,
-  selectoffersNearby,
-  selectoffersNearbyStatus,
-  selectOfferStatus,
-} from '../../store/offers-slice/offers-slice';
-import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
-import { selectReview, selectReviewStatus } from '../../store/review-slice/review-slice';
 
-const MAX_COUNT_OF_REVIEWS = 10;
+const MIN_COUNT = 0;
+const MAX_COUNT_OF_IMAGES = 6;
 
 function Property(): JSX.Element | null {
   const { id } = useParams();
@@ -34,14 +35,13 @@ function Property(): JSX.Element | null {
   //Offers
   const offer = useAppSelector(selectOffer);
   const offerStatus = useAppSelector(selectOfferStatus);
-  const offersNearby = useAppSelector(selectoffersNearby);
-  const offersNearbyStatus = useAppSelector(selectoffersNearbyStatus);
+  const offersNearby = useAppSelector(selectOffersNearby);
+  const offersNearbyStatus = useAppSelector(selectOffersNearbyStatus);
   //Review
-  const reviews = useAppSelector(selectReview);
+  const reviews = useAppSelector(selectCurrentReview);
   const reviewsStatus = useAppSelector(selectReviewStatus);
 
   const selectedOfferId = Number(id);
-  const maxReviews = reviews.slice(0, MAX_COUNT_OF_REVIEWS);
 
   useEffect(() => {
     dispatch(fetchOfferAction(selectedOfferId));
@@ -73,7 +73,7 @@ function Property(): JSX.Element | null {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {images.map((currentSrc, index) => (
+              {images.slice(MIN_COUNT, MAX_COUNT_OF_IMAGES).map((currentSrc, index) => (
                 <div className="property__image-wrapper" key={index}>
                   <img className="property__image" src={currentSrc} alt="Shows an incredible place" />
                 </div>
@@ -152,7 +152,7 @@ function Property(): JSX.Element | null {
                 )}
                 {reviewsStatus === FetchStatus.Success && (
                   <ul className="reviews__list">
-                    {maxReviews.map((review) => {
+                    {reviews.map((review) => {
                       const { comment, date, rating, user, id } = review;
                       const { avatarUrl, isPro, name } = user;
 

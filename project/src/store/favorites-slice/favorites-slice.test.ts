@@ -3,7 +3,13 @@ import { Action } from '@reduxjs/toolkit';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 
-import { favoritesSlice, changeFavoriteStatus, fetchFavoritesAction } from './favorites-slice';
+import {
+  favoritesSlice,
+  changeFavoriteStatus,
+  fetchFavoritesAction,
+  processingId,
+  InitialState,
+} from './favorites-slice';
 import { createAPI } from '../../services/api';
 
 import { APIRoute, FetchStatus } from '../../utils/const';
@@ -13,17 +19,25 @@ import { sendFavoriteStatus } from '../../types/send-favorite-status';
 
 const mockOffers = Array.from({ length: 5 }, () => mockOffer);
 
-const state = {
+const state: InitialState = {
   favoriteOffers: [],
   favoriteOffersStatus: FetchStatus.Idle,
   favoriteOffersError: false,
 
+  processingId: null,
   changeFavoriteStatus: FetchStatus.Idle,
 };
 
 describe('favorites slice', () => {
   it('without additional parameters should return initial state', () => {
     expect(favoritesSlice.reducer(void 0, { type: 'UNKNOWN_ACTION' })).toEqual(state);
+  });
+
+  it('must write the processingId in the state', () => {
+    expect(favoritesSlice.reducer(state, processingId(12345))).toEqual({
+      ...state,
+      processingId: 12345,
+    });
   });
 
   describe('favorites async action', () => {
@@ -75,6 +89,7 @@ describe('favorites slice', () => {
         favoriteOffersStatus: FetchStatus.Pending,
         favoriteOffersError: false,
 
+        processingId: null,
         changeFavoriteStatus: FetchStatus.Idle,
       });
     });
@@ -92,6 +107,7 @@ describe('favorites slice', () => {
         favoriteOffersStatus: FetchStatus.Success,
         favoriteOffersError: false,
 
+        processingId: null,
         changeFavoriteStatus: FetchStatus.Idle,
       });
     });
@@ -106,18 +122,20 @@ describe('favorites slice', () => {
         favoriteOffersStatus: FetchStatus.Failed,
         favoriteOffersError: true,
 
+        processingId: null,
         changeFavoriteStatus: FetchStatus.Idle,
       });
     });
   });
 
   describe('change favorites status', () => {
-    it('should be cange favorite status to pending', () => {
+    it('should be change favorite status to pending', () => {
       const action = {
         type: changeFavoriteStatus.pending.type,
       };
 
       expect(favoritesSlice.reducer(state, action)).toEqual({
+        processingId: null,
         changeFavoriteStatus: FetchStatus.Pending,
 
         favoriteOffers: [],
@@ -126,12 +144,13 @@ describe('favorites slice', () => {
       });
     });
 
-    it('should be cange favorite status to fulfilled', () => {
+    it('should be change favorite status to fulfilled', () => {
       const action = {
         type: changeFavoriteStatus.fulfilled.type,
       };
 
       expect(favoritesSlice.reducer(state, action)).toEqual({
+        processingId: null,
         changeFavoriteStatus: FetchStatus.Success,
 
         favoriteOffers: [],
@@ -140,12 +159,13 @@ describe('favorites slice', () => {
       });
     });
 
-    it('should be cange favorite status to rejected', () => {
+    it('should be change favorite status to rejected', () => {
       const action = {
         type: changeFavoriteStatus.rejected.type,
       };
 
       expect(favoritesSlice.reducer(state, action)).toEqual({
+        processingId: null,
         changeFavoriteStatus: FetchStatus.Failed,
 
         favoriteOffers: [],
