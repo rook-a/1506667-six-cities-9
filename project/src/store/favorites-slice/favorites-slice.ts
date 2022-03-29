@@ -104,6 +104,5 @@ export const { processingId } = favoritesSlice.actions;
 const selectFavoritesState = (state: State) => state[NameSpace.Favorites];
 
 export const selectFavoriteOffers = (state: State) => selectFavoritesState(state).favoriteOffers;
-export const selectFavoriteOffersStatus = (state: State) => selectFavoritesState(state).favoriteOffersStatus;
 export const selectChangeFavoriteStatus = (state: State) => selectFavoritesState(state).changeFavoriteStatus;
 export const selectProcessingId = (state: State) => selectFavoritesState(state).processingId;
