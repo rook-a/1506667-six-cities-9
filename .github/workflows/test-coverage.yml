@@ -28,5 +28,5 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageCommand: npm test
-          workingDirectory: ../../project/
+          workingDirectory: /home/runner/work/1506667-six-cities-9/1506667-six-cities-9/project
           debug: true
