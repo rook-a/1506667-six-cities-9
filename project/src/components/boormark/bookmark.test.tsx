@@ -34,7 +34,7 @@ describe('component: Bookmark', () => {
       User: {
         authorizationStatus: AuthorizationStatus.Auth,
       },
-      Favorites: { changeFavoriteStatus: FetchStatus.Pending },
+      Favorites: { changeFavoriteStatus: FetchStatus.Pending, processingId: 1 },
     });
 
     render(
@@ -99,6 +99,6 @@ describe('component: Bookmark', () => {
     expect(screen.getByRole('button').classList.contains('place-card__bookmark-button--active'));
 
     expect(useDispatch).toBeCalledTimes(1);
-    expect(dispatch).toBeCalledTimes(1);
+    expect(dispatch).toBeCalledTimes(2);
   });
 });

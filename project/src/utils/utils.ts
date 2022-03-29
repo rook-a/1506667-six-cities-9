@@ -3,7 +3,7 @@ import { AuthorizationStatus, FetchStatus, SortTypes } from './const';
 
 const MAX_RATING = 5;
 
-export const getRatingPercent = (rating: number) => (rating / MAX_RATING) * 100;
+export const getRatingPercent = (rating: number) => (Math.round(rating) / MAX_RATING) * 100;
 
 export const getFormatDate = (date: string) => {
   const currentDate = new Date(date);

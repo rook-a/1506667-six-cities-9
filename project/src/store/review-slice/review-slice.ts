@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
 import { handleError } from '../../services/handle-error';
@@ -7,6 +7,8 @@ import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
 import { Review, sendUserReview } from '../../types/review';
 import { AppDispatch, State } from '../../types/state';
 
+const MIN_COUNT = 0;
+const MAX_COUNT_OF_REVIEWS = 10;
 interface InitialState {
   sendReviewStatus: FetchStatus;
 
@@ -23,13 +25,15 @@ const initialState: InitialState = {
   reviewsError: false,
 };
 
-export const sendReview = createAsyncThunk<sendUserReview, sendUserReview, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  'user/sendReview',
-  async ({ id, comment, rating }: sendUserReview, {dispatch, extra: api}) => {
+export const sendReview = createAsyncThunk<
+  sendUserReview,
+  sendUserReview,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('user/sendReview', async ({ id, comment, rating }: sendUserReview, { dispatch, extra: api }) => {
   try {
     const { data } = await api.post<sendUserReview>(`${APIRoute.Comments}/${id}`, { comment, rating });
     return data;
@@ -39,13 +43,15 @@ export const sendReview = createAsyncThunk<sendUserReview, sendUserReview, {
   }
 });
 
-export const fetchReviewsAction = createAsyncThunk<Review[], number, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  'data/fetchReviews',
-  async (id: number, {dispatch, extra: api}) => {
+export const fetchReviewsAction = createAsyncThunk<
+  Review[],
+  number,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/fetchReviews', async (id: number, { dispatch, extra: api }) => {
   try {
     const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
     return data;
@@ -88,3 +94,15 @@ const selectReviewState = (state: State) => state[NameSpace.Review];
 export const selectReview = (state: State) => selectReviewState(state).reviews;
 export const selectReviewStatus = (state: State) => selectReviewState(state).reviewsStatus;
 export const selectsendReviewStatus = (state: State) => selectReviewState(state).sendReviewStatus;
+
+export const selectCurrentReview = createSelector(selectReview, (reviews) => {
+  return reviews
+    .slice()
+    .sort((a, b) => {
+      const dateA = new Date(a.date).getSeconds();
+      const dateB = new Date(b.date).getSeconds();
+
+      return dateB - dateA;
+    })
+    .slice(MIN_COUNT, MAX_COUNT_OF_REVIEWS);
+});
