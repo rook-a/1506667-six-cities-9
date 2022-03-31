@@ -3,13 +3,11 @@ import request, { AxiosError } from 'axios';
 import { HttpCode } from '../utils/const';
 import { rollbar } from './rollbar';
 
-export const isAxiosError = (error: AxiosError) => {
+export const handleError = (error: AxiosError): void => {
   if (!request.isAxiosError(error)) {
     throw new Error(`${error}`);
   }
-};
 
-export const handleError = (error: AxiosError): void => {
   const { response } = error;
 
   if (response) {

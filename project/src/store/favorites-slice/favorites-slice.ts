@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { AxiosInstance } from 'axios';
 
-import { handleError, isAxiosError } from '../../services/handle-error';
+import { handleError } from '../../services/handle-error';
 import { rollbar } from '../../services/rollbar';
 
 import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
@@ -42,7 +42,6 @@ export const fetchFavoritesAction = createAsyncThunk<
     return data;
   } catch (err) {
     rollbar.error(err);
-    isAxiosError(err);
     handleError(err);
     throw err;
   }

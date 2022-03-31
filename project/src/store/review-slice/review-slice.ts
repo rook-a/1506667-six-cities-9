@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-import { handleError, isAxiosError } from '../../services/handle-error';
+import { handleError } from '../../services/handle-error';
 import { rollbar } from '../../services/rollbar';
 
 import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
@@ -40,7 +40,6 @@ export const sendReview = createAsyncThunk<
     return data;
   } catch (err) {
     rollbar.error(err);
-    isAxiosError(err);
     handleError(err);
     throw err;
   }
@@ -60,7 +59,6 @@ export const fetchReviewsAction = createAsyncThunk<
     return data;
   } catch (err) {
     rollbar.error(err);
-    isAxiosError(err);
     handleError(err);
     throw err;
   }

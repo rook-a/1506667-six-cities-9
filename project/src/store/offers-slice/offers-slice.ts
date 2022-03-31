@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-import { handleError, isAxiosError } from '../../services/handle-error';
+import { handleError } from '../../services/handle-error';
 import { changeFavoriteStatus } from '../favorites-slice/favorites-slice';
 import { selectCity, selectSortType } from '../app-slice/app-slice';
 import { rollbar } from '../../services/rollbar';
@@ -53,7 +53,6 @@ export const fetchOffersAction = createAsyncThunk<
     return data;
   } catch (err) {
     rollbar.error(err);
-    isAxiosError(err);
     handleError(err);
     throw err;
   }
@@ -73,7 +72,6 @@ export const fetchOfferAction = createAsyncThunk<
     return data;
   } catch (err) {
     rollbar.error(err);
-    isAxiosError(err);
     handleError(err);
     throw err;
   }
@@ -93,7 +91,6 @@ export const fetchOffersNearbyAction = createAsyncThunk<
     return data;
   } catch (err) {
     rollbar.error(err);
-    isAxiosError(err);
     handleError(err);
     throw err;
   }
