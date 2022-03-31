@@ -1,14 +1,7 @@
 import { toast } from 'react-toastify';
 import request, { AxiosError } from 'axios';
 import { HttpCode } from '../utils/const';
-import Rollbar from 'rollbar';
-
-const rollbarConfig = {
-  accessToken: '5a09cc4879534a72b3afd23cce6f87df',
-  environment: 'production',
-};
-
-const rollbar = new Rollbar(rollbarConfig);
+import { rollbar } from './rollbar';
 
 export const isAxiosError = (error: AxiosError) => {
   if (!request.isAxiosError(error)) {
