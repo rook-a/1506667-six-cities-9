@@ -1,16 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { AxiosInstance } from 'axios';
 
 import { removeUser, setUser } from '../../services/user';
-import { redirectToRoute } from '../action';
-
 import { handleError } from '../../services/handle-error';
+import { redirectToRoute } from '../action';
+import { rollbar } from '../../services/rollbar';
 
 import { APIRoute, AppRoute, AuthorizationStatus, FetchStatus, NameSpace } from '../../utils/const';
-
 import { UserData } from '../../types/user-data';
 import { AuthData } from '../../types/auth-data';
 import { AppDispatch, State } from '../../types/state';
-import { AxiosInstance } from 'axios';
 
 interface InitialState {
   authorizationStatus: AuthorizationStatus;
@@ -59,6 +58,7 @@ export const loginAction = createAsyncThunk<
     dispatch(redirectToRoute(AppRoute.Main));
     return data;
   } catch (err) {
+    rollbar.error(err);
     handleError(err);
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     throw err;
@@ -77,6 +77,7 @@ export const logoutAction = createAsyncThunk<
   try {
     await api.delete(APIRoute.Logout);
   } catch (err) {
+    rollbar.error(err);
     handleError(err);
     throw err;
   }

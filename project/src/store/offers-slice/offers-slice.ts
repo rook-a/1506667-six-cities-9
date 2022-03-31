@@ -4,10 +4,10 @@ import { AxiosInstance } from 'axios';
 import { handleError } from '../../services/handle-error';
 import { changeFavoriteStatus } from '../favorites-slice/favorites-slice';
 import { selectCity, selectSortType } from '../app-slice/app-slice';
+import { rollbar } from '../../services/rollbar';
 
 import { sortOffers } from '../../utils/utils';
 import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
-
 import { Offer } from '../../types/offer';
 import { AppDispatch, State } from '../../types/state';
 
@@ -52,6 +52,7 @@ export const fetchOffersAction = createAsyncThunk<
     const { data } = await api.get<Offer[]>(APIRoute.Offers);
     return data;
   } catch (err) {
+    rollbar.error(err);
     handleError(err);
     throw err;
   }
@@ -70,6 +71,7 @@ export const fetchOfferAction = createAsyncThunk<
     const { data } = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
     return data;
   } catch (err) {
+    rollbar.error(err);
     handleError(err);
     throw err;
   }
@@ -88,6 +90,7 @@ export const fetchOffersNearbyAction = createAsyncThunk<
     const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
     return data;
   } catch (err) {
+    rollbar.error(err);
     handleError(err);
     throw err;
   }

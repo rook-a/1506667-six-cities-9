@@ -2,6 +2,7 @@ import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import { AxiosInstance } from 'axios';
 
 import { handleError } from '../../services/handle-error';
+import { rollbar } from '../../services/rollbar';
 
 import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
 import { Review, sendUserReview } from '../../types/review';
@@ -38,6 +39,7 @@ export const sendReview = createAsyncThunk<
     const { data } = await api.post<sendUserReview>(`${APIRoute.Comments}/${id}`, { comment, rating });
     return data;
   } catch (err) {
+    rollbar.error(err);
     handleError(err);
     throw err;
   }
@@ -56,6 +58,8 @@ export const fetchReviewsAction = createAsyncThunk<
     const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
     return data;
   } catch (err) {
+    rollbar.error(err);
+    handleError(err);
     throw err;
   }
 });

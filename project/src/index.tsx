@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
 import { store } from './store';
 import HistoryRouter from './components/history-route/history-route';
 import { browserHistory } from './browser-history';
+import { rollbarConfig } from './services/rollbar';
 
 import App from './components/app/app';
 import { checkAuthAction } from './store/user-slice/user-slice';
@@ -18,12 +20,16 @@ store.dispatch(checkAuthAction());
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <HistoryRouter history={browserHistory}>
-        <ToastContainer />
-        <App />
-      </HistoryRouter>
-    </Provider>
+    <RollbarProvider config={rollbarConfig}>
+      <ErrorBoundary>
+        <Provider store={store}>
+          <HistoryRouter history={browserHistory}>
+            <ToastContainer />
+            <App />
+          </HistoryRouter>
+        </Provider>
+      </ErrorBoundary>
+    </RollbarProvider>
   </React.StrictMode>,
   document.querySelector('#root'),
 );

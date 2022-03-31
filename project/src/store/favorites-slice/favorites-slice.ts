@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { AxiosInstance } from 'axios';
 
 import { handleError } from '../../services/handle-error';
+import { rollbar } from '../../services/rollbar';
 
 import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
 import { Offer } from '../../types/offer';
@@ -40,6 +41,7 @@ export const fetchFavoritesAction = createAsyncThunk<
     const { data } = await api.get<Offer[]>(`${APIRoute.Favorites}`);
     return data;
   } catch (err) {
+    rollbar.error(err);
     handleError(err);
     throw err;
   }
@@ -59,6 +61,7 @@ export const changeFavoriteStatus = createAsyncThunk<
     return data;
   } catch (err) {
     toast.error('Sorry, no luck processing the changes. Try again later');
+    rollbar.error(err);
     throw err;
   }
 });
