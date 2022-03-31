@@ -18,15 +18,16 @@ jobs:
         run: |
           if [ -d 'project' ]; then cd project && npm install; else echo 'Skip. The project directory does not exist'; fi
 
-      # - name: Run checks
-      #   run: |
-      #     if [ -d 'project' ]; then cd project && npm test && npm run lint; else echo 'Skip. The project directory does not exist'; fi
+      - name: Run checks
+        run: |
+          if [ -d 'project' ]; then cd project && npm test && npm run lint; else echo 'Skip. The project directory does not exist'; fi
 
       - name: Code coverage
         uses: paambaati/codeclimate-action@v3.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-          coverageCommand: npm test
-          workingDirectory: /home/runner/work/1506667-six-cities-9/1506667-six-cities-9/project
+          coverageCommand: npm run test-coverage
+          workingDirectory: ${{github.workspace}}/project
+          coverageLocations: ${{github.workspace}}/project/coverage/coverage.xml:clover
           debug: true
