@@ -1,16 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { AxiosInstance } from 'axios';
+import Rollbar from 'rollbar';
 
 import { removeUser, setUser } from '../../services/user';
+import { handleError, isAxiosError } from '../../services/handle-error';
 import { redirectToRoute } from '../action';
 
-import { handleError } from '../../services/handle-error';
-
-import { APIRoute, AppRoute, AuthorizationStatus, FetchStatus, NameSpace } from '../../utils/const';
-
+import { APIRoute, AppRoute, AuthorizationStatus, FetchStatus, NameSpace, rollbarConfig } from '../../utils/const';
 import { UserData } from '../../types/user-data';
 import { AuthData } from '../../types/auth-data';
 import { AppDispatch, State } from '../../types/state';
-import { AxiosInstance } from 'axios';
 
 interface InitialState {
   authorizationStatus: AuthorizationStatus;
@@ -26,6 +25,8 @@ const initialState: InitialState = {
   logoutStatus: FetchStatus.Idle,
 };
 
+const rollbar = new Rollbar(rollbarConfig);
+
 export const checkAuthAction = createAsyncThunk<
   void,
   undefined,
@@ -39,6 +40,7 @@ export const checkAuthAction = createAsyncThunk<
     await api.get(APIRoute.Login);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
   } catch (err) {
+    isAxiosError(err);
     handleError(err);
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   }
@@ -59,7 +61,9 @@ export const loginAction = createAsyncThunk<
     dispatch(redirectToRoute(AppRoute.Main));
     return data;
   } catch (err) {
+    isAxiosError(err);
     handleError(err);
+    rollbar.error(err);
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     throw err;
   }
@@ -77,7 +81,9 @@ export const logoutAction = createAsyncThunk<
   try {
     await api.delete(APIRoute.Logout);
   } catch (err) {
+    isAxiosError(err);
     handleError(err);
+    rollbar.error(err);
     throw err;
   }
 });

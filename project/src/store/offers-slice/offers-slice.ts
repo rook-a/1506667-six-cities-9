@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
+import Rollbar from 'rollbar';
 
 import { handleError } from '../../services/handle-error';
 import { changeFavoriteStatus } from '../favorites-slice/favorites-slice';
 import { selectCity, selectSortType } from '../app-slice/app-slice';
 
 import { sortOffers } from '../../utils/utils';
-import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
-
+import { APIRoute, FetchStatus, NameSpace, rollbarConfig } from '../../utils/const';
 import { Offer } from '../../types/offer';
 import { AppDispatch, State } from '../../types/state';
 
@@ -39,6 +39,8 @@ const initialState: InitialState = {
   offersNearbyError: false,
 };
 
+const rollbar = new Rollbar(rollbarConfig);
+
 export const fetchOffersAction = createAsyncThunk<
   Offer[],
   undefined,
@@ -53,6 +55,7 @@ export const fetchOffersAction = createAsyncThunk<
     return data;
   } catch (err) {
     handleError(err);
+    rollbar.error(err);
     throw err;
   }
 });
@@ -71,6 +74,7 @@ export const fetchOfferAction = createAsyncThunk<
     return data;
   } catch (err) {
     handleError(err);
+    rollbar.error(err);
     throw err;
   }
 });
@@ -89,6 +93,7 @@ export const fetchOffersNearbyAction = createAsyncThunk<
     return data;
   } catch (err) {
     handleError(err);
+    rollbar.error(err);
     throw err;
   }
 });

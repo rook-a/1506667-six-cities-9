@@ -18,11 +18,11 @@ jobs:
         run: |
           if [ -d 'project' ]; then cd project && npm install; else echo 'Skip. The project directory does not exist'; fi
 
-      - name: Run checks
-        run: |
-          if [ -d 'project' ]; then cd project && npm test && npm run lint; else echo 'Skip. The project directory does not exist'; fi
+      # - name: Run checks
+      #   run: |
+      #     if [ -d 'project' ]; then cd project && npm test && npm run lint; else echo 'Skip. The project directory does not exist'; fi
 
-      - name: Test & code coverage
+      - name: Code coverage
         uses: paambaati/codeclimate-action@v3.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}

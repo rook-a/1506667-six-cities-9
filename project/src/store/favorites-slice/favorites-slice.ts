@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { AxiosInstance } from 'axios';
+import Rollbar from 'rollbar';
 
 import { handleError } from '../../services/handle-error';
 
-import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
+import { APIRoute, FetchStatus, NameSpace, rollbarConfig } from '../../utils/const';
 import { Offer } from '../../types/offer';
 import { AppDispatch, State } from '../../types/state';
 import { sendFavoriteStatus } from '../../types/send-favorite-status';
@@ -27,6 +28,8 @@ const initialState: InitialState = {
   changeFavoriteStatus: FetchStatus.Idle,
 };
 
+const rollbar = new Rollbar(rollbarConfig);
+
 export const fetchFavoritesAction = createAsyncThunk<
   Offer[],
   undefined,
@@ -41,6 +44,7 @@ export const fetchFavoritesAction = createAsyncThunk<
     return data;
   } catch (err) {
     handleError(err);
+    rollbar.error(err);
     throw err;
   }
 });
@@ -59,6 +63,7 @@ export const changeFavoriteStatus = createAsyncThunk<
     return data;
   } catch (err) {
     toast.error('Sorry, no luck processing the changes. Try again later');
+    rollbar.error(err);
     throw err;
   }
 });

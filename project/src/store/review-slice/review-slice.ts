@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
+import Rollbar from 'rollbar';
 
 import { handleError } from '../../services/handle-error';
 
-import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
+import { APIRoute, FetchStatus, NameSpace, rollbarConfig } from '../../utils/const';
 import { Review, sendUserReview } from '../../types/review';
 import { AppDispatch, State } from '../../types/state';
 
@@ -25,6 +26,8 @@ const initialState: InitialState = {
   reviewsError: false,
 };
 
+const rollbar = new Rollbar(rollbarConfig);
+
 export const sendReview = createAsyncThunk<
   sendUserReview,
   sendUserReview,
@@ -39,6 +42,7 @@ export const sendReview = createAsyncThunk<
     return data;
   } catch (err) {
     handleError(err);
+    rollbar.error(err);
     throw err;
   }
 });
@@ -56,6 +60,7 @@ export const fetchReviewsAction = createAsyncThunk<
     const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
     return data;
   } catch (err) {
+    rollbar.error(err);
     throw err;
   }
 });
