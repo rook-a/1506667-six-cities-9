@@ -1,7 +1,7 @@
 import Rollbar from 'rollbar';
 
 export const rollbarConfig: Rollbar.Configuration = {
-  accessToken: '5a09cc4879534a72b3afd23cce6f87df',
+  accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
   hostSafeList: ['localhost:3000'],
   captureUncaught: true,
   captureUnhandledRejections: true,
