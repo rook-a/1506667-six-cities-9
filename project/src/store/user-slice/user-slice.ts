@@ -10,6 +10,7 @@ import { APIRoute, AppRoute, AuthorizationStatus, FetchStatus, NameSpace } from 
 import { UserData } from '../../types/user-data';
 import { AuthData } from '../../types/auth-data';
 import { AppDispatch, State } from '../../types/state';
+import { fetchOffersAction } from '../offers-slice/offers-slice';
 
 interface InitialState {
   authorizationStatus: AuthorizationStatus;
@@ -76,6 +77,7 @@ export const logoutAction = createAsyncThunk<
 >('user/logout', async (_arg, { dispatch, extra: api }) => {
   try {
     await api.delete(APIRoute.Logout);
+    dispatch(fetchOffersAction());
   } catch (err) {
     rollbar.error(err);
     handleError(err);
