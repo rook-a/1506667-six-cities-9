@@ -5,7 +5,7 @@ import { handleError } from '../../services/handle-error';
 import { rollbar } from '../../services/rollbar';
 
 import { APIRoute, FetchStatus, NameSpace } from '../../utils/const';
-import { Review, sendUserReview } from '../../types/review';
+import { ReviewType, sendUserReview } from '../../types/review';
 import { AppDispatch, State } from '../../types/state';
 
 const MIN_COUNT = 0;
@@ -13,7 +13,7 @@ const MAX_COUNT_OF_REVIEWS = 10;
 interface InitialState {
   sendReviewStatus: FetchStatus;
 
-  reviews: Review[];
+  reviews: ReviewType[];
   reviewsStatus: FetchStatus;
   reviewsError: boolean;
 }
@@ -46,7 +46,7 @@ export const sendReview = createAsyncThunk<
 });
 
 export const fetchReviewsAction = createAsyncThunk<
-  Review[],
+  ReviewType[],
   number,
   {
     dispatch: AppDispatch;
@@ -55,7 +55,7 @@ export const fetchReviewsAction = createAsyncThunk<
   }
 >('data/fetchReviews', async (id: number, { dispatch, extra: api }) => {
   try {
-    const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
+    const { data } = await api.get<ReviewType[]>(`${APIRoute.Comments}/${id}`);
     return data;
   } catch (err) {
     rollbar.error(err);

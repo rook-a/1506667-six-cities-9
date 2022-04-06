@@ -1,6 +1,6 @@
 import { image, internet, name, datatype, lorem, date } from 'faker';
 import { Offer } from '../types/offer';
-import { Review } from '../types/review';
+import { ReviewType } from '../types/review';
 
 export const mockOffer: Offer = {
   bedrooms: datatype.number(),
@@ -37,7 +37,7 @@ export const mockOffer: Offer = {
   type: lorem.word(),
 };
 
-export const mockReview: Review = {
+export const mockReview: ReviewType = {
   comment: lorem.sentence(20),
   date: `${date.past()}`,
   id: datatype.number(),

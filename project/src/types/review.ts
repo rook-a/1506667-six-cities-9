@@ -5,7 +5,7 @@ interface User {
   name: string;
 }
 
-export interface Review {
+export interface ReviewType {
   comment: string;
   date: string;
   id: number;

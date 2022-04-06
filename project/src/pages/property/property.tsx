@@ -2,11 +2,12 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Header from '../../components/header/header';
-import ReviewForm from '../../components/review-form/review-form';
+
 import Map from '../../components/map/map';
 import PlacesList from '../../components/places-list/places-list';
 import Bookmark from '../../components/boormark/boormark';
 import Spinner from '../../components/spinner/spinner';
+import Reviews from '../../components/reviews/reviews';
 import NotFound from '../not-found/not-found';
 
 import {
@@ -18,11 +19,11 @@ import {
   selectOfferStatus,
 } from '../../store/offers-slice/offers-slice';
 import { selectRequireAuthrization } from '../../store/user-slice/user-slice';
-import { selectReviewStatus, fetchReviewsAction, selectCurrentReview } from '../../store/review-slice/review-slice';
+import { fetchReviewsAction } from '../../store/review-slice/review-slice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { FetchStatus } from '../../utils/const';
-import { getFormatDate, getRatingPercent, isAuth, isPending } from '../../utils/utils';
+import { getRatingPercent, isAuth, isPending } from '../../utils/utils';
 
 const MIN_COUNT = 0;
 const MAX_COUNT_OF_IMAGES = 6;
@@ -37,9 +38,6 @@ function Property(): JSX.Element | null {
   const offerStatus = useAppSelector(selectOfferStatus);
   const offersNearby = useAppSelector(selectOffersNearby);
   const offersNearbyStatus = useAppSelector(selectOffersNearbyStatus);
-  //Review
-  const reviews = useAppSelector(selectCurrentReview);
-  const reviewsStatus = useAppSelector(selectReviewStatus);
 
   const selectedOfferId = Number(id);
 
@@ -141,55 +139,7 @@ function Property(): JSX.Element | null {
                   <p className="property__text">{description}</p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">
-                  Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
-                </h2>
-                {reviewsStatus === FetchStatus.Failed && (
-                  <p style={{ marginTop: '0', marginBottom: '30px', textAlign: 'center', color: '#FF0000' }}>
-                    There should be reviews, but something went wrong. Try refreshing this page
-                  </p>
-                )}
-                {reviewsStatus === FetchStatus.Success && (
-                  <ul className="reviews__list">
-                    {reviews.map((review) => {
-                      const { comment, date, rating, user, id } = review;
-                      const { avatarUrl, isPro, name } = user;
-
-                      return (
-                        <li className="reviews__item" key={id}>
-                          <div className="reviews__user user">
-                            <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                              <img
-                                className="reviews__avatar user__avatar"
-                                src={avatarUrl}
-                                width="54"
-                                height="54"
-                                alt="Reviews avatar"
-                              />
-                            </div>
-                            <span className="reviews__user-name">{name}</span>
-                            {isPro && <span className="property__user-status">Pro</span>}
-                          </div>
-                          <div className="reviews__info">
-                            <div className="reviews__rating rating">
-                              <div className="reviews__stars rating__stars">
-                                <span style={{ width: `${getRatingPercent(rating)}%` }}></span>
-                                <span className="visually-hidden">Rating</span>
-                              </div>
-                            </div>
-                            <p className="reviews__text">{comment}</p>
-                            <time className="reviews__time" dateTime={date}>
-                              {getFormatDate(date)}
-                            </time>
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-                {isAuth(authorizationStatus) && <ReviewForm offerId={selectedOfferId} />}
-              </section>
+              <Reviews authorizationStatus={authorizationStatus} offerId={selectedOfferId} />
             </div>
           </div>
 
