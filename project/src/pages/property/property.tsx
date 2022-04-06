@@ -107,7 +107,7 @@ function Property(): JSX.Element | null {
                 <li className="property__feature property__feature--adults">Max {maxAdults} adults</li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">{price}</b>
+                <b className="property__price-value">&euro;{price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">

@@ -1,5 +1,5 @@
 import { ReviewType } from '../../types/review';
-import { getFormatDate, getRatingPercent } from '../../utils/utils';
+import { formatDate, getRatingPercent } from '../../utils/utils';
 
 interface ReviewProps {
   review: ReviewType;
@@ -27,7 +27,7 @@ function Review({ review }: ReviewProps): JSX.Element {
         </div>
         <p className="reviews__text">{comment}</p>
         <time className="reviews__time" dateTime={date}>
-          {getFormatDate(date)}
+          {formatDate(date)}
         </time>
       </div>
     </li>

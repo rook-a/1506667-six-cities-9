@@ -5,7 +5,7 @@ const MAX_RATING = 5;
 
 export const getRatingPercent = (rating: number) => (Math.round(rating) / MAX_RATING) * 100;
 
-export const getFormatDate = (date: string) => {
+export const formatDate = (date: string) => {
   const currentDate = new Date(date);
   const getMonth = currentDate.toLocaleString('en', { month: 'long' });
   const getYear = currentDate.getFullYear();
