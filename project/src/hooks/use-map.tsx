@@ -2,9 +2,14 @@ import { useEffect, useState, MutableRefObject } from 'react';
 import { Map, TileLayer } from 'leaflet';
 import { City } from '../types/offer';
 
-const LAYER_URL = `https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=${process.env.REACT_APP_MAP_LAYER_APIKEY}`;
+const API_KEY = process.env.REACT_APP_MAP_LAYER_APIKEY;
+const LAYER_URL = `https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=${API_KEY}`;
 const LAYER_COPYRIGHT =
   'Maps &copy; <a href="https://www.thunderforest.com">Thunderforest</a>, Data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>';
+
+console.log('process.env', process.env);
+console.log('API_KEY', API_KEY);
+console.log('LAYER_URL', LAYER_URL);
 
 function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): Map | null {
   const [map, setMap] = useState<Map | null>(null);
