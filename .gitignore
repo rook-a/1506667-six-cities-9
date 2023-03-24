@@ -8,7 +8,5 @@ Thumbs.db
 .vscode
 
 # Вспомогательные файлы
-.env
-.env*.local
 *.log*
 node_modules/
