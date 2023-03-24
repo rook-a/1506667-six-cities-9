@@ -6,9 +6,6 @@ const LAYER_URL = `https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=$
 const LAYER_COPYRIGHT =
   'Maps &copy; <a href="https://www.thunderforest.com">Thunderforest</a>, Data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>';
 
-console.log('process.env', process.env);
-console.log('LAYER_URL', LAYER_URL);
-
 function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): Map | null {
   const [map, setMap] = useState<Map | null>(null);
 
